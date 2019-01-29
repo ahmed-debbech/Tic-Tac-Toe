@@ -10,14 +10,11 @@ Option 2: Download the souce code file and run it on your IDE.
 
 How to use:
 After running the code choose a number from the menu as follows.
- 
-
 Usually press 1 to play.
 To set X or O choose coordinates 
-Give value X and Y as the table indicates.
- 
-
+Give value X and Y as the table indicates. 
 Try to win the computer!
+
 Credits:
 Ahmed Debbech: Creator and Programmer.
 
