@@ -1,20 +1,28 @@
-This game is written in C language by Ahmed Debbech in 15 Jan 2019
-This game is under GNU GPLv3 License.
-Please respect the terms and conditions!
+Tic Tac Toe
 
-===============================================================
-Tic Tac Toe game, 3 by 3 table.
 
-How to play:
+Why is this?
+I found it enjoyable to program a Tic Tac Toe game from scratch as well as I become excited when I see people enjoying it too.
 
-So commun and simple game you have to make THREE Xs or Os in a row
-in any direction to win. In order to do that this game doesn't support
-gaphic interface so you have to specify the coordinates of each try by
-by entering X and Y coordonates.
+Installation:
+Option 1: Choose an excutable to download either Win or Mac.
+Option 2: Download the souce code file and run it on your IDE.
 
-About the Developer:
+How to use:
+After running the code choose a number from the menu as follows.
+ 
 
-I am Ahmed Debbech, I'm from Tunisia,i am 19, I study at the university computer sciences.
-I wanted to make this game for fun.
+Usually press 1 to play.
+To set X or O choose coordinates 
+Give value X and Y as the table indicates.
+ 
 
-Enjoy the game!
+Try to win the computer!
+Credits:
+Ahmed Debbech: Creator and Programmer.
+
+License:
+This Work is under GNU GPLv3 License, please read carefully.
+
+
+
