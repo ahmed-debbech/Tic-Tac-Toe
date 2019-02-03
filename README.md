@@ -18,7 +18,7 @@ Credits:
 Ahmed Debbech: Creator and Programmer.
 
 License:
-This Work is under GNU GPLv3 License, please read carefully.
+This Work is under GNU GPLv3 License, please read carefully before use.
 
 
 
