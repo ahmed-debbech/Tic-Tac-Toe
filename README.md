@@ -5,8 +5,7 @@ Why is this?
 I found it enjoyable to program a Tic Tac Toe game from scratch as well as I become excited when I see people enjoying it too.
 
 Installation:
-Option 1: Choose an excutable to download either Win or Mac.
-Option 2: Download the souce code file and run it on your IDE.
+Option 2: Download the soucecode.txt file and run it on your IDE.
 
 How to use:
 After running the code choose a number from the menu as follows.
