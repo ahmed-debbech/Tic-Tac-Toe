@@ -17,6 +17,8 @@ Try to win the computer!
 
 Credits:
 Ahmed Debbech: Creator and Programmer.
+Twitter: https://twitter.com/AhmedDebb
+Email: debbech.ahmed@gmail.com
 
 License:
 This Work is under GNU GPLv3 License, please read carefully before use.
