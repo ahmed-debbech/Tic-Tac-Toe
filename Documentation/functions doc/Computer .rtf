@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf100
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs96 \cf2 computer():
+\fs24 \cf0 \
+
+\fs36 \cf3 This function is the brain of the computer to play against you. \
+Arguments passed are the main game matrix and the two other matrix of attack and defence algorithms.\
+It returns two pointers *xc (X of Computer) and *yc (Y of Computer) containing the computers turn in coordinates. \
+\
+
+\f1\b How it works:\
+
+\f0\b0 It sees if there\'92s more than a character in the matrix if yes it starts the defence algorithm else it sets the character of its turn randomly.\
+After, if the condition is true it completes by seeing the matrix of defence algorithm by checking if there\'92s ones or twos.\
+If all the matrix has ones values then it starts the attack algorithm.\
+It checks in the matrix of attack algorithm if there\'92s ones or twos \
+If no twos and all are ones then it starts the algorithm if building a line to win. If no then set randomly the character to return to main function.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 If the matrix of attack algorithm gives only two then return value of xc and yc correspondent of where the two is place in the matrix, else (means there\'92s more than single two it returns first two appeared in the matrix and match its correspondent in main matrix.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf3 \
+
+\f1\b Hint: this function uses algorithms descibed in Overview2 file.}

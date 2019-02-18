@@ -1,0 +1,32 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf100
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-BoldOblique;\f2\fswiss\fcharset0 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs96 \cf2 Overview 2:\
+
+\f1\i\b\fs36 \cf3 Those algorithms are used in function but they are not functions in themselves!\
+\
+
+\f2\i0 Defence algorithm: 
+\f0\b0 is used to see if the opponent is about to make three Xs or Os in a row.\
+It starts to traversing the main matrix place by place like (1,1) -> (2,1) -> (3,1) -> (3,2) and so on.. (traversing like an escargot)\
+Each time if there\'92s two opponent character in a row and missing only a one to win then the algorithm  in order to defend it sets number two in the corresponding coordinates of the main matrix to the matrix of defence so it is called a danger point computer should immediately place it is character to the corresponding two coordinates in main matrix, if no danger point then It should place number 1 in defence matrix and thus attack algorithm should work.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b \cf3 Attack algorithm: 
+\f0\b0 after seeing that defence attack give all one than there\'92s no danger than computer should see if there\'92s two sets of his character to set the third and win doing this is by:\
+It starts to traversing the main matrix place by place like (1,1) -> (2,1) -> (3,1) -> (3,2) and so on.. (traversing like an escargot)\
+Each time if there\'92s two computer character in a row and missing only a one to win then the algorithm  in order to attack it sets number two in the corresponding coordinates of the main matrix to the matrix of defence so the computer should immediately place it is character to the corresponding two coordinates in main matrix, if no characters in a row then It should place number 1 in attack matrix.\
+\
+
+\f2\b Building line to win algorithm: 
+\f0\b0 If nothing from the above is excuted means defence algorithm gives all ones and attack too gives all ones. The computer should complete the process to win so it starts traversing the main matrix as always like an escargot and see each time is there only one computer character and the two last places are empty so it should place a second character in the main matrix.\
+\
+\
+\
+}
