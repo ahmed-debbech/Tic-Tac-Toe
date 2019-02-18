@@ -15,6 +15,9 @@ To set X or O choose coordinates
 Give value X and Y as the table indicates. 
 Try to win the computer!
 
+To contibute:
+Read the Documentation folder.
+
 Credits:
 Ahmed Debbech: Creator and Programmer.
 Twitter: https://twitter.com/AhmedDebb
