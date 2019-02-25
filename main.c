@@ -1,4 +1,4 @@
-//v1.2.0 GPLv3.0 License : An Ahmed Debbech Production.
+//v1.2.1 GPLv3.0 License : An Ahmed Debbech Production.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -8,14 +8,14 @@
 
 int main() {
     int pick,remain,x,y,xc=-1,yc=-1,won=0,sx=0,so=0,chosen=0,scox = 0,
-    scoo = 0;
+    scoo = 0, chosenfriend = 0;
     int start = 0, test = 0;
     char m[3][3], pickfriend='n';
     int t[3][3];
     int ta[3][3];
     char c,winner='n';
     init(m);
-    printf("********** An Ahmed Debbech Production 2019(C) v1.2.0 **********\n");
+    printf("********** An Ahmed Debbech Production 2019(C) v1.2.1 **********\n");
     printf("        This game has been made with fun and love!\n");
     printf("               A 3 by 3 Tic Tac Toe game.\n");
     printf("\n");
@@ -45,7 +45,7 @@ int main() {
             init2(t);
             init2ta(ta);
             if (chosen == 0) {
-                printf("NOTE: Your choice will be always the same until you reopen the game again.\n");
+                printf("NOTE: Your choice will be always the same until you restart the game again.\n");
                c = launch();
             }
             chosen = 1;
@@ -126,6 +126,10 @@ int main() {
             break;
         case 2:
             //Multi Players section
+            if (chosenfriend == 0) {
+                printf("NOTE: Your choice will be always the same until you restart the game again.\n");
+                chosenfriend = 1;
+            }
             init(m);
             if(test == 0){
             do{
@@ -152,15 +156,31 @@ int main() {
             printf("\n");
             graphics(m);
             do{
-                printf("Turn of X Player\n");
+                if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                    printf("Turn of X Player\n");
+                }else{
+                    printf("Turn of O Player\n");
+                }
                 playfriend(m,&x,&y);
-                m[x-1][y-1] = 'x';
+                if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                    m[x-1][y-1] = 'x';
+                }else{
+                    m[x-1][y-1] = 'o';
+                }
                 checkwin(m,&winner,&won);
                 if ((won == 0) && (checkfin(m) == 0)){
                     graphics(m);
-                    printf("Turn of O Player\n");
+                    if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                        printf("Turn of O Player\n");
+                    }else{
+                        printf("Turn of X Player\n");
+                    }
                     playfriend(m,&x,&y);
-                    m[x-1][y-1] = 'o';
+                    if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                        m[x-1][y-1] = 'o';
+                    }else{
+                        m[x-1][y-1] = 'x';
+                    }
                 }
                 checkwin(m,&winner,&won);
                 graphics(m);
@@ -200,4 +220,4 @@ int main() {
     }while(remain == 1);
     return 0;
 }
-//v1.2.0 GPLv3.0 License : An Ahmed Debbech Production.
+//v1.2.1 GPLv3.0 License : An Ahmed Debbech Production.
