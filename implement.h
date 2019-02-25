@@ -1,5 +1,4 @@
-//
-// header file of tictactoe v1.2.0
+// header file of tictactoe v1.2.1
 #ifndef implement_h
 #define implement_h
 
@@ -19,5 +18,5 @@ void user (char *c, int *x, int *y, char (*m)[3]);
 char launch(void);
 void playfriend(char (*m)[3], int *x, int *y);
 #endif /* implement_h */
-// header file of tictactoe v1.2.0
+// header file of tictactoe v1.2.1
 
