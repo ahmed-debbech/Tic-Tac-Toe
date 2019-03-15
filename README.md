@@ -5,8 +5,8 @@ Why is this?
 I found it enjoyable to program a Tic Tac Toe game from scratch as well as I become excited when I see people enjoying it too.
 
 Installation:
-Download the three C files and compile/run them on your favourit IDE.
-Or download binary files of the latest release.
+Methode 1: Download the three C files and compile/run them on your favourite IDE or using makefile with 'make' command.
+Methode 2: Download binary files of the latest release.
 
 How to use:
 After running the code choose a number from the menu as follows.
