@@ -12,7 +12,7 @@ void about (){
     printf("at University. Hope you enjoy it!\n");
     printf("Any suggestions? Any issues? contact me at debbech.ahmed@gmail.com\n");
     printf("For source-code join the community on: https://github.com/ahmed-debbech/Tic-Tac-Toe\n");
-    printf("Version: 1.2.1\n");
+    printf("Version: 1.3.0\n");
     printf("\n");
 }
 void help (){
@@ -3729,4 +3729,5 @@ void playfriend(char (*m)[3], int *x, int *y){
         }
     }while(m[(*x)-1][(*y)-1] != ' ');
 }
-//source code v1.2.1
+
+//source code v1.3.0

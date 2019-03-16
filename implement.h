@@ -1,8 +1,21 @@
-// header file of tictactoe v1.2.1
+// header file of tictactoe v1.3.0
 #ifndef implement_h
 #define implement_h
 
 #include <stdio.h>
+typedef struct{
+    int xu;
+    int yu;
+}usercoor;
+typedef struct {
+    int xc;
+    int yc;
+}compcoor;
+typedef struct{
+    usercoor u;
+    compcoor c;
+}coordinates;
+
 void about (void);
 void help (void);
 void graphics(char (*m)[3]);
@@ -17,6 +30,6 @@ void init (char (*m)[3]);
 void user (char *c, int *x, int *y, char (*m)[3]);
 char launch(void);
 void playfriend(char (*m)[3], int *x, int *y);
-#endif /* implement_h */
-// header file of tictactoe v1.2.1
+#endif 
+// header file of tictactoe v1.3.0
 

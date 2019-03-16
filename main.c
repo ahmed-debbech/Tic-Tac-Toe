@@ -1,4 +1,4 @@
-//v1.2.1 GPLv3.0 License : An Ahmed Debbech Production.
+//v1.3.0 GPLv3.0 License : An Ahmed Debbech Production.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,9 +13,9 @@ int main() {
     char m[3][3], pickfriend='n';
     int t[3][3];
     int ta[3][3];
-    char c,winner='n';
+    char c = '\0',winner='n', undo= '\0';
     init(m);
-    printf("********** An Ahmed Debbech Production 2019(C) v1.2.1 **********\n");
+    printf("********** An Ahmed Debbech Production 2019(C) v1.3.0 **********\n");
     printf("        This game has been made with fun and love!\n");
     printf("               A 3 by 3 Tic Tac Toe game.\n");
     printf("\n");
@@ -45,29 +45,38 @@ int main() {
             init2(t);
             init2ta(ta);
             if (chosen == 0) {
-                printf("NOTE: Your choice will be always the same until you restart the game again.\n");
                c = launch();
             }
-            chosen = 1;
     //=====GAME ENGIN =========
                 if (c == 'x') {
                     printf("Score: X player %d\n", sx);
                     printf("Score: O player %d\n", so);
-                    printf("You are playing with X\n");
                     printf("\n");
                     graphics(m);
+                    printf("You are playing with X\n");
+                    if(chosen == 0 ){
+                        printf("NOTE1: Your choice between X and O will be always the same until you restart the game again.\n");
+                    }
+                    chosen = 1;
                     do{
                   user(&c,&x,&y,m);
                  m[x-1][y-1] = 'x';
                 checkwin(m,&winner,&won);
             if ((won == 0) && (checkfin(m) == 0)){
+                graphics(m);
+                printf("for Undo action press 'z', anything else to continue\n");
+                scanf(" %c", &undo);
+                if (undo == 'z') {
+                    m[x-1][y-1] = ' ';
+                }else{
                 printf("computer's turn ...\n");
                 printf("done.\n");
                 computer(m,&xc,&yc,t,ta);
                 m[xc][yc] = 'o';
+                }
             }
                   checkwin(m,&winner,&won);
-                        graphics(m);
+                  graphics(m);
             }while((won == 0) && (checkfin(m) == 0));
                     if (won == 1) {
                         printf("The Winner is: %c player\n", winner);
@@ -89,18 +98,32 @@ int main() {
                 printf("\n");
                 printf("You are playing with O\n");
                 do{
-                    printf("computer's turn ...\n");
-                    printf("done.\n");
-                    computerplaysfirst(m, &xc, &yc, t, ta,&start);
-                    m[xc][yc] = 'x';
-                     checkwin(m,&winner,&won);
+                    if (undo != 'z') {
+                        printf("computer's turn ...\n");
+                        printf("done.\n");
+                        computerplaysfirst(m, &xc, &yc, t, ta,&start);
+                        m[xc][yc] = 'x';
+                        checkwin(m,&winner,&won);
+                    }
                     graphics(m);
+                    printf("You are playing with O\n");
+                    if(chosen == 0 ){
+                        printf("NOTE1: Your choice between X and O will be always the same until you restart the game again.\n");
+                    }
+                    chosen = 1;
                     if ((won == 0) && (checkfin(m) == 0)){
                         user(&c, &x, &y, m);
                         m[x-1][y-1] = 'o';
+                        graphics(m);
+                        printf("for Undo action press 'z', anything else to continue\n");
+                        scanf(" %c", &undo);
+                        if (undo == 'z') {
+                            m[x-1][y-1] = ' ';
+                        }
                     }
+                    
+                    checkwin(m,&winner,&won);
                     graphics(m);
-                     checkwin(m,&winner,&won);
                 }while((won == 0) && (checkfin(m) == 0));
                 start = 0;
                 if (won == 1) {
@@ -156,34 +179,50 @@ int main() {
             printf("\n");
             graphics(m);
             do{
-                if ((pickfriend == 'X') || (pickfriend == 'x')) {
-                    printf("Turn of X Player\n");
-                }else{
-                    printf("Turn of O Player\n");
-                }
-                playfriend(m,&x,&y);
-                if ((pickfriend == 'X') || (pickfriend == 'x')) {
-                    m[x-1][y-1] = 'x';
-                }else{
-                    m[x-1][y-1] = 'o';
-                }
-                checkwin(m,&winner,&won);
-                if ((won == 0) && (checkfin(m) == 0)){
-                    graphics(m);
+                do{
                     if ((pickfriend == 'X') || (pickfriend == 'x')) {
-                        printf("Turn of O Player\n");
-                    }else{
                         printf("Turn of X Player\n");
+                    }else{
+                        printf("Turn of O Player\n");
                     }
                     playfriend(m,&x,&y);
                     if ((pickfriend == 'X') || (pickfriend == 'x')) {
-                        m[x-1][y-1] = 'o';
-                    }else{
                         m[x-1][y-1] = 'x';
+                    }else{
+                        m[x-1][y-1] = 'o';
                     }
-                }
-                checkwin(m,&winner,&won);
+                    graphics(m);
+                    printf("for Undo action press 'z', anything else to continue\n");
+                    scanf(" %c", &undo);
+                    if (undo == 'z') {
+                        m[x-1][y-1] = ' ';
+                    }
                 graphics(m);
+                }while(undo == 'z');
+                checkwin(m,&winner,&won);
+                if ((won == 0) && (checkfin(m) == 0)){
+                    do{
+                        if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                            printf("Turn of O Player\n");
+                        }else{
+                            printf("Turn of X Player\n");
+                        }
+                        playfriend(m,&x,&y);
+                        if ((pickfriend == 'X') || (pickfriend == 'x')) {
+                            m[x-1][y-1] = 'o';
+                        }else{
+                            m[x-1][y-1] = 'x';
+                        }
+                        graphics(m);
+                        printf("for Undo action press 'z', anything else to continue\n");
+                        scanf(" %c", &undo);
+                        if (undo == 'z') {
+                            m[x-1][y-1] = ' ';
+                        }
+                        graphics(m);
+                    }while(undo == 'z');
+                    }
+                checkwin(m,&winner,&won);
             }while((won == 0) && (checkfin(m) == 0));
             if (won == 1) {
                 printf("The Winner is: %c player\n", winner);
@@ -220,4 +259,4 @@ int main() {
     }while(remain == 1);
     return 0;
 }
-//v1.2.1 GPLv3.0 License : An Ahmed Debbech Production.
+//v1.3.0 GPLv3.0 License : An Ahmed Debbech Production.
