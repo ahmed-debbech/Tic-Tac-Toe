@@ -3,8 +3,10 @@
 
 <strong><em>Why is this:</em></strong>
 <p>I found it enjoyable to program a Tic Tac Toe game from scratch as well as I become excited when I see people enjoying it too.</p>
+<p>Since version 2.0 Tic Tac Toe has became designed to be more enjoyable by adding a very pretty GUI. 
 
 <strong><em>Installation:</em></strong>
+<strong>IMPORTANT: YOU HAVE TO INSTAL SDLv1.2 LIBRARIES IN ORDER TO RUN THE CODE PROPERLY!</strong>
 <p><strong>Methode 1:</strong> Download <strong>the three C files</strong> and compile/run them on your favourite IDE or using <strong>makefile</strong> with <strong>make</strong> command.
 <strong>Methode 2:</em></strong> Download binary files of the latest release.</p>
 
