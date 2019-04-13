@@ -6,13 +6,15 @@
 #include "SDL/SDL_ttf.h"
 #include <string.h>
 #include "graphics.h"
-#include "core.h"
 int main(){
-
 SDL_Surface *screen;
 Mix_Music * music;
 SDL_Event event;
 menu mc;
+about ab;
+help hel;
+menuPlayGame mpg;
+buttons bu;
 control c;
 soundFX sfx;
 if(SDL_Init(SDL_INIT_VIDEO)!=0){
@@ -35,12 +37,13 @@ SDL_Flip(screen);
 SDL_Delay(3000);
 //game loop
 while (done == 0){
+	//official menu
 while(menuNotOver == 1){
 	if(blitCheck == 0){
-	showOffMenu(mc, screen);
+	showOffMenu(mc, screen,c);
 	SDL_Flip(screen);
   }
- while(SDL_PollEvent(&event) == 1){
+SDL_WaitEvent(&event);
       switch(event.type){
         case SDL_QUIT:
           done = 1;
@@ -52,24 +55,109 @@ while(menuNotOver == 1){
 						}else{
 							blitCheck = 0;
 						}
-	        break;
+	       break;
 				case SDL_MOUSEBUTTONDOWN:
-		          choice = menuClicks(mc,screen, event, c,&sfx);
-							if (choice == 5) {
-						      menuNotOver =1 ;
-							}else{
+		          choice = menuClicks(mc,screen, event, &c,&sfx);
+           if(choice == 5){
+						 menuNotOver = 1;
+					 }else{
 							menuNotOver = 0;
+							blitCheck = 0;
 						}
-		        break;
+						break;
       }
    }
- }
+ // manipulating choices
+ bu = initButtons();
  switch (choice) {
  	case 1:
+	SDL_WaitEvent(&event);
+	if(event.type == SDL_QUIT){
+		done = 1;
+	}else{
+   mpg = initMenuPlay();
+	 if(blitCheck == 0){
+	   showMenuPlay(mpg,screen,bu);
+	   SDL_Flip(screen);
+	 }
+	 SDL_WaitEvent(&event);
+ if(event.type == SDL_MOUSEMOTION){
+	 if(menuPlayMotion(bu, mpg,screen, event,c,sfx) == 1){
+		 blitCheck = 1;
+		 SDL_Flip(screen);
+	 }else{
+		 SDL_Flip(screen);
+		 blitCheck = 0;
+	 }
+ }else{
+	 if(event.type == SDL_MOUSEBUTTONDOWN){
+		 if(menuPlayClicks(event, bu,mpg,c,sfx) == 0){
+			 //this initialization just to let back to the menu
+			 choice = 0;
+			 menuNotOver = 1;
+			 blitCheck = 0;
+		 }
+	 }
+ }
+	}
 	 break;
 	 case 2:
+	 SDL_PollEvent(&event) ;
+ 	if(event.type == SDL_QUIT){
+ 		done = 1;
+ 	}else{
+     hel = initHelp();
+		 if(blitCheck == 0){
+		 showHelp(hel,screen,bu);
+		 SDL_Flip(screen);
+		 }
+		 SDL_PollEvent(&event);
+		 if(event.type == SDL_MOUSEMOTION){
+		 if(helpMotion(bu, hel,screen, event) == 1){
+		   blitCheck = 1;
+		   SDL_Flip(screen);
+		 }else{
+		   SDL_Flip(screen);
+		   blitCheck = 0;
+		 }
+	 }else{
+		 if(event.type == SDL_MOUSEBUTTONDOWN){
+			 if(helpClicks(event, bu) == 1){
+				 choice = 0;
+				 menuNotOver = 1;
+			 }
+		 }
+	 }
+}
  	 break;
 	 case 3:
+	 SDL_PollEvent(&event) ;
+	 if(event.type == SDL_QUIT){
+		 done = 1;
+	 }else{
+		 ab = initAbout();
+		if(blitCheck == 0){
+		showAbout(ab,screen,bu);
+		SDL_Flip(screen);
+		}
+		SDL_PollEvent(&event);
+		if(event.type == SDL_MOUSEMOTION){
+		if(aboutMotion(bu, ab,screen, event) == 1){
+			blitCheck = 1;
+			SDL_Flip(screen);
+		}else{
+			SDL_Flip(screen);
+			blitCheck = 0;
+		}
+	}else{
+		if(event.type == SDL_MOUSEBUTTONDOWN){
+			if(aboutClicks(event, bu) == 1){
+				choice = 0;
+				menuNotOver = 1;
+			}
+		}
+	}
+}
  	 break;
 	 case 4:
 	 done = 1;
