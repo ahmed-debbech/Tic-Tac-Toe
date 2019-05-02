@@ -1,33 +1,57 @@
-
 #ifndef CORE_H_INCLUDED
 #define CORE_H_INCLUDED
 #include <stdio.h>
-
+#include <stdlib.h>
+#include "SDL/SDL_image.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_mixer.h"
+#include "SDL/SDL_ttf.h"
 typedef struct{
-    int xu;
-    int yu;
-}usercoor;
+  int xc;
+  int yc;
+}computerEnteries;
+
 typedef struct {
-    int xc;
-    int yc;
-}compcoor;
+   SDL_Surface * backPicker;
+   SDL_Rect backPos;
+   SDL_Surface * backbut;
+   SDL_Surface * backbut2;
+   SDL_Rect  backbutPos;
+   char pick;
+}picker;
+struct lines{
+  SDL_Surface * line;
+  SDL_Rect linePos;
+};
 typedef struct{
-    usercoor u;
-    compcoor c;
-}coordinates;
-
-void about (void);
-void help (void);
-void graphics(char (*m)[3]);
-void init2(int (*t)[3]);
-void init2ta(int (*ta)[3]);
-void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]);
-void computerplaysfirst(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3],int *start);
-void watchscore(char winner, int *sx, int *so);
-void checkwin(char (*m)[3], char *winner, int *won);
-int checkfin(char (*m)[3]);
+  SDL_Surface * back;
+  SDL_Rect backPos;
+  SDL_Surface * x;
+  SDL_Surface * o;
+  SDL_Rect input;
+  SDL_Surface * backbut;
+  SDL_Rect backbutPos;
+  SDL_Rect scorePos;
+  SDL_Surface * backScore;
+  SDL_Rect backScorePos;
+  SDL_Surface * status;
+  SDL_Rect statusPos;
+  struct lines l[8];
+}playgameScreen;
+int initPickScreen(picker *p, SDL_Surface * screen);
+picker getPick (SDL_Surface * screen, SDL_Event event, picker p);
 void init (char (*m)[3]);
-void user (char *c, int *x, int *y, char (*m)[3]);
-char launch(void);
-void playfriend(char (*m)[3], int *x, int *y);
+void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]);
+void initDeffTable(int (*t)[3]);
+void initAttTable(int (*ta)[3]);
+playgameScreen initGamePlay();
+int player(char (*m)[3],SDL_Surface *screen, playgameScreen pgs, char c);
+void showGamePlay(playgameScreen pgs,SDL_Surface *screen, char c);
+void graphics(char (*m)[3]);
+void printOnTable(computerEnteries ce, char (*m)[3], SDL_Surface * screen, playgameScreen pgs, char c);
+int checkfin(char (*m)[3]);
+void checkwin(char (*m)[3], int *winner,char whatComputerChose, int *won,SDL_Surface * screen, playgameScreen pgs);
+void manageScore (int winner , int *scomputer, int *splayer);
+void showScore(int winner,char whatComputerChose, int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs);
+
 #endif

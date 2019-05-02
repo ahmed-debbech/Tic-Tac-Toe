@@ -334,7 +334,10 @@ int menuPlayClicks(SDL_Event event, buttons bu, menuPlayGame mpg, control c, sou
    if(c.soundMuted == 0){
    Mix_PlayChannel(-1, sfx.butClick, 0);
   }
-  }
+  y = 0;
+}else{
+  y = -1;
+}
   }
      }
   return y;
