@@ -7,7 +7,8 @@
 #include <string.h>
 #include "graphics.h"
 #include "core.h"
-int main(){
+
+int main(int argc, char **argv){
 //core initializations
 	char m[3][3];
 	int td[3][3]; //defence table
@@ -18,7 +19,9 @@ SDL_Surface *screen;
 Mix_Music * music;
 SDL_Event event;
 menu mc;
-int scoreComputer=0, scorePlayer=0;
+int scoreComputer=0, scorePlayer=0, whichMode = 0;
+int scorePlayer1 = 0, scorePlayer2=0;
+int played_once = 0;
 playgameScreen pgs;
 about ab;
 help hel;
@@ -31,7 +34,8 @@ if(SDL_Init(SDL_INIT_VIDEO)!=0){
 printf("unable to initializeSDL:%s \n",SDL_GetError());
 	return 1;
 }
-
+SDL_Surface * icon = IMG_Load("Resources/icon.png");
+SDL_WM_SetIcon(icon, NULL);
 screen = SDL_SetVideoMode(500,490,32,SDL_HWSURFACE|SDL_DOUBLEBUF);
 if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1){
 	printf("No sounds %s\n",Mix_GetError());
@@ -78,7 +82,7 @@ SDL_WaitEvent(&event);
 						break;
       }
    }
- // manipulating choices
+ // manipulating choices comming from menu
  bu = initButtons();
  switch (choice) {
  	case 1:
@@ -122,56 +126,147 @@ SDL_WaitEvent(&event);
 }else{
 	//pass to game play
 	//picker menu screen
+	int userInput, won=0;
+	int winner = 0;
+	char whatComputerChose = 'o';
 	if(passToGame == 1){
+		//pass to computer mode
 		if(click == 1){
 			if(initPickScreen(&p, screen) == 1){
 				SDL_WaitEvent(&event);
 				p = getPick(screen, event,p);
+				whichMode = 0;
+				if(played_once == 1){
+					showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+				}
 				if(p.pick == 'n'){
 				passToGame = 0; // to be back to the playgame menu
 			}else{
         if(p.pick == 'x'){
-					int userControl, won=0;
-					int winner = 0;
-					char whatComputerChose = 'o';
+					won=0;
+					winner = 0;
+					played_once = 1;
+					whatComputerChose = 'o';
 					init(m);
 					initDeffTable(td);
 					initAttTable(ta);
 					pgs = initGamePlay();
 					showGamePlay(pgs, screen,p.pick);
-					showScore(winner, whatComputerChose, scoreComputer, scorePlayer, screen,pgs);
+					showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
 					SDL_Flip(screen);
+					//actual game loop
 					do{
 				  	do{
-					  	userControl = player(m, screen, pgs, p.pick);
-				    }while(userControl == 0);
+					  	userInput = player(m, screen, pgs, p.pick);
+				    }while(userInput == 0);
 						checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
-						if((won != 1) || (checkfin(m) != 1)){
-				     computer(m,&ce.xc, &ce.yc, td, ta);
+						SDL_Delay(250);
+						if((won != 1) && (checkfin(m) != 1) && (userInput != -1)){
+				     computerBrain(m,&ce.xc, &ce.yc, td, ta,whatComputerChose);
 				     printOnTable(ce,m,screen,pgs,p.pick);
 				     checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
 					 }
-			 }while(((checkfin(m) == 0) && (won == 0)) && (userControl != -1) );
+			 }while(((checkfin(m) == 0) && (won == 0)) && ((userInput != -1) && (userInput != 3)));
        SDL_Delay(1000);
-			 if((won == 1) && (userControl != -1)){
+			 if((won == 1) && ((userInput != -1) && (userInput != 3))){
 					 manageScore (winner, &scoreComputer, &scorePlayer);
-					 showScore(winner, whatComputerChose, scoreComputer, scorePlayer, screen,pgs);
+					 showScore(winner, scoreComputer, scorePlayer, screen,pgs,whichMode);
 					 SDL_Flip(screen);
 			 }else{
-				 if(userControl == -1){
+				 if(userInput == -1){
 			   	 done = 1; // quit the game
-			   }
+			   }else{
+					 if(userInput == 3){
+						 passToGame = 0; // when pressing back button to back to menu
+
+					 }
+				 }
 			 }
 				}else{
 					if(p.pick == 'o'){
+						won=0;
+						winner = 0;
+						played_once = 1;
+						whatComputerChose = 'x';
+						init(m);
+						initDeffTable(td);
+						initAttTable(ta);
+						pgs = initGamePlay();
+						showGamePlay(pgs, screen,p.pick);
+						showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+						SDL_Flip(screen);
+						//actual game loop
+						do{
+							SDL_Delay(250);
+							computerBrain(m,&ce.xc, &ce.yc, td, ta,whatComputerChose);
+							printOnTable(ce,m,screen,pgs,p.pick);
+							checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
+							if((won != 1) && (checkfin(m) != 1) && (userInput != -1)){
+								do{
+							  	userInput = player(m, screen, pgs, p.pick);
+						    }while(userInput == 0);
+					     checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
+						 }
+				 }while(((checkfin(m) == 0) && (won == 0)) && ((userInput != -1) && (userInput != 3)));
+	       SDL_Delay(1000);
+				 if((won == 1) && ((userInput != -1) && (userInput != 3))){
+						 manageScore (winner, &scoreComputer, &scorePlayer);
+						 showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+						 SDL_Flip(screen);
+				 }else{
+					 if(userInput == -1){
+				   	 done = 1; // quit the game
+				   }else{
+						 if(userInput == 3){
+							 passToGame = 0; // when pressing back button to back to menu
 
+						 }
+					 }
+				 }
 					}
 				}
 			}
 			}
 		}else{
+			//pass to click mode
 			if(click == 2){
+				won=0;
+				winner = 0;
+				played_once = 1;
+				init(m);
+				pgs = initGamePlay();
+				showGamePlay(pgs, screen,p.pick);
+				whichMode = 1; // this variable is set to 1 to say it is friend mode
+				showScore(winner, scorePlayer1, scorePlayer2, screen,pgs, whichMode);
+				SDL_Flip(screen);
+				//actual game loop
+				do{
+					do{
+						userInput = player(m, screen, pgs, 'x');
+					}while(userInput == 0);
+					checkwin(m,&winner,'x',&won, screen, pgs);
+					if((won != 1) && (checkfin(m) != 1) && (userInput != -1)){
+						do{
+							userInput = player(m, screen, pgs, 'o');
+						}while(userInput == 0);
+					 checkwin(m,&winner,'x',&won, screen, pgs);
+				 }
+		 }while(((checkfin(m) == 0) && (won == 0)) && ((userInput != -1) && (userInput != 3)));
+		 SDL_Delay(1000);
+		 if((won == 1) && ((userInput != -1) && (userInput != 3))){
+				 manageScore (winner, &scorePlayer1, &scorePlayer2);
+				 showScore(winner, scorePlayer1, scorePlayer2, screen,pgs, whichMode);
+				 SDL_Flip(screen);
+		 }else{
+			 if(userInput == -1){
+				 done = 1; // quit the game
+			 }else{
+				 if(userInput == 3){
+					 passToGame = 0; // when pressing back button to back to menu
 
+				 }
+			 }
+		 }
 			}
 		}
 	}

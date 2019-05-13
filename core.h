@@ -41,17 +41,16 @@ typedef struct{
 int initPickScreen(picker *p, SDL_Surface * screen);
 picker getPick (SDL_Surface * screen, SDL_Event event, picker p);
 void init (char (*m)[3]);
-void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]);
+void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], char whatComputerChose);
 void initDeffTable(int (*t)[3]);
 void initAttTable(int (*ta)[3]);
 playgameScreen initGamePlay();
 int player(char (*m)[3],SDL_Surface *screen, playgameScreen pgs, char c);
 void showGamePlay(playgameScreen pgs,SDL_Surface *screen, char c);
-void graphics(char (*m)[3]);
 void printOnTable(computerEnteries ce, char (*m)[3], SDL_Surface * screen, playgameScreen pgs, char c);
 int checkfin(char (*m)[3]);
 void checkwin(char (*m)[3], int *winner,char whatComputerChose, int *won,SDL_Surface * screen, playgameScreen pgs);
-void manageScore (int winner , int *scomputer, int *splayer);
-void showScore(int winner,char whatComputerChose, int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs);
+void manageScore (int winner , int *splayer1, int *splayer2);
+void showScore(int winner, int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs, int whichMode);
 
 #endif

@@ -80,12 +80,23 @@ void initAttTable(int (*ta)[3]){
         }
     }
 }
-void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
+void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], char whatComputerChose){
     int i, test=0,j, count,k,l,istheremore2,isthere2,pass = 0;
     int isthere2a, istheremore2a,done;
     int xof2=-1, yof2=-1, xof22=-1, yof22=-1;
     int xof2at =-1, yof2at =-1, xof22at =-1, yof22at =-1;
-    char hold;
+    char hold, reverse;
+    /*
+    this if bellow is to assign reverse variable of what computer chose
+    for exemple if computer chose 'x' than 'o' will be affected in reverse.
+    This is for making this function runs in both choices (either user chooses 'x' or 'o').
+    */
+    if(whatComputerChose == 'o'){
+      reverse = 'x';
+    }else{
+      reverse = 'o';
+    }
+    // these for loops are check if the computer plays first or not
     for(i=0; i<=2; i++){
         for(j=0; j<=2; j++) {
             if (m[i][j] != ' ') {
@@ -103,7 +114,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=0; j<=2; j++) {
-                if (m[0][j] == 'x') {
+                if (m[0][j] == reverse) {
                     count++;
                 }
             }
@@ -121,7 +132,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             //2nd run===================
             count = 0;
             for (j=0; j<=2; j++) {
-                if (m[j][j] == 'x') {
+                if (m[j][j] == reverse) {
                     count++;
                 }
             }
@@ -139,7 +150,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             //3rd run===================
             count = 0;
             for (j=0; j<=2; j++) {
-                if (m[j][0] == 'x') {
+                if (m[j][0] == reverse) {
                     count++;
                 }
             }
@@ -161,7 +172,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=0; j<=2; j++) {
-                if (m[1][j] == 'x') {
+                if (m[1][j] == reverse) {
                     count++;
                 }
             }
@@ -183,7 +194,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=2; j>=0; j--) {
-                if (m[j][0] == 'x') {
+                if (m[j][0] == reverse) {
                     count++;
                 }
             }
@@ -202,7 +213,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             count = 0;
             l=0;
             for (j=2; j>=0; j--) {
-                if (m[j][l] == 'x') {
+                if (m[j][l] == reverse) {
                     count++;
                 }
                 l++;
@@ -222,7 +233,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             //3rd run===================
             count = 0;
             for (j=0; j<=2; j++) {
-                if (m[2][j] == 'x') {
+                if (m[2][j] == reverse) {
                     count++;
                 }
             }
@@ -244,7 +255,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=2; j>=0; j--) {
-                if (m[j][1] == 'x') {
+                if (m[j][1] == reverse) {
                     count++;
                 }
             }
@@ -266,7 +277,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=2; j>=0; j--) {
-                if (m[2][j] == 'x') {
+                if (m[2][j] == reverse) {
                     count++;
                 }
             }
@@ -284,7 +295,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             //2nd run==================
             count = 0; l = 2;
             for (j=2; j>=0; j--) {
-                if (m[j][l] == 'x') {
+                if (m[j][l] == reverse) {
                     count++;
                 }
                 l--;
@@ -304,7 +315,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             //3rd run ====================
             count = 0;
             for (j=2; j>=0; j--) {
-                if (m[j][2] == 'x') {
+                if (m[j][2] == reverse) {
                     count++;
                 }
             }
@@ -326,7 +337,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=2; j>=0; j--) {
-                if (m[1][j] == 'x') {
+                if (m[1][j] == reverse) {
                     count++;
                 }
             }
@@ -348,30 +359,30 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=0; j<=2; j++) {
-                if (m[j][2] == 'x') {
-                    count++;
+                if (m[j][2] == reverse) {
+                  count++;
                 }
             }
             k=0;
             while (k<=2) {
                 if ((m[k][2] == ' ') && (t[k][2] != 2)) {
                     if (count == 0) {
-                        t[k][2] = count+1;
+                      t[k][2] = count+1;
                     }else{
-                        t[k][2] = count;
+                      t[k][2] = count;
                     }
                 }
                 k++;
             }
             //2nd run===================
-            count = 0; l = 0;
-            for (j=0; j<=2; j++) {
-                if (m[2-j][l] == 'x') {
+            count = 0; l = 2;
+            for (j=2; j>=0; j--) {
+                if (m[2-j][l] == reverse) {
                     count++;
                 }
-                l++;
+                l--;
             }
-            k=0; l =0;
+            k=0; l =2;
             while (k<=2) {
                 if ((m[2-k][l] == ' ') && (t[2-k][l] != 2)) {
                     if (count == 0) {
@@ -381,12 +392,12 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     }
                 }
                 k++;
-                l++;
+                l--;
             }
             //3rd run===================
             count = 0;
             for (j=2; j>=0; j--) {
-                if (m[0][j] == 'x') {
+                if (m[0][j] == reverse) {
                     count++;
                 }
             }
@@ -408,7 +419,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
         if (hold != ' ') {
             //1st run===================
             for (j=0; j<=2; j++) {
-                if (m[j][1] == 'x') {
+                if (m[j][1] == reverse) {
                     count++;
                 }
             }
@@ -462,7 +473,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=0; j<=2; j++) {
-                    if (m[0][j] == 'o') {
+                    if (m[0][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -480,7 +491,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //2nd run===================
                 count = 0;
                 for (j=0; j<=2; j++) {
-                    if (m[j][j] == 'o') {
+                    if (m[j][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -498,7 +509,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //3rd run===================
                 count = 0;
                 for (j=0; j<=2; j++) {
-                    if (m[j][0] == 'o') {
+                    if (m[j][0] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -520,7 +531,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=0; j<=2; j++) {
-                    if (m[1][j] == 'o') {
+                    if (m[1][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -542,7 +553,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=2; j>=0; j--) {
-                    if (m[j][1] == 'o') {
+                    if (m[j][1] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -561,7 +572,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 count = 0;
                 l=0;
                 for (j=2; j>=0; j--) {
-                    if (m[j][l] == 'o') {
+                    if (m[j][l] == whatComputerChose) {
                         count++;
                     }
                     l++;
@@ -581,7 +592,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //3rd run===================
                 count = 0;
                 for (j=0; j<=2; j++) {
-                    if (m[2][j] == 'o') {
+                    if (m[2][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -603,7 +614,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=2; j>=0; j--) {
-                    if (m[j][1] == 'o') {
+                    if (m[j][1] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -625,7 +636,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=2; j>=0; j--) {
-                    if (m[2][j] == 'o') {
+                    if (m[2][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -643,7 +654,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //2nd run==================
                 count = 0; l = 2;
                 for (j=2; j>=0; j--) {
-                    if (m[j][l] == 'o') {
+                    if (m[j][l] == whatComputerChose) {
                         count++;
                     }
                     l--;
@@ -663,7 +674,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //3rd run ====================
                 count = 0;
                 for (j=2; j>=0; j--) {
-                    if (m[j][2] == 'o') {
+                    if (m[j][2] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -685,7 +696,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=2; j>=0; j--) {
-                    if (m[1][j] == 'o') {
+                    if (m[1][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -707,7 +718,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=0; j<=2; j++) {
-                    if (m[j][2] == 'o') {
+                    if (m[j][2] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -725,7 +736,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //2nd run===================
                 count = 0; l = 0;
                 for (j=0; j<=2; j++) {
-                    if (m[2-j][l] == 'o') {
+                    if (m[2-j][l] == whatComputerChose) {
                         count++;
                     }
                     l++;
@@ -745,7 +756,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //3rd run===================
                 count = 0;
                 for (j=2; j>=0; j--) {
-                    if (m[0][j] == 'o') {
+                    if (m[0][j] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -767,7 +778,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
             if (hold != ' ') {
                 //1st run===================
                 for (j=0; j<=2; j++) {
-                    if (m[j][1] == 'o') {
+                    if (m[j][1] == whatComputerChose) {
                         count++;
                     }
                 }
@@ -807,7 +818,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 //first tour ===============
                 //1st run==================
                 done =0;
-                if ((m[0][0] == 'o') && ((m[0][1] == ' ') || (m[0][1] == 'o')) && ((m[0][2] == ' ') || (m[0][2] == 'o'))) {
+                if ((m[0][0] == whatComputerChose) && ((m[0][1] == ' ') || (m[0][1] == whatComputerChose)) && ((m[0][2] == ' ') || (m[0][2] == whatComputerChose))) {
                     if (m[0][1] == ' ') {
                         *xc = 0;
                         *yc = 1;
@@ -821,7 +832,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     }
                 }else{
                     //2nd run===========
-                    if ((m[0][0] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[2][2] == ' ') || (m[2][2] == 'o'))) {
+                    if ((m[0][0] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[2][2] == ' ') || (m[2][2] == whatComputerChose))) {
                         if (m[1][1] == ' ') {
                             *xc = 1;
                             *yc = 1;
@@ -835,7 +846,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         }
                     }else{
                         //3rd run =========
-                        if ((m[0][0] == 'o') && ((m[1][0] == ' ') || (m[1][0] == 'o')) && ((m[2][0] == ' ') || ((m[2][0] == 'o')))) {
+                        if ((m[0][0] == whatComputerChose) && ((m[1][0] == ' ') || (m[1][0] == whatComputerChose)) && ((m[2][0] == ' ') || ((m[2][0] == whatComputerChose)))) {
                             if (m[1][0] == ' ') {
                                 *xc = 1;
                                 *yc = 0;
@@ -850,7 +861,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         }else{
                             //second tour =======
                             //1st run
-                            if ((m[1][0] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[1][2] == ' ') || ((m[1][2] == 'o')))) {
+                            if ((m[1][0] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[1][2] == ' ') || ((m[1][2] == whatComputerChose)))) {
                                 if (m[1][1] == ' ') {
                                     *xc = 1;
                                     *yc = 1;
@@ -865,7 +876,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                             }else{
                                 //third tour =======
                                 //1st run
-                                if ((m[2][0] == 'o') && ((m[1][0] == ' ') || (m[1][0] == 'o')) && ((m[0][0] == ' ') || ((m[0][0] == 'o')))) {
+                                if ((m[2][0] ==whatComputerChose) && ((m[1][0] == ' ') || (m[1][0] == whatComputerChose)) && ((m[0][0] == ' ') || ((m[0][0] == whatComputerChose)))) {
                                     if (m[1][0] == ' ') {
                                         *xc = 1;
                                         *yc = 0;
@@ -879,7 +890,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                     }
                                 }else{
                                     //2nd run -=============
-                                    if ((m[2][0] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[0][2] == ' ') || ((m[0][2] == 'o')))) {
+                                    if ((m[2][0] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[0][2] == ' ') || ((m[0][2] == whatComputerChose)))) {
                                         if (m[1][1] == ' ') {
                                             *xc = 1;
                                             *yc = 1;
@@ -893,7 +904,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                         }
                                     }else{
                                         //3rd run========
-                                        if ((m[2][0] == 'o') && ((m[2][1] == ' ') || (m[2][1] == 'o')) && ((m[2][2] == ' ') || ((m[2][2] == 'o')))) {
+                                        if ((m[2][0] == whatComputerChose) && ((m[2][1] == ' ') || (m[2][1] == whatComputerChose)) && ((m[2][2] == ' ') || ((m[2][2] == whatComputerChose)))) {
                                             if (m[2][1] == ' ') {
                                                 *xc = 2;
                                                 *yc = 1;
@@ -908,7 +919,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                         }else{
                                             //fourth tour =============
                                             //1st tour ==========
-                                            if ((m[2][1] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[0][1] == ' ') || ((m[0][1] == 'o')))) {
+                                            if ((m[2][1] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[0][1] == ' ') || ((m[0][1] == whatComputerChose)))) {
                                                 if (m[2][1] == ' ') {
                                                     *xc = 2;
                                                     *yc = 1;
@@ -923,7 +934,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                             }else{
                                               //fifth tour =============
                                               //1st run ==========
-                                              if ((m[2][2] == 'o') && ((m[2][1] == ' ') || (m[2][1] == 'o')) && ((m[0][2] == ' ') || ((m[0][2] == 'o')))) {
+                                              if ((m[2][2] == whatComputerChose) && ((m[2][1] == ' ') || (m[2][1] == whatComputerChose)) && ((m[0][2] == ' ') || ((m[0][2] == whatComputerChose)))) {
                                                   if (m[2][1] == ' ') {
                                                       *xc = 2;
                                                       *yc = 1;
@@ -937,7 +948,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                   }
                                               }else{
                                                   //2nd run ==========
-                                                  if ((m[2][2] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[0][0] == ' ') || ((m[0][0] == 'o')))) {
+                                                  if ((m[2][2] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[0][0] == ' ') || ((m[0][0] == whatComputerChose)))) {
                                                       if (m[1][1] == ' ') {
                                                           *xc = 1;
                                                           *yc = 1;
@@ -951,7 +962,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                       }
                                                   }else{
                                                       //3rd run ========
-                                                      if ((m[2][2] == 'o') && ((m[1][2] == ' ') || (m[1][2] == 'o')) && ((m[0][2] == ' ') || ((m[0][2] == 'o')))) {
+                                                      if ((m[2][2] == whatComputerChose) && ((m[1][2] == ' ') || (m[1][2] == whatComputerChose)) && ((m[0][2] == ' ') || ((m[0][2] == whatComputerChose)))) {
                                                           if (m[1][2] == ' ') {
                                                               *xc = 1;
                                                               *yc = 2;
@@ -966,7 +977,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                         }else{
                                                 //sixth tour =============
                                                 //1st run ==========
-                                                if ((m[1][2] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[1][0] == ' ') || ((m[1][0] == 'o')))) {
+                                                if ((m[1][2] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[1][0] == ' ') || ((m[1][0] ==whatComputerChose)))) {
                                                     if (m[1][1] == ' ') {
                                                         *xc = 1;
                                                         *yc = 1;
@@ -981,7 +992,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                 }else{
                                                     //seventh tour =============
                                                     //1st run ==========
-                                                    if ((m[0][2] == 'o') && ((m[1][2] == ' ') || (m[1][2] == 'o')) && ((m[1][2] == ' ') || ((m[1][2] == 'o')))) {
+                                                    if ((m[0][2] == whatComputerChose) && ((m[1][2] == ' ') || (m[1][2] == whatComputerChose)) && ((m[1][2] == ' ') || ((m[1][2] == whatComputerChose)))) {
                                                         if (m[1][2] == ' ') {
                                                             *xc = 1;
                                                             *yc = 2;
@@ -995,7 +1006,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                         }
                                                     }else{
                                                         //2nd run ==========
-                                                        if ((m[0][2] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[2][0] == ' ') || ((m[2][0] == 'o')))) {
+                                                        if ((m[0][2] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[2][0] == ' ') || ((m[2][0] == whatComputerChose)))) {
                                                             if (m[1][1] == ' ') {
                                                                 *xc = 1;
                                                                 *yc = 1;
@@ -1009,7 +1020,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                             }
                                                         }else{
                                                             //3rd run ========
-                                                            if ((m[0][2] == 'o') && ((m[0][1] == ' ') || (m[1][0] == 'o')) && ((m[0][0] == ' ') || ((m[0][0] == 'o')))) {
+                                                            if ((m[0][2] == whatComputerChose) && ((m[0][1] == ' ') || (m[1][0] == whatComputerChose)) && ((m[0][0] == ' ') || ((m[0][0] == whatComputerChose)))) {
                                                                 if (m[0][1] == ' ') {
                                                                     *xc = 0;
                                                                     *yc = 1;
@@ -1024,7 +1035,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                             }else{
                                                                 //eigth tour =============
                                                                 //1st run =========
-                                                                if ((((m[0][1] == 'o') && ((m[1][1] == ' ') || (m[1][1] == 'o')) && ((m[2][1] == ' ') || (m[2][1] == 'o'))) || (((m[0][0] == 'o') || (m[0][0] == ' ')) && ((m[0][2] == 'o') || (m[0][2] == ' '))))) {
+                                                                if ((((m[0][1] == whatComputerChose) && ((m[1][1] == ' ') || (m[1][1] == whatComputerChose)) && ((m[2][1] == ' ') || (m[2][1] == whatComputerChose))) || (((m[0][0] == whatComputerChose) || (m[0][0] == ' ')) && ((m[0][2] == whatComputerChose) || (m[0][2] == ' '))))) {
                                                                     if (m[1][1] == ' ') {
                                                                         *xc = 1;
                                                                         *yc = 1;
@@ -1039,7 +1050,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                                 }else{
                                                                     //ninth tour =============
                                                                     //1st run =========
-                                                                    if ((m[1][1] == 'o') && (((m[1][0] == 'o') || (m[1][0] == ' ')) && ((m[1][2] == 'o') || (m[1][2] == ' ')))) {
+                                                                    if ((m[1][1] == whatComputerChose) && (((m[1][0] ==whatComputerChose) || (m[1][0] == ' ')) && ((m[1][2] == whatComputerChose) || (m[1][2] == ' ')))) {
                                                                         if (m[1][0] == ' ') {
                                                                             *xc = 1;
                                                                             *yc = 0;
@@ -1052,7 +1063,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                                                                             }
                                                                         }
                                                                     }else{
-                                                                        if ((m[1][1] == 'o') && (((m[0][1] == 'o') || (m[0][1] == ' ')) && ((m[2][1] == 'o') || (m[2][1] == ' ')))){
+                                                                        if ((m[1][1] == whatComputerChose) && (((m[0][1] == whatComputerChose) || (m[0][1] == ' ')) && ((m[2][1] == whatComputerChose) || (m[2][1] == ' ')))){
                                                                             if (m[0][1] == ' ') {
                                                                                 *xc = 0;
                                                                                 *yc = 1;
@@ -1120,7 +1131,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=0; j<=2; j++) {
-                        if (m[0][j] == 'o') {
+                        if (m[0][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1138,7 +1149,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //2nd run===================
                     count = 0;
                     for (j=0; j<=2; j++) {
-                        if (m[j][j] == 'o') {
+                        if (m[j][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1156,7 +1167,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //3rd run===================
                     count = 0;
                     for (j=0; j<=2; j++) {
-                        if (m[j][0] == 'o') {
+                        if (m[j][0] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1178,7 +1189,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=0; j<=2; j++) {
-                        if (m[1][j] == 'o') {
+                        if (m[1][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1200,7 +1211,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=2; j>=0; j--) {
-                        if (m[j][1] == 'o') {
+                        if (m[j][1] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1219,7 +1230,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     count = 0;
                     l=0;
                     for (j=2; j>=0; j--) {
-                        if (m[j][l] == 'o') {
+                        if (m[j][l] == whatComputerChose) {
                             count++;
                         }
                         l++;
@@ -1239,7 +1250,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //3rd run===================
                     count = 0;
                     for (j=0; j<=2; j++) {
-                        if (m[2][j] == 'o') {
+                        if (m[2][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1261,7 +1272,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=2; j>=0; j--) {
-                        if (m[j][1] == 'o') {
+                        if (m[j][1] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1283,7 +1294,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=2; j>=0; j--) {
-                        if (m[2][j] == 'o') {
+                        if (m[2][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1301,7 +1312,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //2nd run==================
                     count = 0; l = 2;
                     for (j=2; j>=0; j--) {
-                        if (m[j][l] == 'o') {
+                        if (m[j][l] == whatComputerChose) {
                             count++;
                         }
                         l--;
@@ -1321,7 +1332,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //3rd run ====================
                     count = 0;
                     for (j=2; j>=0; j--) {
-                        if (m[j][2] == 'o') {
+                        if (m[j][2] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1343,7 +1354,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=2; j>=0; j--) {
-                        if (m[1][j] == 'o') {
+                        if (m[1][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1365,7 +1376,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=0; j<=2; j++) {
-                        if (m[j][2] == 'o') {
+                        if (m[j][2] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1383,7 +1394,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //2nd run===================
                     count = 0; l = 0;
                     for (j=0; j<=2; j++) {
-                        if (m[2-j][l] == 'o') {
+                        if (m[2-j][l] == whatComputerChose) {
                             count++;
                         }
                         l++;
@@ -1403,7 +1414,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     //3rd run===================
                     count = 0;
                     for (j=2; j>=0; j--) {
-                        if (m[0][j] == 'o') {
+                        if (m[0][j] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1425,7 +1436,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 if (hold != ' ') {
                     //1st run===================
                     for (j=0; j<=2; j++) {
-                        if (m[j][1] == 'o') {
+                        if (m[j][1] == whatComputerChose) {
                             count++;
                         }
                     }
@@ -1476,7 +1487,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=0; j<=2; j++) {
-                            if (m[0][j] == 'o') {
+                            if (m[0][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1494,7 +1505,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //2nd run===================
                         count = 0;
                         for (j=0; j<=2; j++) {
-                            if (m[j][j] == 'o') {
+                            if (m[j][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1512,7 +1523,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //3rd run===================
                         count = 0;
                         for (j=0; j<=2; j++) {
-                            if (m[j][0] == 'o') {
+                            if (m[j][0] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1534,7 +1545,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=0; j<=2; j++) {
-                            if (m[1][j] == 'o') {
+                            if (m[1][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1556,7 +1567,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=2; j>=0; j--) {
-                            if (m[j][1] == 'o') {
+                            if (m[j][1] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1575,7 +1586,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         count = 0;
                         l=0;
                         for (j=2; j>=0; j--) {
-                            if (m[j][l] == 'o') {
+                            if (m[j][l] == whatComputerChose) {
                                 count++;
                             }
                             l++;
@@ -1595,7 +1606,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //3rd run===================
                         count = 0;
                         for (j=0; j<=2; j++) {
-                            if (m[2][j] == 'o') {
+                            if (m[2][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1617,7 +1628,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=2; j>=0; j--) {
-                            if (m[j][1] == 'o') {
+                            if (m[j][1] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1639,7 +1650,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=2; j>=0; j--) {
-                            if (m[2][j] == 'o') {
+                            if (m[2][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1657,7 +1668,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //2nd run==================
                         count = 0; l = 2;
                         for (j=2; j>=0; j--) {
-                            if (m[j][l] == 'o') {
+                            if (m[j][l] == whatComputerChose) {
                                 count++;
                             }
                             l--;
@@ -1677,7 +1688,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //3rd run ====================
                         count = 0;
                         for (j=2; j>=0; j--) {
-                            if (m[j][2] == 'o') {
+                            if (m[j][2] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1699,7 +1710,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=2; j>=0; j--) {
-                            if (m[1][j] == 'o') {
+                            if (m[1][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1721,7 +1732,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=0; j<=2; j++) {
-                            if (m[j][2] == 'o') {
+                            if (m[j][2] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1739,7 +1750,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //2nd run===================
                         count = 0; l = 0;
                         for (j=0; j<=2; j++) {
-                            if (m[2-j][l] == 'o') {
+                            if (m[2-j][l] == whatComputerChose) {
                                 count++;
                             }
                             l++;
@@ -1759,7 +1770,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                         //3rd run===================
                         count = 0;
                         for (j=2; j>=0; j--) {
-                            if (m[0][j] == 'o') {
+                            if (m[0][j] == whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1781,7 +1792,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                     if (hold != ' ') {
                         //1st run===================
                         for (j=0; j<=2; j++) {
-                            if (m[j][1] == 'o') {
+                            if (m[j][1] ==whatComputerChose) {
                                 count++;
                             }
                         }
@@ -1825,6 +1836,7 @@ void computer(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3]){
                 }
             }
         }
+
 }
 }
 void init (char (*m)[3]){
@@ -1923,17 +1935,6 @@ return pgs;
 void showGamePlay(playgameScreen pgs, SDL_Surface *screen, char c){
    SDL_BlitSurface(pgs.back, NULL, screen, &pgs.backPos);
    SDL_BlitSurface(pgs.backbut, NULL, screen, &pgs.backbutPos);
-}
-void graphics(char (*m)[3]){
-    printf("   y  1     2     3\n");
-    printf(" x --------------------\n");
-    printf(" 1 |  %c  |   %c  |  %c  |\n", m[0][0],m[0][1],m[0][2]);
-    printf("   --------------------\n");
-    printf(" 2 |  %c  |   %c  |  %c  |\n", m[1][0],m[1][1],m[1][2]);
-    printf("   --------------------\n");
-    printf(" 3 |  %c  |   %c  |  %c  |\n", m[2][0],m[2][1],m[2][2]);
-    printf("   --------------------\n");
-    printf("\n");
 }
 int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
   SDL_Event event;
@@ -2640,8 +2641,10 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         SDL_Flip(screen);
     }
 }
-void showScore(int winner,char whatComputerChose,int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs){
+void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs, int whichMode){
   //if winner is 1 then it is computer else player
+  // if whichMode is equal to 0 than it is computer mode else friend mode
+  if(whichMode == 0){
     if (winner == 1) {
         char ch[128];
         SDL_Surface *scoring = NULL;
@@ -2685,12 +2688,58 @@ void showScore(int winner,char whatComputerChose,int scomputer, int splayer,SDL_
       SDL_BlitSurface(scoring, NULL, screen, &pgs.scorePos);
       SDL_Flip(screen);
     }
-}
-void manageScore (int winner , int *scomputer, int *splayer){
-  //if winner is 1 then it is computer else player
+  }else{
     if (winner == 1) {
-      (*scomputer)++;
+        char ch[128];
+        SDL_Surface *scoring = NULL;
+        TTF_Font *police = NULL;
+        SDL_Color noir = {0, 0, 0};
+        if (TTF_Init() < 0) {
+          printf("error\n");
+      }else{
+        police = TTF_OpenFont("Resources/font.ttf", 20);
+        if (police == NULL) {
+          printf("Error in opening font file\n");
+        }else{
+          sprintf(ch,"X Player %d - %d O Player",scomputer, splayer);
+          scoring=TTF_RenderText_Solid(police, ch, noir);
+      TTF_CloseFont(police);
+      TTF_Quit();
+      }
+      }
+      SDL_BlitSurface(pgs.backScore, NULL, screen, &pgs.backScorePos);
+      SDL_BlitSurface(scoring, NULL, screen, &pgs.scorePos);
+      SDL_Flip(screen);
     }else{
-      (*splayer)++;
+        char ch[128];
+        SDL_Surface *scoring = NULL;
+        TTF_Font *police = NULL;
+        SDL_Color noir = {0, 0, 0};
+        if (TTF_Init() < 0) {
+          printf("error\n");
+      }else{
+        police = TTF_OpenFont("Resources/font.ttf", 20);
+        if (police == NULL) {
+          printf("Error in opening font file\n");
+        }else{
+          sprintf(ch,"X Player %d - %d O Player",scomputer, splayer);
+          scoring=TTF_RenderText_Solid(police, ch, noir);
+      TTF_CloseFont(police);
+      TTF_Quit();
+      }
+      }
+      SDL_BlitSurface(pgs.backScore, NULL, screen, &pgs.backScorePos);
+      SDL_BlitSurface(scoring, NULL, screen, &pgs.scorePos);
+      SDL_Flip(screen);
+    }
+  }
+
+}
+void manageScore (int winner , int *splayer1, int *splayer2){
+  //if winner is 1 then it is player1 else player2
+    if (winner == 1) {
+      (*splayer1)++;
+    }else{
+      (*splayer2)++;
     }
 }
