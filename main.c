@@ -8,7 +8,7 @@
 #include "graphics.h"
 #include "core.h"
 
-int main(int argc, char **argv){
+int main(){
 //core initializations
 	char m[3][3];
 	int td[3][3]; //defence table
