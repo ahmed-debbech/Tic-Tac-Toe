@@ -1,32 +1,19 @@
-<h1>Tic Tac Toe</h1>
-
-
-<strong><em>Why is this:</em></strong>
-<p>I found it enjoyable to program a Tic Tac Toe game from scratch as well as I become excited when I see people enjoying it too.</p>
-<p>Since version 2.0 Tic Tac Toe has became designed to be more enjoyable by adding a very pretty GUI. 
-
-<strong><em>Installation:</em></strong>
-<strong>IMPORTANT: YOU HAVE TO INSTAL SDLv1.2 LIBRARIES IN ORDER TO RUN THE CODE PROPERLY!</strong>
-<p><strong>Methode 1:</strong> Download <strong>the three C files</strong> and compile/run them on your favourite IDE or using <strong>makefile</strong> with <strong>make</strong> command.
-<strong>Methode 2:</em></strong> Download binary files of the latest release.</p>
-
-<strong><em>How to use:</em></strong>
-<p>After running the code choose a number from the menu as follows.
-Usually press 1 to play.
-To set X or O choose coordinates 
-Give value X and Y as the table indicates. 
-Try to win the computer!</p>
-
-<strong><em>To contribute:</em></strong>
-<p>Read the Documentation folder.</p>
-
-<strong><em>Credits:</em></strong>
-<p>Ahmed Debbech: Creator and Programmer.
-Twitter: https://twitter.com/AhmedDebb
-Email: debbech.ahmed@gmail.com</p>
-
-<strong><em>License:</em></strong>
-<p>This Work is under GNU GPLv3 License, please read carefully before use.</p>
-
-
-
+# Tic Tac Toe
+Tic Tac toe is a small and simple game that was made for fun.\
+**Details:**It was funny for me to program this from scratch, it was made with C and [SDLv1.2](https://www.libsdl.org/). 
+## Installation
+ 1) Download the executable for Windows from [here](link). 
+ 2) Unzip the file and double click the "TicTacToe2.0.exe".
+* IMPORTANT: DO NOT REPLACE, COPY OR DELETE ANYTHING FROM THE FOLDER.
+## Contributing
+Download this repo and a `make` command will compile the project from source and excute it.
+ * IMPORTANT: YOU HAVE TO INSTALL SDLv1.2 LIBRARIES IN ORDER TO RUN THE CODE PROPERLY!\
+Pull requests are welcome.
+Any suggestion are welcome also.
+Read the documentation folder to know more.\
+Mainline releases are maintained only by [Ahmed Debbech](https://twitter.com/AhmedDebb). 
+## Credits
+[Ahmed Debbech](https://twitter.com/AhmedDebb) : Developer & Designer\
+Contact at: debbech.ahmed@gmail.com
+## License
+[GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) Read carefully before use.
