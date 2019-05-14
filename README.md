@@ -1,6 +1,6 @@
 # Tic Tac Toe
 Tic Tac toe is a small and simple game that was made for fun.\
-**Details:**It was funny for me to program this from scratch, it was made with C and [SDLv1.2](https://www.libsdl.org/). 
+**Details:** It was funny for me to program this from scratch, it was made with C and [SDLv1.2](https://www.libsdl.org/). 
 ## Installation
  1) Download the executable for Windows from [here](link). 
  2) Unzip the file and double click the "TicTacToe2.0.exe".
