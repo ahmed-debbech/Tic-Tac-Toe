@@ -1,3 +1,8 @@
+/**
+ * @file core.c
+ * @author Ahmed Debbech
+ * @brief Core algorithms that make the game executable.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "SDL/SDL_image.h"
@@ -7,8 +12,12 @@
 #include "core.h"
 #include <time.h>
 #include <string.h>
-
-int initPickScreen(picker *p, SDL_Surface * screen){
+/**
+ * @brief Initializes and loads all the images needed into memory to show the pick screen.
+ * @param[out] picker * p the structure that will be returned if the initialization done correctly.
+ * @return integer that says it the initialization done correctly (1 for done 0 for not done).
+ */
+int initPickScreen(picker *p){
   //init
   p->backPicker = IMG_Load("Resources/picker.png");
   p->backbut = IMG_Load("Resources/back.png");
@@ -24,6 +33,14 @@ int initPickScreen(picker *p, SDL_Surface * screen){
 }
 return 1;
 }
+/**
+ * @brief Shows the pick screen and gets the event from user and analyses it.
+ * @param[in] picker the structure that contains all the needed entities to show .
+ * @param[in] SDL_event event the event that will put in the picker structure what did the user choose.
+ * @param[in] SDL_Surface *screen the screen to blit on and show.
+ * @return it will return a picker structure that contains a field filled with what did the user choose.
+ * @detail This function will return a character 'x' if user clicked on X on the screen or 'o' if clicked on O or 'n' character if user clicked back button or 'f' by default.
+ */
 picker getPick (SDL_Surface * screen, SDL_Event event, picker p){
   static int blitCheck = 0; // this variable for checking when to blit
   //show
@@ -64,6 +81,12 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p){
 p.pick = 'f';
   return p;
 }
+/**
+ * @brief initializes the deffence table to 0.
+ * @param[out] int t[3][3] returned deffence table.
+ * @return nothing
+ * @details This function must be called inside of computerBrain() to that function run properly.
+ */
 void initDeffTable(int (*t)[3]){
     int i,j;
     for (i=0; i<=2; i++) {
@@ -72,6 +95,12 @@ void initDeffTable(int (*t)[3]){
         }
     }
 }
+/**
+ * @brief initializes the attack table to 0.
+ * @param[out] int ta[3][3] returned attack table.
+ * @return nothing
+ * @details This function must be called inside of computerBrain() to that function run properly.
+ */
 void initAttTable(int (*ta)[3]){
     int i,j;
     for (i=0; i<=2; i++) {
@@ -80,6 +109,21 @@ void initAttTable(int (*ta)[3]){
         }
     }
 }
+/**
+ * @brief The brain of the computer responsable for making the computer thinks when playing vs Player.
+ * @param[in] char m[3][3] the main matrix of the game.
+ * @param[out] int *xc the coordinate X in the m matrix of the computer to be returned.
+ * @param[out] int *yc the coordinate Y in the m matrix of the computer to be returned.
+ * @param[in] int t[3][3] the deffence table.
+ * @param[in] int ta[3][3] the attack table.
+ * @param[in] char whatComputerChose the character that indicates by what the computer is currently playing with X or O.
+ * @return nothing.
+ * @details This function traverses all the possible cases in m matrix to generate what computer should set its turn.
+ Here's how it works:
+  It does the travers if there's two characters of the user in a row it puts number 2 in the deffence table on the correspinding coordinates of the empty case in m matrix in that row, and thus 2 is a danger point which cannot be removed from the table and the computer should immediately set its turn in that coordinate that coressponding to m matrix.
+  If there's no number 2 in deffence table that means there's nothing to worry about and it should now attack and it will do the travers again but now if there's two characters of the computer in a row it will put number 2 in the attack table that idicates there's an oppertunity to win.
+  If nothing is set from the above it will build a line to win by travers again and see if there's a row in any direction that contains its character or empty then it will play.
+ */
 void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], char whatComputerChose){
     int i, test=0,j, count,k,l,istheremore2,isthere2,pass = 0;
     int isthere2a, istheremore2a,done;
@@ -94,9 +138,11 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
     if(whatComputerChose == 'o'){
       reverse = 'x';
     }else{
+      if(whatComputerChose == 'x'){
       reverse = 'o';
     }
-    // these for loops are check if the computer plays first or not
+    }
+    // these for loops are to check if the computer plays first or not
     for(i=0; i<=2; i++){
         for(j=0; j<=2; j++) {
             if (m[i][j] != ' ') {
@@ -382,8 +428,8 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
                 }
                 l--;
             }
-            k=0; l =2;
-            while (k<=2) {
+            k=2; l =2;
+            while (k>=0) {
                 if ((m[2-k][l] == ' ') && (t[2-k][l] != 2)) {
                     if (count == 0) {
                         t[2-k][l] = count+1;
@@ -391,7 +437,7 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
                         t[2-k][l] = count;
                     }
                 }
-                k++;
+                k--;
                 l--;
             }
             //3rd run===================
@@ -446,6 +492,7 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
     }
     if (pass == 1) {
         //check if all are ones 1 and twos and more
+
         isthere2 = 0;
         isthere2=0; istheremore2=0;
         for(i=0; i<=2; i++) {
@@ -465,7 +512,7 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
         }
         //if all are ones
         if ((isthere2 == 0) && (istheremore2 == 0)) {
-            initAttTable(ta);
+          initAttTable(ta);
             // Begin Algorithm attack
             //first tour ===============
             count = 0;
@@ -795,6 +842,24 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
                 }
             }
             // end of Algortihme attack
+            //if the deff table is all zeros then get random set
+            int check0 = 0;
+            for (i = 0; i <=2; i++) {
+              for (j = 0; j <=2; j++) {
+                if(ta[i][j] != 0){
+                  check0 = 1;
+                }
+              }
+            }
+            if(check0 == 0){
+            do{
+                srand((unsigned) time(NULL));
+                *xc = rand() % 3;
+                *yc = rand() % 3;
+            }while(m[*xc][*yc] != ' ');
+            return;
+           }
+           //check if there's ones and twos
             isthere2a = 0;
             isthere2a = 0; istheremore2a=0;
             for(i=0; i<=2; i++) {
@@ -1839,6 +1904,12 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
 
 }
 }
+/**
+ * @brief initializes the main m matrix to spaces.
+ * @param[out] char m[3][3] returned main board table.
+ * @return nothing
+ * @details This function must be called inside of computerBrain() to that function run properly.
+ */
 void init (char (*m)[3]){
     int i,j;
     for (i=0; i<=2; i++) {
@@ -1847,6 +1918,10 @@ void init (char (*m)[3]){
         }
     }
 }
+/**
+ * @brief Initializes and loads all the images needed into memory to show the main board of game play.
+ * @return A structure playgameScreen containing all the necesseary entities.
+ */
 playgameScreen initGamePlay(){
   playgameScreen pgs;
   int i;
@@ -1921,21 +1996,35 @@ playgameScreen initGamePlay(){
   }
   pgs.scorePos.x = 156;
   pgs.scorePos.y = 23;
-  pgs.statusPos.x = 263;
-  pgs.statusPos.y = 456;
   pgs.backbutPos.x = 10; pgs.backbutPos.y = 455;
   pgs.backbutPos.h = pgs.backbut->h ; pgs.backbutPos.w = pgs.backbut->w;
   pgs.backPos.x = 0; pgs.backPos.y = 0;
   pgs.backPos.h = pgs.back->h; pgs.backPos.w = pgs.back->w;
-  pgs.backScorePos.x = 140; pgs.backScorePos.y = 428;
+  pgs.backScorePos.x = 90; pgs.backScorePos.y = 428;
   pgs.backScorePos.h = pgs.backScore->h; pgs.backScorePos.w = pgs.backScore->w;
-  pgs.scorePos.x = 140; pgs.scorePos.y = 435;
+  pgs.scorePos.x = 130; pgs.scorePos.y = 435;
 return pgs;
 }
-void showGamePlay(playgameScreen pgs, SDL_Surface *screen, char c){
+/**
+ * @brief Shows and blits all the game play screen like the board.
+ * @param[in] playgameScreen pgs the structure that contains all the needed entities to show .
+ * @param[in] SDL_Surface * screen the screen ti blit on.
+ * @return nothing
+ */
+void showGamePlay(playgameScreen pgs, SDL_Surface *screen){
    SDL_BlitSurface(pgs.back, NULL, screen, &pgs.backPos);
    SDL_BlitSurface(pgs.backbut, NULL, screen, &pgs.backbutPos);
 }
+/**
+ * @brief Controls the player input and blits X or O depending on the user.
+ * @param[in] char m[3][3] the main m matrix.
+ * @param[in] SDL_Surface * screen the screen ti blit on.
+ * @param[in] playgameScreen pgs the structure that contains all the needed entities to test the event.
+ * @param[in] SDL_event event the event to control.
+ * @return nothing
+ * @detail It returns -1 if the player clicked on exit button or 1 if the user played correctly or 0 if no input.
+ It is safe to put that function inside a do while loop and set stop case equal to zero.
+ */
 int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
   SDL_Event event;
   SDL_WaitEvent(&event);
@@ -2164,8 +2253,6 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                           //back button
                            if(((event.button.x <= (pgs.backbutPos.x + pgs.backbut->w)) && (event.button.x >= pgs.backbutPos.x)) && ((event.button.y >= pgs.backbutPos.y) && (event.button.y <= (pgs.backbutPos.y + pgs.backbut->h)))){
                              return 3;
-                           }else{
-
                            }
                        }
                      }
@@ -2180,6 +2267,16 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
   }
      return 0;
 }
+/**
+ * @brief Prints on screen the coordinates of computer.
+ * @param[in] computerEnteries ce the structure contains the computer coordinates.
+ * @param[in] char m[3][3] the main matrix m.
+ * @param[in] SDL_Surface * screen the screen ti blit on.
+ * @param[in] playgameScreen pgs the structure that contains all the needed entities to test the event.
+* @pram[in] char c indicates the user's character to let the computer know what to print.
+ * @return nothing
+ * @detail This function is usually called after computerBrain().
+ */
 void printOnTable(computerEnteries ce, char (*m)[3], SDL_Surface * screen, playgameScreen pgs, char c){
   switch (ce.xc) {
     case 0:
@@ -2367,6 +2464,12 @@ void printOnTable(computerEnteries ce, char (*m)[3], SDL_Surface * screen, playg
     break;
   }
 }
+/**
+ * @brief Checks if the matrix m is full.
+ * @param[in] char m[3][3] the m matrix.
+ * @detail This function should be called as a condition of the game loop .
+ * @return It returns 1 if the matrix is full or o if it is not yet.
+ */
 int checkfin(char (*m)[3]){
     int i,j;
     for (i=0; i<=2; i++) {
@@ -2378,6 +2481,17 @@ int checkfin(char (*m)[3]){
     }
     return 1;
 }
+/**
+ * @brief Checks for who won by traversing the matrix looking for three charactes in a row, as well as prints a line when it finds a winner.
+ * @param[in] char m[3][3] the m matrix.
+ * @param[out] int *winner it will be returned if it contains 1 then it is the computer won (or player1 in friend mode) or 2 if the player won (or player 2 in friend mode).
+* @param[in] char whatComputerChose what is the character of the computer.
+* @param[out] int *won if there's a winner returns 1 else 0.
+* @param[in] SDL_Surface * screen the screen ti blit on.
+* @param[in] playgameScreen pgs the structure needed to get the lines for winners.
+ * @detail This function should be called as a condition of the game loop .
+ * @return nothing.
+ */
 void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_Surface * screen, playgameScreen pgs){
     int i,count,j;
     //for X===========
@@ -2641,6 +2755,16 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         SDL_Flip(screen);
     }
 }
+/**
+ * @brief it mananages score depending on the winner.
+ * @param[in] int *scomputer Score of the computer (or player1 on friend mode).
+ * @param[in] int *splayer Score of the user (or player2 on friend mode).
+ * @param[in] SDL_Surface * screen the screen ti blit on.
+ * @param[in] playgameScreen pgs the structure needed to print the score.
+ * @paran[in] int winner Used to say which one has been won.
+ * @detail This function should be called as a condition of the game loop .
+ * @return nothing.
+ */
 void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playgameScreen pgs, int whichMode){
   //if winner is 1 then it is computer else player
   // if whichMode is equal to 0 than it is computer mode else friend mode
@@ -2735,6 +2859,14 @@ void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playg
   }
 
 }
+/**
+ * @brief it mananages score depending on the winner.
+ * @param[out] int *splayer1 Score of the computer (or player1 on friend mode).
+ * @param[out] int *splayer2 Score of the user (or player2 on friend mode).
+ * @paran[in] int winner Used to say which one has been won.
+ * @detail This function should be called as a condition of the game loop .
+ * @return nothing.
+ */
 void manageScore (int winner , int *splayer1, int *splayer2){
   //if winner is 1 then it is player1 else player2
     if (winner == 1) {

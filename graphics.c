@@ -1,3 +1,8 @@
+/**
+ * @file graphics.c
+ * @author Ahmed Debbech
+ * @brief All the graphics and rendering of images is found here.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "SDL/SDL_image.h"
@@ -5,7 +10,10 @@
 #include "SDL/SDL_mixer.h"
 #include "SDL/SDL_ttf.h"
 #include "graphics.h"
-
+/**
+ * @brief Just to Initialize the buttons that are ONLY found in all the screens of the game (e.g: back button).
+ * @return buttons a struct that contains all the buttons images.
+ */
 buttons initButtons(){
   buttons bu;
   bu.backbut = IMG_Load("Resources/back.png");
@@ -18,12 +26,20 @@ buttons initButtons(){
   }
   return bu;
 }
+/**
+ * @brief To initialize all the sounds
+ * @return soundFX a struct that contains all the sounds.
+ */
 soundFX initSounds(){
   soundFX sfx;
   sfx.butHover = Mix_LoadWAV("Resources/hover.wav");
   sfx.butClick = Mix_LoadWAV("Resources/click.wav");
   return sfx;
 }
+/**
+ * @brief To initialize the official menu of the game
+ * @return menu filled with all the data ready for print.
+ */
 menu initOffMenu(){
   menu m;
   m.splash = IMG_Load("Resources/init.png");
@@ -60,6 +76,13 @@ menu initOffMenu(){
   m.powerbutPos.h = m.powerbut->h; m.powerbutPos.w = m.powerbut->w;
   return m;
 }
+/**
+ * @brief Shows the official menu.
+ * @param[in] menu mc the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[in] control c to tell if the sounds where disabled or not.
+ * @return nothing
+ */
 void showOffMenu(menu mc, SDL_Surface * screen, control c){
   SDL_BlitSurface (mc.menuBack, NULL, screen, &mc.menuBackPos);
  SDL_BlitSurface (mc.playbut, NULL, screen, &mc.playbutPos);
@@ -73,6 +96,15 @@ void showOffMenu(menu mc, SDL_Surface * screen, control c){
 }
  SDL_BlitSurface (mc.powerbut, NULL, screen, &mc.powerbutPos);
 }
+/**
+ * @brief controls the menu motion.
+ * @param[in] menu mc the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[in] control c to tell if the sounds where disabled or not.
+   * @param[in] SDL_Event event to filter on what button the mouse passed.
+   * @param[in] soundFX *fx a structure to get all the sounds.
+ * @return It returns 1 if it successfully did the hover else 0.
+ */
 int menuMotion(menu mc, SDL_Surface * screen, SDL_Event event, control c, soundFX sfx){
   int y =0;
   static int played = 0;
@@ -121,6 +153,15 @@ int menuMotion(menu mc, SDL_Surface * screen, SDL_Event event, control c, soundF
   }
   return y;
 }
+/**
+ * @brief controls the menu clicks.
+ * @param[in] menu mc the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[out] control *c to tell if the sounds where disabled or not.
+   * @param[in] SDL_Event event to filter on what button the use clicked.
+   * @param[in] soundFX *sfx a structure to get all the sounds.
+ * @return It returns a number less than 5 and superior to 0 if the use press a button else 0 or .
+ */
 int menuClicks (menu mc, SDL_Surface * screen, SDL_Event event, control *c, soundFX *sfx){
   int y = 0;
   if(((event.button.x <= (mc.playbutPos.x + mc.playbutPos.w)) && (event.button.x >= mc.playbutPos.x)) && ((event.button.y >= mc.playbutPos.y) && (event.button.y <= (mc.playbutPos.y + mc.playbutPos.h)))) {
