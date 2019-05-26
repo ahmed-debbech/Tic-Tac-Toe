@@ -11,7 +11,7 @@ Download this repo and a `make` command will compile the project from source and
 Pull requests are welcome.
 Any suggestion are welcome also.
 Read the documentation folder to know more.\
-Mainline releases are maintained only by [Ahmed Debbech](https://twitter.com/AhmedDebb). 
+* Mainline releases are maintained only by [Ahmed Debbech](https://twitter.com/AhmedDebb). 
 ## Credits
 [Ahmed Debbech](https://twitter.com/AhmedDebb) : Developer & Designer\
 Contact at: debbech.ahmed@gmail.com
