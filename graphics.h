@@ -6,72 +6,83 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
 #include "SDL/SDL_ttf.h"
-
+/**
+ * @brief Contains the images and their positions for the main official menu at the begginig.
+ */
 typedef struct{
-  SDL_Surface * splash;
-  SDL_Surface * menuBack;
-  SDL_Surface * playbut;
-  SDL_Surface * playbut2;
-  SDL_Surface * helpbut;
-  SDL_Surface * helpbut2;
-  SDL_Surface * aboutbut;
-  SDL_Surface * aboutbut2;
-  SDL_Surface * soundbut;
-  SDL_Surface * soundbut2;
-  SDL_Surface * powerbut;
+  SDL_Surface * splash; /**< Splash image. */
+  SDL_Surface * menuBack; /**< menu background image. */
+  SDL_Surface * playbut; /**< play button image. */
+  SDL_Surface * playbut2; /**< play button image hovered. */
+  SDL_Surface * helpbut; /**< help button image . */
+  SDL_Surface * helpbut2; /**< help button image hovered. */
+  SDL_Surface * aboutbut; /**< about button image . */
+  SDL_Surface * aboutbut2; /**< about button image hovered. */
+  SDL_Surface * soundbut; /**< sound button image. */
+  SDL_Surface * soundbut2; /**< sound button image muted. */
+  SDL_Surface * powerbut; /**< power button image. */
   //positions
-  SDL_Rect  splashPos;
-  SDL_Rect menuBackPos;
-  SDL_Rect playbutPos;
-  SDL_Rect helpbutPos;
-  SDL_Rect aboutbutPos;
-  SDL_Rect soundbutPos;
-  SDL_Rect powerbutPos;
+  SDL_Rect  splashPos; /**< splash position. */
+  SDL_Rect menuBackPos; /**< menu beckground position. */
+  SDL_Rect playbutPos; /**< play button position. */
+  SDL_Rect helpbutPos; /**< help button position. */
+  SDL_Rect aboutbutPos; /**< about button position. */
+  SDL_Rect soundbutPos; /**< sound button position. */
+  SDL_Rect powerbutPos; /**< power button position. */
 }menu;
-typedef struct {
-  SDL_Surface * computer;
-  SDL_Surface * computer2;
-  SDL_Surface * friend;
-  SDL_Surface * friend2;
-  SDL_Surface * back;
-  //positions
-  SDL_Rect  computerPos;
-  SDL_Rect friendPos;
-  SDL_Rect backPos;
-}menuOfPlay;
+/**
+*@brief Contains images and positions of the help screen after button help is pressed.
+*/
 typedef struct{
-  SDL_Surface * backhelp;
+  SDL_Surface * backhelp; /**< help button image . */
   //positions
-  SDL_Rect backPos;
+  SDL_Rect backPos; /**< help button position. */
 }help;
+/**
+*@brief Contains images and positions of the about screen after button help is pressed.
+*/
 typedef struct{
-  SDL_Surface * backabout;
+  SDL_Surface * backabout; /**< about button image . */
   //positions
-  SDL_Rect backPos;
+  SDL_Rect backPos; /**< about button position. */
 }about;
+/**
+*@brief Contains images and positions of the common buttons
+*/
 typedef struct{
-  SDL_Surface * backbut;
-  SDL_Surface * backbut2;
+  SDL_Surface * backbut;  /**< back button image. */
+  SDL_Surface * backbut2; /**< back button image hovered. */
   //positions
-  SDL_Rect  backbutPos;
+  SDL_Rect  backbutPos; /**< back button position. */
 }buttons;
+/**
+*@brief Contains all the control flags of the game like sounds Enable/Disable
+*/
 typedef struct {
-   int soundMuted;
+   int soundMuted; /**< a flag indicates if the sound is muted or not. */
 }control;
+/**
+*@brief Contains all the sounds necessary to run the game.
+*/
 typedef struct{
-  Mix_Chunk * butHover;
-   Mix_Chunk * butClick;
+  Mix_Chunk * butHover; /**< the hover sound clip */
+   Mix_Chunk * butClick; /**< the click sound clip. */
 }soundFX;
+/**
+*@brief Contains images and positions of the menu after play button is clicked.
+*/
 typedef struct {
-  SDL_Surface * back;
-   SDL_Surface * computer;
-   SDL_Surface * friend;
-   SDL_Surface * computer2;
-   SDL_Surface * friend2;
-   SDL_Rect computerPos;
-   SDL_Rect friendPos;
-   SDL_Rect backPos;
+  SDL_Surface * computer; /**< computer button image. */
+  SDL_Surface * computer2; /**< computer button image hovered. */
+  SDL_Surface * friend; /**< friend button image. */
+  SDL_Surface * friend2; /**< friend button image hovered. */
+  SDL_Surface * back; /**< background image of the menu. */
+  //positions
+  SDL_Rect  computerPos; /**< computer button position. */
+  SDL_Rect friendPos; /**< friend button position. */
+  SDL_Rect backPos; /**< background image position. */
 }menuPlayGame;
+//prototypes
 buttons initButtons();
 menu initOffMenu();
 soundFX initSounds();

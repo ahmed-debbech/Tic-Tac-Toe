@@ -222,6 +222,10 @@ int menuClicks (menu mc, SDL_Surface * screen, SDL_Event event, control *c, soun
  }
 return y;
 }
+/**
+ * @brief initializes help screen.
+ * @return a struct help filled with all elements needed to print the screen.
+ */
 help initHelp(){
   help h;
   h.backhelp = IMG_Load("Resources/helpback.jpg");
@@ -229,10 +233,23 @@ help initHelp(){
   h.backPos.h = h.backhelp->h ; h.backPos.w = h.backhelp->w;
   return h;
 }
+/**
+ * @brief Shows the help screen.
+ * @param[in] help h the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[in] button bu to print the buttons that are commun in all screens like back button.
+ * @return nothing.
+ */
 void showHelp(help h, SDL_Surface* screen, buttons bu){
   SDL_BlitSurface(h.backhelp, NULL, screen, &h.backPos);
   SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
 }
+/**
+ * @brief controls the help clicks.
+ * @param[in] SDL_Event event the action made by the user.
+  * @param[in] SDL_Surface* screen the screen to print.
+ * @return It returns 1 if back button is clicked else 0.
+ */
 int helpClicks(SDL_Event event, buttons bu){
   if(((event.button.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.button.x >= bu.backbutPos.x)) && ((event.button.y >= bu.backbutPos.y) && (event.button.y <= (bu.backbutPos.y + bu.backbut->h)))) {
      return 1;
@@ -240,6 +257,13 @@ int helpClicks(SDL_Event event, buttons bu){
    return 0 ;
  }
 }
+/**
+ * @brief controls the help screen motion of mouse.
+ * @param[in] button bu commun buttons.
+  * @param[in] SDL_Surface* screen the screen to print.
+  * @param[in] SDL_Event event the action made by the user .
+ * @return It returns 1 if back button is hovered by the mouse else 0.
+ */
 int helpMotion(buttons bu,help h, SDL_Surface * screen, SDL_Event event){
   int y =0;
     if(((event.motion.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.motion.x >= bu.backbutPos.x)) && ((event.motion.y >= bu.backbutPos.y) && (event.motion.y <= (bu.backbutPos.y + bu.backbut->h)))) {
@@ -252,6 +276,10 @@ int helpMotion(buttons bu,help h, SDL_Surface * screen, SDL_Event event){
   }
   return y;
 }
+/**
+ * @brief initializes about screen.
+ * @return a struct about filled with all elements needed to print the screen.
+ */
 about initAbout(){
   about ab;
   ab.backabout = IMG_Load("Resources/aboutback.png");
@@ -259,10 +287,23 @@ about initAbout(){
   ab.backPos.h = ab.backabout->h ; ab.backPos.w = ab.backabout->w;
   return ab;
 }
+/**
+ * @brief Shows the about screen.
+ * @param[in] about a the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[in] button bu to print the buttons that are commun in all screens like back button.
+ * @return nothing.
+ */
 void showAbout(about a, SDL_Surface* screen, buttons bu){
   SDL_BlitSurface(a.backabout, NULL, screen, &a.backPos);
   SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
 }
+/**
+ * @brief controls the about screen motion of mouse.
+ * @param[in] button bu commun buttons.
+  * @param[in] about a the struct that contains the elements of screen to test on.
+ * @return It returns 1 if back button is hovered by the mouse else 0.
+ */
 int aboutMotion(buttons bu,about a,
   SDL_Surface * screen, SDL_Event event){
     int y =0;
@@ -276,6 +317,12 @@ int aboutMotion(buttons bu,about a,
     }
     return y;
   }
+  /**
+   * @brief controls the about screen clicks.
+   * @param[in] SDL_Event event the action made by the user.
+   * @param[in] button bu to print the buttons that are commun in all screens like back button.
+   * @return It returns 1 if back button is clicked else 0.
+   */
 int aboutClicks(SDL_Event event, buttons bu){
   if(((event.button.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.button.x >= bu.backbutPos.x)) && ((event.button.y >= bu.backbutPos.y) && (event.button.y <= (bu.backbutPos.y + bu.backbut->h)))) {
      return 1;
@@ -283,6 +330,10 @@ int aboutClicks(SDL_Event event, buttons bu){
    return 0 ;
  }
 }
+/**
+ * @brief intialize the menu of computer or friend.
+ * @return a struct about filled with all elements needed to print the screen.
+ */
 menuPlayGame initMenuPlay(){
   menuPlayGame mpg;
   mpg.back = IMG_Load("Resources/backplaymenu.jpg");
@@ -303,12 +354,29 @@ menuPlayGame initMenuPlay(){
   }
   return mpg;
 }
+/**
+ * @brief Shows the menu of computer of friend.
+ * @param[in] menuPlayGame mpg the struct to print.
+  * @param[in] SDL_Surface* screen the screen to print.
+   * @param[in] button bu to print the buttons that are commun in all screens like back button.
+ * @return nothing.
+ */
 void showMenuPlay(menuPlayGame mpg, SDL_Surface *screen, buttons bu){
   SDL_BlitSurface(mpg.back, NULL, screen, &mpg.backPos);
     SDL_BlitSurface(mpg.computer, NULL, screen, &mpg.computerPos);
     SDL_BlitSurface(mpg.friend, NULL, screen, &mpg.friendPos);
     SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
 }
+/**
+ * @brief controls the mouse motion of the menu of Play button.
+ * @param[in] button bu commun buttons.
+  * @param[in] menuPlayGame mpg the struct that contains the elements of screen to test on.
+  * @param[in] SDL_Surface* screen the screen to print.
+  * @param[in] SDL_Event event to filter on what button the use clicked.
+  * @param[in] control c to tell if the sounds where disabled or not.
+  * @param[in] soundFX sfx a structure to get all the sounds.
+ * @return It returns 1 if any button is hovered by the mouse else 0.
+ */
 int menuPlayMotion(buttons bu, menuPlayGame mpg, SDL_Surface * screen, SDL_Event event, control c, soundFX sfx){
 static int played =0;
 int y= 0;
@@ -357,6 +425,15 @@ int y= 0;
 }
   return y;
 }
+/**
+ * @brief controls the clicks of menu of the ply button.
+ * @param[in] SDL_Event event the action made by the user.
+ * @param[in] button bu to print the buttons that are commun in all screens like back button.
+ * @param[in] menuPlayGame mpg the struct that contains the elements of screen to test on.
+ * @param[in] control c to tell if the sounds where disabled or not.
+ * @param[in] soundFX sfx a structure to get all the sounds.
+ * @return It returns 1 if computer button is clicked or 2 if firend button is clicked or 0 fore back button else -1.
+ */
 int menuPlayClicks(SDL_Event event, buttons bu, menuPlayGame mpg, control c, soundFX sfx){
   int y = 0;
   if(((event.button.x <= (mpg.computerPos.x + mpg.computer->w)) && (event.button.x >= mpg.computerPos.x)) && ((event.button.y >= mpg.computerPos.y) && (event.button.y <= (mpg.computerPos.y + mpg.computer->h)))) {
