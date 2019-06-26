@@ -34,6 +34,9 @@ soundFX initSounds(){
   soundFX sfx;
   sfx.butHover = Mix_LoadWAV("Resources/hover.wav");
   sfx.butClick = Mix_LoadWAV("Resources/click.wav");
+  sfx.lose = Mix_LoadWAV("Resources/lose.wav");
+  sfx.winning = Mix_LoadWAV("Resources/winning.wav");
+  sfx.tap = Mix_LoadWAV("Resources/tap.wav");
   return sfx;
 }
 /**
@@ -42,7 +45,7 @@ soundFX initSounds(){
  */
 menu initOffMenu(){
   menu m;
-  m.splash = IMG_Load("Resources/init.png");
+  m.splash = IMG_Load("Resources/init.jpg");
   m.menuBack = IMG_Load("Resources/menuback.png");
   m.playbut = IMG_Load("Resources/playbut.png");
   m.playbut2 = IMG_Load("Resources/playbut2.png");
@@ -248,10 +251,16 @@ void showHelp(help h, SDL_Surface* screen, buttons bu){
  * @brief controls the help clicks.
  * @param[in] SDL_Event event the action made by the user.
   * @param[in] SDL_Surface* screen the screen to print.
+  * @param[in] soundFX sfx the sounds that will be generated.
+  * @param[in] control c control flag of sounds
+  * @param[in] SDL_Surface* screen the screen to print.
  * @return It returns 1 if back button is clicked else 0.
  */
-int helpClicks(SDL_Event event, buttons bu){
+int helpClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
   if(((event.button.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.button.x >= bu.backbutPos.x)) && ((event.button.y >= bu.backbutPos.y) && (event.button.y <= (bu.backbutPos.y + bu.backbut->h)))) {
+    if(c.soundMuted == 0){
+   Mix_PlayChannel(-1, sfx.butClick, 0);
+   }
      return 1;
  }else{
    return 0 ;
@@ -321,10 +330,15 @@ int aboutMotion(buttons bu,about a,
    * @brief controls the about screen clicks.
    * @param[in] SDL_Event event the action made by the user.
    * @param[in] button bu to print the buttons that are commun in all screens like back button.
+   * @param[in] soundFX sfx the sounds that will be generated.
+   * @param[in] control c control flag of sounds
    * @return It returns 1 if back button is clicked else 0.
    */
-int aboutClicks(SDL_Event event, buttons bu){
+int aboutClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
   if(((event.button.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.button.x >= bu.backbutPos.x)) && ((event.button.y >= bu.backbutPos.y) && (event.button.y <= (bu.backbutPos.y + bu.backbut->h)))) {
+    if(c.soundMuted == 0){
+   Mix_PlayChannel(-1, sfx.butClick, 0);
+   }
      return 1;
  }else{
    return 0 ;
@@ -426,7 +440,7 @@ int y= 0;
   return y;
 }
 /**
- * @brief controls the clicks of menu of the ply button.
+ * @brief controls the clicks of menu of the play button.
  * @param[in] SDL_Event event the action made by the user.
  * @param[in] button bu to print the buttons that are commun in all screens like back button.
  * @param[in] menuPlayGame mpg the struct that contains the elements of screen to test on.

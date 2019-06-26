@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Tic Tac Toe: core.c File Reference</title>
+<title>My Project: core.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Tic Tac Toe
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -81,7 +81,8 @@ Include dependency graph for core.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="core_8c__incl.png" border="0" usemap="#core_8c" alt=""/></div>
 <map name="core_8c" id="core_8c">
-<area shape="rect" id="node8" href="core_8h_source.html" title="core.h" alt="" coords="281,80,340,107"/>
+<area shape="rect" id="node8" href="core_8h_source.html" title="core.h" alt="" coords="349,80,408,107"/>
+<area shape="rect" id="node9" href="graphics_8h_source.html" title="graphics.h" alt="" coords="299,155,381,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -90,9 +91,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a308b8c299ff4e2957711979237c441bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a308b8c299ff4e2957711979237c441bc">initPickScreen</a> (<a class="el" href="structpicker.html">picker</a> *p)</td></tr>
 <tr class="memdesc:a308b8c299ff4e2957711979237c441bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes and loads all the images needed into memory to show the pick screen.  <a href="#a308b8c299ff4e2957711979237c441bc">More...</a><br /></td></tr>
 <tr class="separator:a308b8c299ff4e2957711979237c441bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4dddb28209e9381835b53946f8c5a0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpicker.html">picker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#af4dddb28209e9381835b53946f8c5a0f">getPick</a> (SDL_Surface *screen, SDL_Event event, <a class="el" href="structpicker.html">picker</a> p)</td></tr>
-<tr class="memdesc:af4dddb28209e9381835b53946f8c5a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows the pick screen and gets the event from user and analyses it.  <a href="#af4dddb28209e9381835b53946f8c5a0f">More...</a><br /></td></tr>
-<tr class="separator:af4dddb28209e9381835b53946f8c5a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6fe613c1d3dd1e7998ab23751fd6778"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpicker.html">picker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#aa6fe613c1d3dd1e7998ab23751fd6778">getPick</a> (SDL_Surface *screen, SDL_Event event, <a class="el" href="structpicker.html">picker</a> p, <a class="el" href="structsoundFX.html">soundFX</a> sfx, <a class="el" href="structcontrol.html">control</a> c)</td></tr>
+<tr class="memdesc:aa6fe613c1d3dd1e7998ab23751fd6778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows the pick screen and gets the event from user and analyses it.  <a href="#aa6fe613c1d3dd1e7998ab23751fd6778">More...</a><br /></td></tr>
+<tr class="separator:aa6fe613c1d3dd1e7998ab23751fd6778"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a002e4a1dd552435ea2d82b0c618aff78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a002e4a1dd552435ea2d82b0c618aff78">initDeffTable</a> (int(*t)[3])</td></tr>
 <tr class="memdesc:a002e4a1dd552435ea2d82b0c618aff78"><td class="mdescLeft">&#160;</td><td class="mdescRight">initializes the deffence table to 0.  <a href="#a002e4a1dd552435ea2d82b0c618aff78">More...</a><br /></td></tr>
 <tr class="separator:a002e4a1dd552435ea2d82b0c618aff78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,9 +112,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a47d40f315c5036532ccad4cff4c9f4dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a47d40f315c5036532ccad4cff4c9f4dd">showGamePlay</a> (<a class="el" href="structplaygameScreen.html">playgameScreen</a> pgs, SDL_Surface *screen)</td></tr>
 <tr class="memdesc:a47d40f315c5036532ccad4cff4c9f4dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows and blits all the game play screen like the board.  <a href="#a47d40f315c5036532ccad4cff4c9f4dd">More...</a><br /></td></tr>
 <tr class="separator:a47d40f315c5036532ccad4cff4c9f4dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8380108e8abfce2895ec11e549e07754"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a8380108e8abfce2895ec11e549e07754">player</a> (char(*m)[3], SDL_Surface *screen, <a class="el" href="structplaygameScreen.html">playgameScreen</a> pgs, char c)</td></tr>
-<tr class="memdesc:a8380108e8abfce2895ec11e549e07754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the player input and blits X or O depending on the user.  <a href="#a8380108e8abfce2895ec11e549e07754">More...</a><br /></td></tr>
-<tr class="separator:a8380108e8abfce2895ec11e549e07754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa24fb4d4316766083c887b4d24d93142"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#aa24fb4d4316766083c887b4d24d93142">player</a> (char(*m)[3], SDL_Surface *screen, <a class="el" href="structplaygameScreen.html">playgameScreen</a> pgs, char c, SDL_Event event, <a class="el" href="structsoundFX.html">soundFX</a> sfx, <a class="el" href="structcontrol.html">control</a> con)</td></tr>
+<tr class="memdesc:aa24fb4d4316766083c887b4d24d93142"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the player input and blits X or O depending on the user.  <a href="#aa24fb4d4316766083c887b4d24d93142">More...</a><br /></td></tr>
+<tr class="separator:aa24fb4d4316766083c887b4d24d93142"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03f5b5e1a362f08422079c4044b273d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a03f5b5e1a362f08422079c4044b273d3">printOnTable</a> (<a class="el" href="structcomputerEnteries.html">computerEnteries</a> ce, char(*m)[3], SDL_Surface *screen, <a class="el" href="structplaygameScreen.html">playgameScreen</a> pgs, char c)</td></tr>
 <tr class="memdesc:a03f5b5e1a362f08422079c4044b273d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints on screen the coordinates of computer.  <a href="#a03f5b5e1a362f08422079c4044b273d3">More...</a><br /></td></tr>
 <tr class="separator:a03f5b5e1a362f08422079c4044b273d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,6 +130,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a2c993881faa8aa9592cdd85ba7c30bbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a2c993881faa8aa9592cdd85ba7c30bbc">manageScore</a> (int winner, int *splayer1, int *splayer2)</td></tr>
 <tr class="memdesc:a2c993881faa8aa9592cdd85ba7c30bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">it mananages score depending on the winner.  <a href="#a2c993881faa8aa9592cdd85ba7c30bbc">More...</a><br /></td></tr>
 <tr class="separator:a2c993881faa8aa9592cdd85ba7c30bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6f26afc7394ba5dd35bf398df900eed"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#af6f26afc7394ba5dd35bf398df900eed">fileManipulation</a> (int flag, int <a class="el" href="structpoints.html">points</a>)</td></tr>
+<tr class="memdesc:af6f26afc7394ba5dd35bf398df900eed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is responsable for file manipulation that stores all the points like I/O from.  <a href="#af6f26afc7394ba5dd35bf398df900eed">More...</a><br /></td></tr>
+<tr class="separator:af6f26afc7394ba5dd35bf398df900eed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad925f99d1d6de26c9999236fe7b71418"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#ad925f99d1d6de26c9999236fe7b71418">printPoints</a> (<a class="el" href="structpoints.html">points</a> p, SDL_Surface *screen)</td></tr>
+<tr class="memdesc:ad925f99d1d6de26c9999236fe7b71418"><td class="mdescLeft">&#160;</td><td class="mdescRight">it only prints on screen number of points gained and the highest number of points gained.  <a href="#ad925f99d1d6de26c9999236fe7b71418">More...</a><br /></td></tr>
+<tr class="separator:ad925f99d1d6de26c9999236fe7b71418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65bacab0898dce6806d0ad914b2d36f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a65bacab0898dce6806d0ad914b2d36f0">managePoints</a> (<a class="el" href="structpoints.html">points</a> *p, int winner, int scomputer, int splayer, SDL_Surface *screen)</td></tr>
+<tr class="memdesc:a65bacab0898dce6806d0ad914b2d36f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The core function of managing all the points stuff NOT THE SCORE.  <a href="#a65bacab0898dce6806d0ad914b2d36f0">More...</a><br /></td></tr>
+<tr class="separator:a65bacab0898dce6806d0ad914b2d36f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core algorithms that make the game executable. </p>
@@ -294,8 +304,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af4dddb28209e9381835b53946f8c5a0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4dddb28209e9381835b53946f8c5a0f">&#9670;&nbsp;</a></span>getPick()</h2>
+<a id="af6f26afc7394ba5dd35bf398df900eed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6f26afc7394ba5dd35bf398df900eed">&#9670;&nbsp;</a></span>fileManipulation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fileManipulation </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>flag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>points</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function is responsable for file manipulation that stores all the points like I/O from. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>flag that is meant to specify the mode of manipulation 1 for writing and 0 for reading. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>points number of points to write on the file.  This function is explicitly called inside of <a class="el" href="core_8c.html#a65bacab0898dce6806d0ad914b2d36f0" title="The core function of managing all the points stuff NOT THE SCORE. ">managePoints()</a> and printPoint(). PS: while flag is 1 then you should pass the points as well to write them on the file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an integer: -1 if in case of success writing, -2 if an error occured by default OR number of points after successful reading from file. </dd></dl>
+
+</div>
+</div>
+<a id="aa6fe613c1d3dd1e7998ab23751fd6778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6fe613c1d3dd1e7998ab23751fd6778">&#9670;&nbsp;</a></span>getPick()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -316,7 +364,19 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structpicker.html">picker</a>&#160;</td>
-          <td class="paramname"><em>p</em>&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsoundFX.html">soundFX</a>&#160;</td>
+          <td class="paramname"><em>sfx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcontrol.html">control</a>&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -332,6 +392,8 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">picker</td><td>the structure that contains all the needed entities to show . </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_event</td><td>event the event that will put in the picker structure what did the user choose. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>*screen the screen to blit on and show. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structsoundFX.html" title="Contains all the sounds necessary to run the game. ">soundFX</a></td><td>sfx the sounds that will be generated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">control</td><td>c control flag of sounds </td></tr>
   </table>
   </dd>
 </dl>
@@ -470,6 +532,65 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a65bacab0898dce6806d0ad914b2d36f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65bacab0898dce6806d0ad914b2d36f0">&#9670;&nbsp;</a></span>managePoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void managePoints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpoints.html">points</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>winner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scomputer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>splayer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SDL_Surface *&#160;</td>
+          <td class="paramname"><em>screen</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The core function of managing all the points stuff NOT THE SCORE. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">points</td><td>*p final result of both high and current points after managing. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>winner indicator of who is the winner 1 if it's computer, 2 if it is user. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>scomputer the score of computer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>splayer the score of user. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen to print on.  This function is explicitly make a call for <a class="el" href="core_8c.html#af6f26afc7394ba5dd35bf398df900eed" title="This function is responsable for file manipulation that stores all the points like I/O from...">fileManipulation()</a> inside of it. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>nothing. </dd></dl>
+
+</div>
+</div>
 <a id="a2c993881faa8aa9592cdd85ba7c30bbc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c993881faa8aa9592cdd85ba7c30bbc">&#9670;&nbsp;</a></span>manageScore()</h2>
 
@@ -514,8 +635,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8380108e8abfce2895ec11e549e07754"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8380108e8abfce2895ec11e549e07754">&#9670;&nbsp;</a></span>player()</h2>
+<a id="aa24fb4d4316766083c887b4d24d93142"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa24fb4d4316766083c887b4d24d93142">&#9670;&nbsp;</a></span>player()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -542,7 +663,25 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SDL_Event&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsoundFX.html">soundFX</a>&#160;</td>
+          <td class="paramname"><em>sfx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcontrol.html">control</a>&#160;</td>
+          <td class="paramname"><em>con</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -559,6 +698,8 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen ti blit on. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structplaygameScreen.html" title="Contains all the data of the game play screen. ">playgameScreen</a></td><td>pgs the structure that contains all the needed entities to test the event. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_event</td><td>event the event to control. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structsoundFX.html" title="Contains all the sounds necessary to run the game. ">soundFX</a></td><td>sfx the sounds that will be generated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">control</td><td>c control flag of sounds </td></tr>
   </table>
   </dd>
 </dl>
@@ -621,6 +762,44 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing  This function is usually called after <a class="el" href="core_8c.html#af355cb4d6b4ab1ffbde974b8f8daa2b8" title="The brain of the computer responsable for making the computer thinks when playing vs Player...">computerBrain()</a>. </dd></dl>
+
+</div>
+</div>
+<a id="ad925f99d1d6de26c9999236fe7b71418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad925f99d1d6de26c9999236fe7b71418">&#9670;&nbsp;</a></span>printPoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printPoints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpoints.html">points</a>&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SDL_Surface *&#160;</td>
+          <td class="paramname"><em>screen</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>it only prints on screen number of points gained and the highest number of points gained. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>p the points to print. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen to blit on the surface  This function should be called inside of <a class="el" href="core_8c.html#a65bacab0898dce6806d0ad914b2d36f0" title="The core function of managing all the points stuff NOT THE SCORE. ">managePoints()</a> . </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>nothing. </dd></dl>
 
 </div>
 </div>
@@ -717,7 +896,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*scomputer Score of the computer (or player1 on friend mode). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*splayer Score of the user (or player2 on friend mode). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen ti blit on. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen to blit on. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structplaygameScreen.html" title="Contains all the data of the game play screen. ">playgameScreen</a></td><td>pgs the structure needed to print the score. [in] int winner Used to say which one has been won.  This function should be called as a condition of the game loop . </td></tr>
   </table>
   </dd>

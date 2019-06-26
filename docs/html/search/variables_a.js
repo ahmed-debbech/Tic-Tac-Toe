@@ -6,5 +6,8 @@ var searchData=
   ['soundbutpos',['soundbutPos',['../structmenu.html#a0eda1c8359a163b0f1d79859135c9871',1,'menu']]],
   ['soundmuted',['soundMuted',['../structcontrol.html#a488f98d08ce4f77bc9b3322bb7fa1380',1,'control']]],
   ['splash',['splash',['../structmenu.html#aa73a106ebd3683e00db9cb84c04f4d64',1,'menu']]],
+  ['splashcharindicatoro',['splashCharIndicatorO',['../structplaygameScreen.html#aff6257ef7a9df47326f2c7b3c812c98c',1,'playgameScreen']]],
+  ['splashcharindicatorx',['splashCharIndicatorX',['../structplaygameScreen.html#a0b7f0e509c90b20234fa046df90c83d3',1,'playgameScreen']]],
+  ['splashindicatorpos',['splashIndicatorPos',['../structplaygameScreen.html#a6cc594dc809a184149e6179b3eaa4e0c',1,'playgameScreen']]],
   ['splashpos',['splashPos',['../structmenu.html#ad7d4266b5bc5eae5c75788c0dfab3429',1,'menu']]]
 ];

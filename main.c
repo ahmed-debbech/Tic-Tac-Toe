@@ -12,7 +12,6 @@
 #include <string.h>
 #include "graphics.h"
 #include "core.h"
-
 int main(int argc, char **argv){
 //core initializations
 	char m[3][3]; //main game table containing Xs and Os
@@ -35,6 +34,9 @@ menuPlayGame mpg;
 buttons bu;
 control c;
 soundFX sfx;
+points poi;
+poi.user_points = 0;
+// screen initialization
 if(SDL_Init(SDL_INIT_VIDEO)!=0){
 printf("unable to initializeSDL:%s \n",SDL_GetError());
 	return 1;
@@ -46,28 +48,40 @@ if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1){
 	printf("No sounds %s\n",Mix_GetError());
         return 1;
 }
-SDL_WM_SetCaption("Tic Tac Toe 2.0", NULL);
-int done = 0, menuNotOver = 1, blitCheck = 0, choice;
+SDL_WM_SetCaption("Tic Tac Toe v2.1", NULL);
+//flags declaration and initialization
+int menuNotOver = 1, blitCheck = 0, choice;
 int passToGame = 0, click, gameNotFinished = 1;
+int game_isnot_going = 0;
  c.soundMuted = 0;
+ //initializations
 mc = initOffMenu();
 sfx = initSounds();
 bu = initButtons();
 SDL_BlitSurface (mc.splash, NULL, screen, &mc.splashPos);
 SDL_Flip(screen);
-SDL_Delay(3000);
-//game loop
-while (done == 0){
+int empty = 0;
+SDL_Delay(2500);
+while (empty == 0){
+	if(SDL_PollEvent(&event) == 1){
+		empty = 0;
+	}else{
+		if(SDL_PollEvent(&event) == 0){
+			empty = 1;
+		}
+	}
+}  //empty the event queue
+while (game_isnot_going == 0){
 	//official menu
 while(menuNotOver == 1){
 	if(blitCheck == 0){
-	showOffMenu(mc, screen,c);
-	SDL_Flip(screen);
+		showOffMenu(mc, screen,c);
+		SDL_Flip(screen);
   }
 	SDL_WaitEvent(&event);
       switch(event.type){
         case SDL_QUIT:
-          done = 1;
+          game_isnot_going = 1;
 					menuNotOver = 0;
           break;
 				case SDL_MOUSEMOTION:
@@ -87,13 +101,14 @@ while(menuNotOver == 1){
 						}
 						break;
       }
-   }
+
+ }
  // manipulating choices comming from menu
  switch (choice) {
  	case 1:
-	SDL_WaitEvent(&event);
+	while(SDL_PollEvent(&event)){
 	if(event.type == SDL_QUIT){
-		done = 1;
+		game_isnot_going = 1;
 	}else{
 		//playgame menu screen
 		if(passToGame == 0){
@@ -121,7 +136,7 @@ while(menuNotOver == 1){
 		 }else{
 			 if(click == -1){
 				 passToGame = 0;
-				 done = 1;
+				 game_isnot_going = 1;
 			 }else{
 			 passToGame = 1;
 		   }
@@ -135,11 +150,13 @@ while(menuNotOver == 1){
 	int userInput, won=0;
 	int winner = 0;
 	char whatComputerChose = 'n';
+
 	if(passToGame == 1){
 		//pass to computer mode
 		if(click == 1){
 			if(initPickScreen(&p) == 1){
-				p = getPick(screen, event,p);
+				while (SDL_PollEvent(&event) != 0);
+			   	p = getPick(screen, event,p,sfx, c);
 				whichMode = 0;
 				if(played_once == 1){
 					showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
@@ -156,16 +173,23 @@ while(menuNotOver == 1){
 					initDeffTable(td);
 					initAttTable(ta);
 					pgs = initGamePlay();
+					SDL_BlitSurface(pgs.splashCharIndicatorX,NULL, screen, &pgs.splashIndicatorPos);
+					SDL_Flip(screen);
+					SDL_Delay(750);
 					showGamePlay(pgs, screen);
 					showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+					printPoints(poi, screen);
 					SDL_Flip(screen);
+					while (SDL_PollEvent(&event) != 0);  //empty the event queue before start to not crash the game with to many events from the splash screen
 					//actual game loop
 					do{
 				  	do{
-					  	userInput = player(m, screen, pgs, p.pick);
-				    }while(userInput == 0) ;
+								SDL_WaitEvent(&event);
+					  		userInput = player(m, screen, pgs, p.pick,event,sfx,c);
+				    }while(userInput == 0);
 						checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
 						SDL_Delay(250);
+						while (SDL_PollEvent(&event) != 0);  //empty the event queue
 						if((won != 1) && (checkfin(m) != 1) && ((userInput != -1) && (userInput != 3))){
 				     computerBrain(m,&ce.xc, &ce.yc, td, ta,whatComputerChose);
 				     printOnTable(ce,m,screen,pgs,p.pick);
@@ -175,15 +199,26 @@ while(menuNotOver == 1){
        SDL_Delay(1000);
 			 if((won == 1) && ((userInput != -1) && (userInput != 3))){
 					 manageScore (winner, &scoreComputer, &scorePlayer);
+
+					 if(winner == 2){
+					  if(c.soundMuted == 0){
+			       Mix_PlayChannel(-1, sfx.winning, 0);
+			      }
+					}else{
+						if(c.soundMuted == 0){
+			       Mix_PlayChannel(-1, sfx.lose, 0);
+			      }
+					}
 					 showScore(winner, scoreComputer, scorePlayer, screen,pgs,whichMode);
+					 managePoints(&poi, winner, scoreComputer, scorePlayer,screen);
+					 	while (SDL_PollEvent(&event) != 0);
 					 SDL_Flip(screen);
 			 }else{
 				 if(userInput == -1){
-			   	 done = 1; // quit the game
+			   	 game_isnot_going = 1; // quit the game
 			   }else{
 					 if(userInput == 3){
 						 passToGame = 0; // when pressing back button to back to menu
-
 					 }
 				 }
 			 }
@@ -197,18 +232,25 @@ while(menuNotOver == 1){
 						initDeffTable(td);
 						initAttTable(ta);
 						pgs = initGamePlay();
+						SDL_BlitSurface(pgs.splashCharIndicatorO,NULL, screen, &pgs.splashIndicatorPos);
+						SDL_Flip(screen);
+						SDL_Delay(750);
 						showGamePlay(pgs, screen);
 						showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+						printPoints(poi, screen);
 						SDL_Flip(screen);
+						while (SDL_PollEvent(&event) != 0);  //empty the event queue
 						//actual game loop
 						do{
 							SDL_Delay(250);
+							while (SDL_PollEvent(&event) != 0);  //empty the event queue
 							computerBrain(m,&ce.xc, &ce.yc, td, ta,whatComputerChose);
 							printOnTable(ce,m,screen,pgs,p.pick);
 							checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
 							if((won != 1) && (checkfin(m) != 1) && ((userInput != -1) && (userInput != 3))){
 								do{
-							  	userInput = player(m, screen, pgs, p.pick);
+									SDL_WaitEvent(&event);
+							  	userInput = player(m, screen, pgs, p.pick, event,sfx, c);
 						    }while(userInput == 0);
 					     checkwin(m,&winner,whatComputerChose,&won, screen, pgs);
 						 }
@@ -216,11 +258,22 @@ while(menuNotOver == 1){
 	       SDL_Delay(1000);
 				 if((won == 1) && ((userInput != -1) && (userInput != 3))){
 						 manageScore (winner, &scoreComputer, &scorePlayer);
+						 if(winner == 2){
+						 if(c.soundMuted == 0){
+							Mix_PlayChannel(-1, sfx.winning, 0);
+						 }
+					 }else{
+						 if(c.soundMuted == 0){
+							Mix_PlayChannel(-1, sfx.lose, 0);
+						 }
+					 }
 						 showScore(winner, scoreComputer, scorePlayer, screen,pgs, whichMode);
+						 managePoints(&poi, winner, scoreComputer, scorePlayer,screen);
+						 while (SDL_PollEvent(&event) != 0);
 						 SDL_Flip(screen);
 				 }else{
 					 if(userInput == -1){
-				   	 done = 1; // quit the game
+				   	 game_isnot_going = 1; // quit the game
 				   }else{
 						 if(userInput == 3){
 							 passToGame = 0; // when pressing back button to back to menu
@@ -234,7 +287,7 @@ while(menuNotOver == 1){
 			}
 
 		}else{
-			//pass to click mode
+			//pass to friend mode
 			if(click == 2){
 				won=0;
 				winner = 0;
@@ -248,12 +301,14 @@ while(menuNotOver == 1){
 				//actual game loop
 				do{
 					do{
-						userInput = player(m, screen, pgs, 'x');
+						SDL_WaitEvent(&event);
+						userInput = player(m, screen, pgs, 'x', event,sfx,c);
 					}while(userInput == 0);
 					checkwin(m,&winner,'x',&won, screen, pgs);
 					if((won != 1) && (checkfin(m) != 1) && ((userInput != -1) && (userInput != 3))){
 						do{
-							userInput = player(m, screen, pgs, 'o');
+							SDL_WaitEvent(&event);
+							userInput = player(m, screen, pgs, 'o',event,sfx,c);
 						}while(userInput == 0);
 					 checkwin(m,&winner,'x',&won, screen, pgs);
 				 }
@@ -261,11 +316,14 @@ while(menuNotOver == 1){
 		 SDL_Delay(1000);
 		 if((won == 1) && ((userInput != -1) && (userInput != 3))){
 				 manageScore (winner, &scorePlayer1, &scorePlayer2);
+					if(c.soundMuted == 0){
+					 Mix_PlayChannel(-1, sfx.winning, 0);
+					}
 				 showScore(winner, scorePlayer1, scorePlayer2, screen,pgs, whichMode);
 				 SDL_Flip(screen);
 		 }else{
 			 if(userInput == -1){
-				 done = 1; // quit the game
+				 game_isnot_going = 1; // quit the game
 			 }else{
 				 if(userInput == 3){
 					 passToGame = 0; // when pressing back button to back to menu
@@ -279,12 +337,12 @@ while(menuNotOver == 1){
 }
 }
 
-
+}
 	 break;
 	 case 2:
 	 SDL_WaitEvent(&event);
  	if(event.type == SDL_QUIT){
- 		done = 1;
+ 		game_isnot_going = 1;
  	}else{
      hel = initHelp();
 		 if(blitCheck == 0){
@@ -301,7 +359,7 @@ while(menuNotOver == 1){
 		 }
 	 }else{
 		 if(event.type == SDL_MOUSEBUTTONDOWN){
-			 if(helpClicks(event, bu) == 1){
+			 if(helpClicks(event, bu,sfx,c) == 1){
 				 choice = 0;
 				 menuNotOver = 1;
 			 }
@@ -313,7 +371,7 @@ while(menuNotOver == 1){
 	 case 3:
 	 SDL_WaitEvent(&event);
 	 if(event.type == SDL_QUIT){
-		 done = 1;
+		 game_isnot_going = 1;
 	 }else{
 		 ab = initAbout();
 		if(blitCheck == 0){
@@ -330,7 +388,7 @@ while(menuNotOver == 1){
 		}
 	}else{
 		if(event.type == SDL_MOUSEBUTTONDOWN){
-			if(aboutClicks(event, bu) == 1){
+			if(aboutClicks(event, bu,sfx, c) == 1){
 				choice = 0;
 				menuNotOver = 1;
 			}
@@ -340,7 +398,7 @@ while(menuNotOver == 1){
 }
  	 break;
 	 case 4:
-	 done = 1;
+	 game_isnot_going = 1;
  	 break;
  }
 }

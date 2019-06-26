@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yc',['yc',['../structcomputerEnteries.html#afea2a2d63e8ec9fb3e6e21f550bb751a',1,'computerEnteries']]]
+  ['user_5fpoints',['user_points',['../structpoints.html#a715838f2826b14d131237ba0e5d45973',1,'points']]]
 ];

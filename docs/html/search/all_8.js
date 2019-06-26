@@ -1,6 +1,7 @@
 var searchData=
 [
   ['main_2ec',['main.c',['../main_8c.html',1,'']]],
+  ['managepoints',['managePoints',['../core_8c.html#a65bacab0898dce6806d0ad914b2d36f0',1,'core.c']]],
   ['managescore',['manageScore',['../core_8c.html#a2c993881faa8aa9592cdd85ba7c30bbc',1,'core.c']]],
   ['menu',['menu',['../structmenu.html',1,'']]],
   ['menuback',['menuBack',['../structmenu.html#a0f3e6de3be7aeb4f6a6ad7ef46146b96',1,'menu']]],

@@ -67,6 +67,9 @@ typedef struct {
 typedef struct{
   Mix_Chunk * butHover; /**< the hover sound clip */
    Mix_Chunk * butClick; /**< the click sound clip. */
+   Mix_Chunk * lose; /**< lose sound clip. */
+   Mix_Chunk * winning; /**< winning sound clip. */
+   Mix_Chunk * tap; /**< tap sound clip. */
 }soundFX;
 /**
 *@brief Contains images and positions of the menu after play button is clicked.
@@ -95,12 +98,12 @@ help initHelp();
 void showHelp(help h, SDL_Surface* screen, buttons bu);
 int helpMotion(buttons bu,help h,
   SDL_Surface * screen, SDL_Event event);
-int helpClicks(SDL_Event event, buttons bu);
+int helpClicks(SDL_Event event, buttons bu, soundFX sfx, control c);
 about initAbout();
 void showAbout(about a, SDL_Surface* screen, buttons bu);
 int aboutMotion(buttons bu,about a,
   SDL_Surface * screen, SDL_Event event);
-int aboutClicks(SDL_Event event, buttons bu);
+int aboutClicks(SDL_Event event, buttons bu, soundFX sfx, control c);
 menuPlayGame initMenuPlay();
 void showMenuPlay(menuPlayGame mpg, SDL_Surface *screen, buttons bu);
 int menuPlayMotion(buttons bu, menuPlayGame mpg, SDL_Surface * screen, SDL_Event event,control c, soundFX sfx);

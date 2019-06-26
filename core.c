@@ -38,10 +38,12 @@ return 1;
  * @param[in] picker the structure that contains all the needed entities to show .
  * @param[in] SDL_event event the event that will put in the picker structure what did the user choose.
  * @param[in] SDL_Surface *screen the screen to blit on and show.
+ * @param[in] soundFX sfx the sounds that will be generated.
+ * @param[in] control c control flag of sounds
  * @return it will return a picker structure that contains a field filled with what did the user choose.
  * @detail This function will return a character 'x' if user clicked on X on the screen or 'o' if clicked on O or 'n' character if user clicked back button or 'f' by default.
  */
-picker getPick (SDL_Surface * screen, SDL_Event event, picker p){
+picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, control c){
   static int blitCheck = 0; // this variable for checking when to blit
   //show
   if(blitCheck == 0){
@@ -55,6 +57,9 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p){
     p.backbutPos.w = p.backbut2->w;
     SDL_BlitSurface(p.backPicker, NULL, screen, &p.backPos);
     SDL_BlitSurface(p.backbut2 ,NULL,screen,&p.backbutPos);
+    if(c.soundMuted == 0){
+   Mix_PlayChannel(-1, sfx.butHover, 0);
+   }
     SDL_Flip(screen);
     blitCheck=1;
   }else{
@@ -64,14 +69,23 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p){
     if(event.type == SDL_MOUSEBUTTONDOWN){
       if(((event.button.x <= (p.backbutPos.x + p.backbut->w)) && (event.button.x >= p.backbutPos.x)) && ((event.button.y >= p.backbutPos.y) && (event.button.y <= (p.backbutPos.y + p.backbut->h)))) {
       p.pick = 'n';
+      if(c.soundMuted == 0){
+     Mix_PlayChannel(-1, sfx.butClick, 0);
+     }
       return p;
     }else{
       if(((event.button.x <= (64 + 147)) && (event.button.x >= 64)) && ((event.button.y >= 144) && (event.button.y <= ( 144+ 134)))) {
         p.pick = 'x';
+        if(c.soundMuted == 0){
+       Mix_PlayChannel(-1, sfx.butClick, 0);
+       }
         return p;
       }else{
         if(((event.button.x <= (295 + 147)) && (event.button.x >= 295)) && ((event.button.y >= 144) && (event.button.y <= (144 + 134)))) {
            p.pick = 'o';
+           if(c.soundMuted == 0){
+          Mix_PlayChannel(-1, sfx.butClick, 0);
+          }
            return p;
         }
       }
@@ -878,7 +892,7 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
                 }
             }
             //if theres no twos in attack
-            if ((isthere2 == 0) && (istheremore2 == 0)) {
+            if ((isthere2a == 0) && (istheremore2a == 0)) {
                 // Algorithm of bulding line to win
                 //first tour ===============
                 //1st run==================
@@ -1175,12 +1189,12 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
               }
             }else{
                 //if theres only two in attack
-                if ((isthere2 == 1) && (istheremore2 == 0)) {
+                if ((isthere2a == 1) && (istheremore2a == 0)) {
                     *xc = xof2at;
                     *yc = yof2at;
                 }else{
                     //if there's more then two in attack
-                    if ((isthere2 == 1) && (istheremore2 == 1)) {
+                    if ((isthere2a == 1) && (istheremore2a == 1)) {
                         *xc = xof22at;
                         *yc = yof22at;
                     }
@@ -1929,6 +1943,8 @@ playgameScreen initGamePlay(){
   pgs.back = IMG_Load("Resources/playback.png");
   pgs.x = IMG_Load("Resources/x.png");
   pgs.o = IMG_Load("Resources/o.png");
+  pgs.splashCharIndicatorO = IMG_Load("Resources/youplaywitho.jpg");
+  pgs.splashCharIndicatorX = IMG_Load("Resources/youplaywithx.png");
   pgs.backbut = IMG_Load("Resources/back.png");
   pgs.backScore = IMG_Load("Resources/backscore.png");
   if((pgs.back == NULL) || (pgs.x == NULL) || (pgs.o == NULL)
@@ -1994,15 +2010,17 @@ playgameScreen initGamePlay(){
       }
     }
   }
-  pgs.scorePos.x = 156;
-  pgs.scorePos.y = 23;
   pgs.backbutPos.x = 10; pgs.backbutPos.y = 455;
   pgs.backbutPos.h = pgs.backbut->h ; pgs.backbutPos.w = pgs.backbut->w;
   pgs.backPos.x = 0; pgs.backPos.y = 0;
   pgs.backPos.h = pgs.back->h; pgs.backPos.w = pgs.back->w;
   pgs.backScorePos.x = 90; pgs.backScorePos.y = 428;
   pgs.backScorePos.h = pgs.backScore->h; pgs.backScorePos.w = pgs.backScore->w;
-  pgs.scorePos.x = 130; pgs.scorePos.y = 435;
+  pgs.scorePos.x = 127; pgs.scorePos.y = 433;
+  pgs.splashIndicatorPos.x=0;
+  pgs.splashIndicatorPos.y=0;
+    pgs.splashIndicatorPos.h=pgs.splashCharIndicatorO->h;
+  pgs.splashIndicatorPos.w=pgs.splashCharIndicatorO->w;
 return pgs;
 }
 /**
@@ -2021,13 +2039,13 @@ void showGamePlay(playgameScreen pgs, SDL_Surface *screen){
  * @param[in] SDL_Surface * screen the screen ti blit on.
  * @param[in] playgameScreen pgs the structure that contains all the needed entities to test the event.
  * @param[in] SDL_event event the event to control.
+ * @param[in] soundFX sfx the sounds that will be generated.
+ * @param[in] control c control flag of sounds
  * @return nothing
  * @detail It returns -1 if the player clicked on exit button or 1 if the user played correctly or 0 if no input.
  It is safe to put that function inside a do while loop and set stop case equal to zero.
  */
-int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
-  SDL_Event event;
-  SDL_WaitEvent(&event);
+int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_Event event,soundFX sfx, control con){
   switch(event.type){
     case SDL_QUIT:
      return -1;
@@ -2054,6 +2072,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
            SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
            SDL_Flip(screen);
          }
+         if(con.soundMuted == 0){
+        Mix_PlayChannel(-1, sfx.tap, 0);
+        }
          return 1;
        }
        }else{
@@ -2078,6 +2099,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
            SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
            SDL_Flip(screen);
          }
+         if(con.soundMuted == 0){
+        Mix_PlayChannel(-1, sfx.tap, 0);
+        }
            return 1;
          }
          }else{
@@ -2102,6 +2126,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
              SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
              SDL_Flip(screen);
            }
+           if(con.soundMuted == 0){
+          Mix_PlayChannel(-1, sfx.tap, 0);
+          }
              return 1;
            }
            }else{
@@ -2126,6 +2153,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                SDL_Flip(screen);
              }
+             if(con.soundMuted == 0){
+            Mix_PlayChannel(-1, sfx.tap, 0);
+            }
                return 1;
                }
              }else{
@@ -2150,7 +2180,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                  SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                  SDL_Flip(screen);
                 }
-
+                if(con.soundMuted == 0){
+                Mix_PlayChannel(-1, sfx.tap, 0);
+                }
                  return 1;
                  }
                }else{
@@ -2175,6 +2207,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                    SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                    SDL_Flip(screen);
                   }
+                  if(con.soundMuted == 0){
+                 Mix_PlayChannel(-1, sfx.tap, 0);
+                 }
                    return 1;
                    }
                  }else{
@@ -2199,6 +2234,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                      SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                      SDL_Flip(screen);
                     }
+                    if(con.soundMuted == 0){
+                   Mix_PlayChannel(-1, sfx.tap, 0);
+                   }
                      return 1;
                      }
                    }else{
@@ -2223,6 +2261,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                        SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                        SDL_Flip(screen);
                       }
+                      if(con.soundMuted == 0){
+                     Mix_PlayChannel(-1, sfx.tap, 0);
+                     }
                        return 1;
                      }
                      }else{
@@ -2247,6 +2288,9 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c){
                          SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                          SDL_Flip(screen);
                         }
+                        if(con.soundMuted == 0){
+                       Mix_PlayChannel(-1, sfx.tap, 0);
+                       }
                          return 1;
                      }
                        }else{
@@ -2510,6 +2554,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[4].line, NULL, screen, &pgs.l[4].linePos);
         SDL_Flip(screen);
+        return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2526,6 +2571,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[5].line, NULL, screen, &pgs.l[5].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2542,6 +2588,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[0].line, NULL, screen, &pgs.l[0].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2558,6 +2605,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[6].line, NULL, screen, &pgs.l[6].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2574,6 +2622,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[3].line, NULL, screen, &pgs.l[3].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2590,6 +2639,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[1].line, NULL, screen, &pgs.l[1].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0; j = 0;
     for (i=2; i>=0; i--) {
@@ -2607,6 +2657,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[2].line, NULL, screen, &pgs.l[2].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=2; i>=0; i--) {
@@ -2623,6 +2674,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[7].line, NULL, screen, &pgs.l[7].linePos);
         SDL_Flip(screen);
+          return;
     }
     //for O ==========
     count = 0;
@@ -2640,6 +2692,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[4].line, NULL, screen, &pgs.l[4].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2656,6 +2709,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[5].line, NULL, screen, &pgs.l[5].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2672,6 +2726,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[0].line, NULL, screen, &pgs.l[0].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2688,6 +2743,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[6].line, NULL, screen, &pgs.l[6].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2704,6 +2760,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[3].line, NULL, screen, &pgs.l[3].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=0; i<=2; i++) {
@@ -2720,6 +2777,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[1].line, NULL, screen, &pgs.l[1].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0; j = 0;
     for (i=2; i>=0; i--) {
@@ -2737,6 +2795,7 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[2].line, NULL, screen, &pgs.l[2].linePos);
         SDL_Flip(screen);
+          return;
     }
     count = 0;
     for (i=2; i>=0; i--) {
@@ -2753,13 +2812,14 @@ void checkwin(char (*m)[3], int * winner,char whatComputerChose, int *won, SDL_S
         }
         SDL_BlitSurface(pgs.l[7].line, NULL, screen, &pgs.l[7].linePos);
         SDL_Flip(screen);
+          return;
     }
 }
 /**
  * @brief it mananages score depending on the winner.
  * @param[in] int *scomputer Score of the computer (or player1 on friend mode).
  * @param[in] int *splayer Score of the user (or player2 on friend mode).
- * @param[in] SDL_Surface * screen the screen ti blit on.
+ * @param[in] SDL_Surface * screen the screen to blit on.
  * @param[in] playgameScreen pgs the structure needed to print the score.
  * @paran[in] int winner Used to say which one has been won.
  * @detail This function should be called as a condition of the game loop .
@@ -2781,11 +2841,11 @@ void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playg
         if (police == NULL) {
           printf("Error in opening font file\n");
         }else{
-          sprintf(ch,"Computer %d - %d You",scomputer, splayer);
+          sprintf(ch,"Computer        %d - %d        You",scomputer, splayer);
           scoring=TTF_RenderText_Solid(police, ch, noir);
-      TTF_CloseFont(police);
-      TTF_Quit();
-      }
+          TTF_CloseFont(police);
+          TTF_Quit();
+        }
       }
       SDL_BlitSurface(pgs.backScore, NULL, screen, &pgs.backScorePos);
       SDL_BlitSurface(scoring, NULL, screen, &pgs.scorePos);
@@ -2802,7 +2862,7 @@ void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playg
         if (police == NULL) {
           printf("Error in opening font file\n");
         }else{
-          sprintf(ch,"Computer %d - %d You",scomputer, splayer);
+          sprintf(ch,"Computer        %d - %d        You",scomputer, splayer);
           scoring=TTF_RenderText_Solid(police, ch, noir);
       TTF_CloseFont(police);
       TTF_Quit();
@@ -2825,7 +2885,7 @@ void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playg
         if (police == NULL) {
           printf("Error in opening font file\n");
         }else{
-          sprintf(ch,"X Player %d - %d O Player",scomputer, splayer);
+          sprintf(ch,"'X' Player     %d - %d     'O' Player",scomputer, splayer);
           scoring=TTF_RenderText_Solid(police, ch, noir);
       TTF_CloseFont(police);
       TTF_Quit();
@@ -2846,7 +2906,7 @@ void showScore(int winner,int scomputer, int splayer,SDL_Surface * screen, playg
         if (police == NULL) {
           printf("Error in opening font file\n");
         }else{
-          sprintf(ch,"X Player %d - %d O Player",scomputer, splayer);
+          sprintf(ch,"'X' Player     %d - %d     'O' Player",scomputer, splayer);
           scoring=TTF_RenderText_Solid(police, ch, noir);
       TTF_CloseFont(police);
       TTF_Quit();
@@ -2874,4 +2934,137 @@ void manageScore (int winner , int *splayer1, int *splayer2){
     }else{
       (*splayer2)++;
     }
+}
+/**
+ * @brief This function is responsable for file manipulation that stores all the points like I/O from.
+ * @param[in] int flag that is meant to specify the mode of manipulation 1 for writing and 0 for reading.
+ * @param[in] int points number of points to write on the file.
+ * @detail This function is explicitly called inside of managePoints() and printPoint(). PS: while flag is 1 then you should pass the points as well to write them on the file.
+ * @return an integer: -1 if in case of success writing, -2 if an error occured by default OR number of points after successful reading from file.
+ */
+int fileManipulation(int flag, int points){
+  FILE * f = NULL;
+  int buffer;
+  //flag = 0 means reading from file
+  if(flag == 0){
+    f = fopen("backups.toe", "rb");
+    if(f == NULL){
+      f = fopen("backups.toe", "wb");
+      points = 0;
+      fwrite(&points, 1, sizeof(int), f);
+      fclose(f);
+      return points;
+    }else{
+      fread(&buffer, sizeof(int), 1, f);
+      fclose(f);
+      //return num of points in case of success reading
+      return buffer;
+    }
+  }else{
+    //flag = 1 means writing from file
+    f = fopen("backups.toe", "wb+");
+    if(f == NULL){
+      f = fopen("backups.toe", "wb");
+      points = 0;
+      fwrite(&points, 1, sizeof(int), f);
+          fclose(f);
+      return points;
+    }else{
+      fwrite(&points, 1, sizeof(int), f);
+          fclose(f);
+    }
+    //return -1 in case of success writing
+    return -1;
+  }
+  // return -2 by default in case of an error in flag
+  return -2;
+}
+/**
+ * @brief it only prints on screen number of points gained and the highest number of points gained.
+ * @param[in] points p the points to print.
+ * @param[in] SDL_Surface * screen the screen to blit on the surface
+ * @detail This function should be called inside of managePoints() .
+ * @return nothing.
+ */
+void printPoints (points p, SDL_Surface * screen){
+  char ch[128];
+  char ch1[128];
+  SDL_Surface *pointsSurf = NULL;
+    SDL_Surface *high_pointsSurf = NULL;
+  SDL_Rect pointsPos;
+  SDL_Rect high_pointsPos;
+  pointsPos.x =  82;
+  pointsPos.y = 55;
+  high_pointsPos.x = 270 ;
+  high_pointsPos.y =  55;
+  TTF_Font *police = NULL;
+  SDL_Color white = {255, 255, 255};
+  SDL_Color red = {255, 95, 95};
+  if (TTF_Init() < 0) {
+    printf("error in loading font\n");
+}else{
+  police = TTF_OpenFont("Resources/font.ttf", 18);
+  if (police == NULL) {
+    printf("Error in opening font file\n");
+  }else{
+    p.highest_points = fileManipulation(0, p.highest_points);
+    sprintf(ch,"Current Points:   %d     ", p.user_points);
+    sprintf(ch1,"Highest Points:   %d", p.highest_points);
+    pointsSurf=TTF_RenderText_Solid(police, ch, white);
+    high_pointsSurf=TTF_RenderText_Solid(police, ch1, red);
+TTF_CloseFont(police);
+TTF_Quit();
+}
+}
+SDL_BlitSurface(pointsSurf, NULL, screen, &pointsPos);
+SDL_BlitSurface(high_pointsSurf, NULL, screen, &high_pointsPos);
+SDL_Flip(screen);
+}
+/**
+ * @brief The core function of managing all the points stuff NOT THE SCORE.
+ * @param[out] points *p final result of both high and current points after managing.
+ * @param[in] int winner indicator of who is the winner 1 if it's computer,  2 if it is user.
+ * @param[in] int scomputer the score of computer.
+ * @param[in] int splayer the score of user.
+ * @param[in] SDL_Surface * screen the screen to print on.
+ * @detail This function is explicitly make a call for fileManipulation() inside of it.
+ * @return nothing.
+ */
+void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface * screen){
+  static int two_times_in_row = 0; // this variable is to check if the user lost two times in a row to decrease his score.
+  int reciver;
+  SDL_Surface * newHSwindow = NULL;
+  SDL_Rect newHSwindowPos;
+  newHSwindow = IMG_Load("Resources/newscoresplash.png");
+  newHSwindowPos.x = 0; newHSwindowPos.y = 0;
+  newHSwindowPos.h = newHSwindow->h; newHSwindowPos.w = newHSwindow->w;
+  reciver = fileManipulation(0, p->highest_points);
+  //reciver >= 0 means there's a value returned from file
+  if((reciver >= 0)){
+  //if the user won
+  if (winner == 2) {
+    if(splayer >= 5){
+      p->user_points += 20;
+    }else{
+      p->user_points += 10;
+    }
+    two_times_in_row = 0;
+    if(reciver < p->user_points){
+      fileManipulation(1, p->user_points);
+      SDL_BlitSurface(newHSwindow, NULL, screen, &newHSwindowPos);
+      SDL_Flip(screen);
+      SDL_Delay(500);
+    }
+  }else{
+    //if the computer won
+    if((p->user_points != 0) && (two_times_in_row == 2)){
+      p->user_points -= 30;
+    }else{
+      if((p->user_points != 0) && (two_times_in_row < 2)){
+       p->user_points -= 10;
+       two_times_in_row++;
+     }
+    }
+  }
+}
 }
