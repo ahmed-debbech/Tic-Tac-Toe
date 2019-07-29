@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getpick',['getPick',['../core_8c.html#aa6fe613c1d3dd1e7998ab23751fd6778',1,'core.c']]]
+  ['filemanipulation',['fileManipulation',['../core_8c.html#af6f26afc7394ba5dd35bf398df900eed',1,'core.c']]]
 ];

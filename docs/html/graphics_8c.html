@@ -519,13 +519,13 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">menu</td><td>mc the struct to print. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface*</td><td>screen the screen to print. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">control</td><td>*c to tell if the sounds where disabled or not. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">control</td><td>*c to tell if the sounds were disabled or not. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Event</td><td>event to filter on what button the use clicked. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structsoundFX.html" title="Contains all the sounds necessary to run the game. ">soundFX</a></td><td>*sfx a structure to get all the sounds. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>It returns a number less than 5 and superior to 0 if the use press a button else 0 or . </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>It returns a 1 for playbutton, 2 for store button, 3 for help button, 4 for about button 6 for power and 5 for sound button or for none of the above buttons. </dd></dl>
 
 </div>
 </div>

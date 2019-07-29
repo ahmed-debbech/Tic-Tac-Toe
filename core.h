@@ -75,4 +75,5 @@ void showScore(int winner, int scomputer, int splayer,SDL_Surface * screen, play
 void printPoints (points p, SDL_Surface * screen);
 void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface *screen);
 int fileManipulation(int flag, int points);
+void creating_files();
 #endif

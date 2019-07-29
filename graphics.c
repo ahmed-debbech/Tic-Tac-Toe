@@ -22,7 +22,7 @@ buttons initButtons(){
     printf("couldn't load some images\n");
   }else{
     bu.backbutPos.x = 10; bu.backbutPos.y = 455;
-    bu.backbutPos.h = bu.backbut->h ;bu.backbutPos.w = bu.backbut->w;
+    bu.backbutPos.h = bu.backbut->h; bu.backbutPos.w = bu.backbut->w;
   }
   return bu;
 }
@@ -46,9 +46,16 @@ soundFX initSounds(){
 menu initOffMenu(){
   menu m;
   m.splash = IMG_Load("Resources/init.jpg");
-  m.menuBack = IMG_Load("Resources/menuback.png");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "menuback.png");
+  m.menuBack = IMG_Load(themePath);
   m.playbut = IMG_Load("Resources/playbut.png");
   m.playbut2 = IMG_Load("Resources/playbut2.png");
+  m.storebut = IMG_Load("Resources/store.png");
+  m.storebut2 = IMG_Load("Resources/store2.png");
   m.helpbut = IMG_Load("Resources/helpbut.png");
   m.helpbut2 = IMG_Load("Resources/helpbut2.png");
   m.aboutbut = IMG_Load("Resources/aboutbut.png");
@@ -63,13 +70,16 @@ menu initOffMenu(){
   m.menuBackPos.x = 0; m.menuBackPos.y = 0;
   m.menuBackPos.h = m.menuBack->h; m.menuBackPos.w = m.menuBack->w;
   //play
-  m.playbutPos.x = 150; m.playbutPos.y = 150;
+  m.playbutPos.x = 150; m.playbutPos.y = 120;
   m.playbutPos.h = m.playbut->h; m.playbutPos.w = m.playbut->w;
+  //store
+  m.storebutPos.x = 150; m.storebutPos.y = 210;
+  m.storebutPos.h = m.storebut->h; m.storebutPos.w = m.storebut->w;
   //help
-  m.helpbutPos.x = 150; m.helpbutPos.y = 250;
+  m.helpbutPos.x = 150; m.helpbutPos.y = 300;
   m.helpbutPos.h = m.helpbut->h; m.helpbutPos.w = m.helpbut->w;
   //about
-  m.aboutbutPos.x = 150; m.aboutbutPos.y = 350;
+  m.aboutbutPos.x = 150; m.aboutbutPos.y = 390;
   m.aboutbutPos.h = m.aboutbut->h; m.aboutbutPos.w = m.aboutbut->w;
   //sound
   m.soundbutPos.x = 5; m.soundbutPos.y = 450;
@@ -89,6 +99,7 @@ menu initOffMenu(){
 void showOffMenu(menu mc, SDL_Surface * screen, control c){
   SDL_BlitSurface (mc.menuBack, NULL, screen, &mc.menuBackPos);
  SDL_BlitSurface (mc.playbut, NULL, screen, &mc.playbutPos);
+  SDL_BlitSurface (mc.storebut, NULL, screen, &mc.storebutPos);
  SDL_BlitSurface (mc.helpbut, NULL, screen, &mc.helpbutPos);
  SDL_BlitSurface (mc.aboutbut, NULL, screen, &mc.aboutbutPos);
  if(c.soundMuted == 0){
@@ -124,6 +135,19 @@ int menuMotion(menu mc, SDL_Surface * screen, SDL_Event event, control c, soundF
     SDL_Flip(screen);
   	y=1;
   }else{
+    if(((event.motion.x <= (mc.storebutPos.x + mc.storebutPos.w)) && (event.motion.x >= mc.storebutPos.x)) && ((event.motion.y >= mc.storebutPos.y) && (event.motion.y <= (mc.storebutPos.y + mc.storebutPos.h)))) {
+      if(c.soundMuted == 0){
+      if(played == 0){
+      Mix_PlayChannel(-1, sfx.butHover, 0);
+      played = 1;
+      }
+      }
+  mc.storebutPos.h = mc.storebut->h;
+  mc.storebutPos.w = mc.storebut->w;
+    SDL_BlitSurface(mc.storebut2,NULL,screen,&mc.storebutPos);
+    SDL_Flip(screen);
+  	y=1;
+  }else{
     if(((event.motion.x <= (mc.helpbutPos.x + mc.helpbutPos.w)) && (event.motion.x >= mc.helpbutPos.x)) && ((event.motion.y >= mc.helpbutPos.y) && (event.motion.y <= (mc.helpbutPos.y + mc.helpbutPos.h)))) {
       if(c.soundMuted == 0){
       if(played == 0){
@@ -154,16 +178,17 @@ int menuMotion(menu mc, SDL_Surface * screen, SDL_Event event, control c, soundF
  }
   }
   }
+}
   return y;
 }
 /**
  * @brief controls the menu clicks.
  * @param[in] menu mc the struct to print.
   * @param[in] SDL_Surface* screen the screen to print.
-   * @param[out] control *c to tell if the sounds where disabled or not.
+   * @param[out] control *c to tell if the sounds were disabled or not.
    * @param[in] SDL_Event event to filter on what button the use clicked.
    * @param[in] soundFX *sfx a structure to get all the sounds.
- * @return It returns a number less than 5 and superior to 0 if the use press a button else 0 or .
+ * @return It returns a 1 for playbutton, 2 for store button, 3 for help button, 4 for about button 6 for power and 5 for sound button or for none of the above buttons.
  */
 int menuClicks (menu mc, SDL_Surface * screen, SDL_Event event, control *c, soundFX *sfx){
   int y = 0;
@@ -173,23 +198,29 @@ int menuClicks (menu mc, SDL_Surface * screen, SDL_Event event, control *c, soun
   }
   y=1;
 }else{
+  if(((event.button.x <= (mc.storebutPos.x + mc.storebutPos.w)) && (event.button.x >= mc.storebutPos.x)) && ((event.button.y >= mc.storebutPos.y) && (event.button.y <= (mc.storebutPos.y + mc.storebutPos.h)))) {
+   if(c->soundMuted == 0){
+  Mix_PlayChannel(-1, sfx->butClick, 0);
+  }
+  y=2;
+}else{
   if(((event.button.x <= (mc.helpbutPos.x + mc.helpbutPos.w)) && (event.button.x >= mc.helpbutPos.x)) && ((event.button.y >= mc.helpbutPos.y) && (event.button.y <= (mc.helpbutPos.y + mc.helpbutPos.h)))) {
    if(c->soundMuted == 0){
     Mix_PlayChannel(-1, sfx->butClick, 0);
   }
-  y=2;
+  y=3;
 }else{
   if(((event.button.x <= (mc.aboutbutPos.x + mc.aboutbutPos.w)) && (event.button.x >= mc.aboutbutPos.x)) && ((event.button.y >= mc.aboutbutPos.y) && (event.button.y <= (mc.aboutbutPos.y + mc.aboutbutPos.h)))) {
    if(c->soundMuted == 0){
    Mix_PlayChannel(-1, sfx->butClick, 0);
  }
- y=3;
+ y=4;
 }else{
   if(((event.button.x <= (mc.powerbutPos.x + mc.powerbutPos.w)) && (event.button.x >= mc.powerbutPos.x)) && ((event.button.y >= mc.powerbutPos.y) && (event.button.y <= (mc.powerbutPos.y + mc.powerbutPos.h)))) {
     if(c->soundMuted == 0){
    Mix_PlayChannel(-1, sfx->butClick, 0);
  }
- y=4;
+ y=6;
 }else{
   if(((event.button.x <= (mc.soundbutPos.x + mc.soundbutPos.w)) && (event.button.x >= mc.soundbutPos.x)) && ((event.button.y >= mc.soundbutPos.y) && (event.button.y <= (mc.soundbutPos.y + mc.soundbutPos.h)))) {
    if(c->soundMuted == 0){
@@ -222,6 +253,7 @@ int menuClicks (menu mc, SDL_Surface * screen, SDL_Event event, control *c, soun
 }
      }
    }
+   }
  }
 return y;
 }
@@ -231,7 +263,12 @@ return y;
  */
 help initHelp(){
   help h;
-  h.backhelp = IMG_Load("Resources/helpback.jpg");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "helpback.jpg");
+  h.backhelp = IMG_Load(themePath);
   h.backPos.x = 0; h.backPos.y = 0;
   h.backPos.h = h.backhelp->h ; h.backPos.w = h.backhelp->w;
   return h;
@@ -291,7 +328,12 @@ int helpMotion(buttons bu,help h, SDL_Surface * screen, SDL_Event event){
  */
 about initAbout(){
   about ab;
-  ab.backabout = IMG_Load("Resources/aboutback.png");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "aboutback.png");
+  ab.backabout = IMG_Load(themePath);
   ab.backPos.x = 0; ab.backPos.y = 0;
   ab.backPos.h = ab.backabout->h ; ab.backPos.w = ab.backabout->w;
   return ab;
@@ -350,7 +392,12 @@ int aboutClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
  */
 menuPlayGame initMenuPlay(){
   menuPlayGame mpg;
-  mpg.back = IMG_Load("Resources/backplaymenu.jpg");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "backplaymenu.jpg");
+  mpg.back = IMG_Load(themePath);
   mpg.computer = IMG_Load("Resources/computer.png");
   mpg.computer2 = IMG_Load("Resources/computer2.png");
   mpg.friend = IMG_Load("Resources/friend.png");

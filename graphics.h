@@ -18,6 +18,8 @@ typedef struct{
   SDL_Surface * helpbut2; /**< help button image hovered. */
   SDL_Surface * aboutbut; /**< about button image . */
   SDL_Surface * aboutbut2; /**< about button image hovered. */
+  SDL_Surface * storebut; /**< store button image . */
+  SDL_Surface * storebut2; /**< store button image hovered. */
   SDL_Surface * soundbut; /**< sound button image. */
   SDL_Surface * soundbut2; /**< sound button image muted. */
   SDL_Surface * powerbut; /**< power button image. */
@@ -25,6 +27,7 @@ typedef struct{
   SDL_Rect  splashPos; /**< splash position. */
   SDL_Rect menuBackPos; /**< menu beckground position. */
   SDL_Rect playbutPos; /**< play button position. */
+    SDL_Rect storebutPos; /**< store button position. */
   SDL_Rect helpbutPos; /**< help button position. */
   SDL_Rect aboutbutPos; /**< about button position. */
   SDL_Rect soundbutPos; /**< sound button position. */
@@ -102,7 +105,7 @@ int helpClicks(SDL_Event event, buttons bu, soundFX sfx, control c);
 about initAbout();
 void showAbout(about a, SDL_Surface* screen, buttons bu);
 int aboutMotion(buttons bu,about a,
-  SDL_Surface * screen, SDL_Event event);
+SDL_Surface * screen, SDL_Event event);
 int aboutClicks(SDL_Event event, buttons bu, soundFX sfx, control c);
 menuPlayGame initMenuPlay();
 void showMenuPlay(menuPlayGame mpg, SDL_Surface *screen, buttons bu);

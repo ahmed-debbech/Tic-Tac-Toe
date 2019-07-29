@@ -2,8 +2,8 @@
 Tic Tac toe is a small and simple game that was made for fun.\
 **Details:** It was funny for me to program this from scratch, it was made with C and [SDLv1.2](https://www.libsdl.org/). 
 ## Installation
- 1) Download the executable for Windows from [here](http://bit.ly/2Q8bVeP). 
- 2) Unzip the file and double click the "Tic Tac Toe 2.1.0.exe".
+ 1) Download the executable for Windows from the releases section. 
+ 2) Unzip the file and double click the "Tic Tac Toe.exe".
 * IMPORTANT: DO NOT REPLACE, COPY OR DELETE ANYTHING FROM THE FOLDER.
 ## Contributing
 Download this repo and a `make` command will compile the project from source and excute it.

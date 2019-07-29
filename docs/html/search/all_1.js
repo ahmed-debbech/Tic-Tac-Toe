@@ -12,5 +12,7 @@ var searchData=
   ['backscorepos',['backScorePos',['../structplaygameScreen.html#ab4ae67842a8cc5058100b8fa062ef706',1,'playgameScreen']]],
   ['butclick',['butClick',['../structsoundFX.html#a288f3c378cffff00058e4cebeaf1e4f9',1,'soundFX']]],
   ['buthover',['butHover',['../structsoundFX.html#aa44b4b3e1ab52077790271ff5d1eaa72',1,'soundFX']]],
-  ['buttons',['buttons',['../structbuttons.html',1,'']]]
+  ['buttons',['buttons',['../structbuttons.html',1,'']]],
+  ['buycheck',['buyCheck',['../structnode.html#a0fce868dfe6a4e51c4cdf5a7ff89efdc',1,'node']]],
+  ['buyingmanger',['buyingManger',['../store_8c.html#ae8e042be2a6a3392ddaa4c3688b5553d',1,'store.c']]]
 ];

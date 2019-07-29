@@ -12,6 +12,7 @@
 #include "core.h"
 #include <time.h>
 #include <string.h>
+#include <dirent.h>
 /**
  * @brief Initializes and loads all the images needed into memory to show the pick screen.
  * @param[out] picker * p the structure that will be returned if the initialization done correctly.
@@ -19,7 +20,12 @@
  */
 int initPickScreen(picker *p){
   //init
-  p->backPicker = IMG_Load("Resources/picker.png");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "picker.png");
+  p->backPicker = IMG_Load(themePath);
   p->backbut = IMG_Load("Resources/back.png");
   p->backbut2 = IMG_Load("Resources/back2.png");
   if((p->backPicker == NULL) || (p->backbut == NULL) || (p->backbut2 == NULL)){
@@ -1940,11 +1946,26 @@ playgameScreen initGamePlay(){
   playgameScreen pgs;
   int i;
   char name[50];
-  pgs.back = IMG_Load("Resources/playback.png");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "playback.png");
+  pgs.back = IMG_Load(themePath);
   pgs.x = IMG_Load("Resources/x.png");
   pgs.o = IMG_Load("Resources/o.png");
-  pgs.splashCharIndicatorO = IMG_Load("Resources/youplaywitho.jpg");
-  pgs.splashCharIndicatorX = IMG_Load("Resources/youplaywithx.png");
+  //initialize splash screen of x and o by general file
+  f = fopen("backup/general.toe", "rb");
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "youplaywitho.jpg");
+  pgs.splashCharIndicatorO = IMG_Load(themePath);
+  f = fopen("backup/general.toe", "rb");
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "youplaywithx.jpg");
+  pgs.splashCharIndicatorX = IMG_Load(themePath);
+  //=====
   pgs.backbut = IMG_Load("Resources/back.png");
   pgs.backScore = IMG_Load("Resources/backscore.png");
   if((pgs.back == NULL) || (pgs.x == NULL) || (pgs.o == NULL)
@@ -2947,32 +2968,17 @@ int fileManipulation(int flag, int points){
   int buffer;
   //flag = 0 means reading from file
   if(flag == 0){
-    f = fopen("backups.toe", "rb");
-    if(f == NULL){
-      f = fopen("backups.toe", "wb");
-      points = 0;
-      fwrite(&points, 1, sizeof(int), f);
-      fclose(f);
-      return points;
-    }else{
+    f = fopen("backup/points.toe", "rb");
       fread(&buffer, sizeof(int), 1, f);
       fclose(f);
       //return num of points in case of success reading
       return buffer;
-    }
+
   }else{
     //flag = 1 means writing from file
-    f = fopen("backups.toe", "wb+");
-    if(f == NULL){
-      f = fopen("backups.toe", "wb");
-      points = 0;
+      f = fopen("backup/points.toe", "wb");
       fwrite(&points, 1, sizeof(int), f);
           fclose(f);
-      return points;
-    }else{
-      fwrite(&points, 1, sizeof(int), f);
-          fclose(f);
-    }
     //return -1 in case of success writing
     return -1;
   }
@@ -2983,7 +2989,6 @@ int fileManipulation(int flag, int points){
  * @brief it only prints on screen number of points gained and the highest number of points gained.
  * @param[in] points p the points to print.
  * @param[in] SDL_Surface * screen the screen to blit on the surface
- * @detail This function should be called inside of managePoints() .
  * @return nothing.
  */
 void printPoints (points p, SDL_Surface * screen){
@@ -3035,7 +3040,12 @@ void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface
   int reciver;
   SDL_Surface * newHSwindow = NULL;
   SDL_Rect newHSwindowPos;
-  newHSwindow = IMG_Load("Resources/newscoresplash.png");
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  strcat(themePath, "newscoresplash.png");
+  newHSwindow = IMG_Load(themePath);
   newHSwindowPos.x = 0; newHSwindowPos.y = 0;
   newHSwindowPos.h = newHSwindow->h; newHSwindowPos.w = newHSwindow->w;
   reciver = fileManipulation(0, p->highest_points);
@@ -3067,4 +3077,61 @@ void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface
     }
   }
 }
+}
+/**
+ * @brief It creates all files necessary to run the app if they are not found and initialize them.
+ * @return nothing.
+ */
+void creating_files(){
+  DIR * d = NULL;
+  int buffer;
+  int i;
+  FILE * f = NULL;
+  d = opendir("backup");
+  if(d == NULL){
+    //file that stores tics value
+    system("mkdir backup");
+    system("cd backup");
+    f=fopen("backup/tics.toe", "wb");
+    buffer = 0;
+    fwrite(&buffer, 1, sizeof(int), f);
+    fclose(f);
+    //file that stores highest points value
+    f=fopen("backup/points.toe", "wb");
+    buffer = 0;
+    fwrite(&buffer, 1, sizeof(int), f); fclose(f);
+    //file that stores actual theme.
+    f=fopen("backup/general.toe", "wb");
+    char themeName[256];
+    strcpy(themeName, "Resources/");
+    fwrite(&themeName, 1, sizeof(char)*265, f); fclose(f);
+    //file that store which items bought from store
+    f=fopen("backup/items.toe", "wb");
+      //the stop condition in the loop bellow should increment as the number of items increase.
+    for(i=0; i<4; i++ ){
+      buffer = 0;
+      fwrite(&buffer, 1, sizeof(int), f);
+    }
+    fclose(f);
+  }else{
+    f=fopen("backup/items.toe", "rb");
+    if(f == NULL){
+      f=fopen("backup/items.toe", "wb");
+    }
+    fclose(f);
+    f=fopen("backup/tics.toe", "rb");
+    if(f == NULL){
+      f=fopen("backup/tics.toe", "wb");
+    }
+    fclose(f);
+    f=fopen("backup/general.toe", "rb");
+    if(f = NULL){
+      f=fopen("backup/general.toe", "wb");
+    }
+    f=fopen("backup/points.toe", "rb");
+    if(f == NULL){
+      f=fopen("backup/points.toe", "wb");
+    }
+    fclose(f);
+  }
 }

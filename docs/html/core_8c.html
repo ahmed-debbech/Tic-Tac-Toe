@@ -76,6 +76,7 @@ $(function() {
 <code>#include &quot;core.h&quot;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;dirent.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for core.c:</div>
 <div class="dyncontent">
@@ -139,6 +140,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a65bacab0898dce6806d0ad914b2d36f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#a65bacab0898dce6806d0ad914b2d36f0">managePoints</a> (<a class="el" href="structpoints.html">points</a> *p, int winner, int scomputer, int splayer, SDL_Surface *screen)</td></tr>
 <tr class="memdesc:a65bacab0898dce6806d0ad914b2d36f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The core function of managing all the points stuff NOT THE SCORE.  <a href="#a65bacab0898dce6806d0ad914b2d36f0">More...</a><br /></td></tr>
 <tr class="separator:a65bacab0898dce6806d0ad914b2d36f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4033c2d03b4016866d0de3f5ce00afc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_8c.html#ae4033c2d03b4016866d0de3f5ce00afc">creating_files</a> ()</td></tr>
+<tr class="memdesc:ae4033c2d03b4016866d0de3f5ce00afc"><td class="mdescLeft">&#160;</td><td class="mdescRight">It creates all files necessary to run the app if they are not found and initialize them.  <a href="#ae4033c2d03b4016866d0de3f5ce00afc">More...</a><br /></td></tr>
+<tr class="separator:ae4033c2d03b4016866d0de3f5ce00afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core algorithms that make the game executable. </p>
@@ -301,6 +305,26 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>nothing.</dd></dl>
 <p>This function traverses all the possible cases in m matrix to generate what computer should set its turn. Here's how it works: It does the travers if there's two characters of the user in a row it puts number 2 in the deffence table on the correspinding coordinates of the empty case in m matrix in that row, and thus 2 is a danger point which cannot be removed from the table and the computer should immediately set its turn in that coordinate that coressponding to m matrix. If there's no number 2 in deffence table that means there's nothing to worry about and it should now attack and it will do the travers again but now if there's two characters of the computer in a row it will put number 2 in the attack table that idicates there's an oppertunity to win. If nothing is set from the above it will build a line to win by travers again and see if there's a row in any direction that contains its character or empty then it will play. </p>
+
+</div>
+</div>
+<a id="ae4033c2d03b4016866d0de3f5ce00afc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4033c2d03b4016866d0de3f5ce00afc">&#9670;&nbsp;</a></span>creating_files()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void creating_files </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>It creates all files necessary to run the app if they are not found and initialize them. </p>
+<dl class="section return"><dt>Returns</dt><dd>nothing. </dd></dl>
 
 </div>
 </div>
@@ -795,7 +819,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>p the points to print. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen to blit on the surface  This function should be called inside of <a class="el" href="core_8c.html#a65bacab0898dce6806d0ad914b2d36f0" title="The core function of managing all the points stuff NOT THE SCORE. ">managePoints()</a> . </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">SDL_Surface</td><td>* screen the screen to blit on the surface </td></tr>
   </table>
   </dd>
 </dl>

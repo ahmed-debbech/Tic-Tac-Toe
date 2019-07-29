@@ -11,5 +11,6 @@ var searchData=
   ['initoffmenu',['initOffMenu',['../graphics_8c.html#adf5f787807c1aaf60bc79ac71e34f83a',1,'graphics.c']]],
   ['initpickscreen',['initPickScreen',['../core_8c.html#a308b8c299ff4e2957711979237c441bc',1,'core.c']]],
   ['initsounds',['initSounds',['../graphics_8c.html#ab2a42ac7302c1d1561f083eb59cf4170',1,'graphics.c']]],
+  ['initstore',['initStore',['../store_8c.html#a86fc0e3412c5855621a387f8f56cb157',1,'store.c']]],
   ['input',['input',['../structplaygameScreen.html#a3252ca20fe08152f530e2ee6601bfeb8',1,'playgameScreen']]]
 ];

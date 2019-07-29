@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['showabout',['showAbout',['../graphics_8c.html#a3d1bef81154142bcbcff26ad064aa961',1,'graphics.c']]],
-  ['showgameplay',['showGamePlay',['../core_8c.html#a47d40f315c5036532ccad4cff4c9f4dd',1,'core.c']]],
-  ['showhelp',['showHelp',['../graphics_8c.html#aea56b4eae72b5d3141933e656006dd69',1,'graphics.c']]],
-  ['showmenuplay',['showMenuPlay',['../graphics_8c.html#aeb07e8967124a96bc240f8c4e47efb0b',1,'graphics.c']]],
-  ['showoffmenu',['showOffMenu',['../graphics_8c.html#a3739bd8e0a0a2d3ee5151fbd803d6709',1,'graphics.c']]],
-  ['showscore',['showScore',['../core_8c.html#a33e5530ba5b3aa743861833d05c507c6',1,'core.c']]]
+  ['player',['player',['../core_8c.html#aa24fb4d4316766083c887b4d24d93142',1,'core.c']]],
+  ['printontable',['printOnTable',['../core_8c.html#a03f5b5e1a362f08422079c4044b273d3',1,'core.c']]],
+  ['printpoints',['printPoints',['../core_8c.html#ad925f99d1d6de26c9999236fe7b71418',1,'core.c']]],
+  ['printtics',['printTics',['../store_8c.html#a415b59fddb4eeeb1e8b423005e43c522',1,'store.c']]]
 ];
