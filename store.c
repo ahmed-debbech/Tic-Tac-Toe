@@ -441,7 +441,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           fclose(f);
           //writing to items.toe
           f = fopen("backup/items.toe", "wb");
-          for(counter = 0; counter < 2; counter++){
+          for(counter = 0; counter < 4; counter++){
             buffer = items[counter];
             fwrite(&buffer, 1, sizeof(int), f);
           }

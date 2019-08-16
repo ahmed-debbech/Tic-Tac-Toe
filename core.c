@@ -3093,7 +3093,7 @@ void creating_files(){
     system("mkdir backup");
     system("cd backup");
     f=fopen("backup/tics.toe", "wb");
-    buffer = 0;
+    buffer = 1000;
     fwrite(&buffer, 1, sizeof(int), f);
     fclose(f);
     //file that stores highest points value
