@@ -14,19 +14,23 @@
 #include "store.h"
 #include "core.h"
 int main(int argc, char **argv){
+// this do-while loop is for checking if theme has been changed then the game should restart itself
+int themeChanged = 0;
+SDL_Surface *screen;
+Mix_Music * music;
+	do{
 //core initializations
 	char m[3][3]; //main game table containing Xs and Os
 	int td[3][3]; //defence table
 	int ta[3][3]; // attack table
 	computerEnteries ce;
 //graphics initializations
-SDL_Surface *screen;
-Mix_Music * music;
 SDL_Event event;
 menu mc;
 int scoreComputer=0, scorePlayer=0, whichMode = 0;
 int scorePlayer1 = 0, scorePlayer2=0;
 int played_once = 0;
+themeChanged = 0;
 playgameScreen pgs;
 about ab;
 help hel;
@@ -375,7 +379,8 @@ while(menuNotOver == 1){
 						SDL_BlitSurface(restart, NULL, screen, &rest);
 						SDL_Flip(screen);
 						SDL_FreeSurface(restart);
-						SDL_Delay(5000);
+						SDL_Delay(4000);
+						themeChanged = 1;
 						game_isnot_going = 1;
 			   }
 			}
@@ -445,8 +450,10 @@ while(menuNotOver == 1){
 	 game_isnot_going = 1;
  	 break;
  }
+
 }
 //end game loop
+}while(themeChanged == 1);
 SDL_FreeSurface(screen);
 Mix_FreeMusic(music);
 SDL_Quit();

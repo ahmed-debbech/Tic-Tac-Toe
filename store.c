@@ -237,7 +237,7 @@ SDL_BlitSurface(value, NULL, screen, &valuePos);
   * @param[in] soundFX sfx the sounds that will be generated.
   * @param[in] control c control flag of sounds
   * @param[in] SDL_Surface* screen the screen to print.
- * @return It returns 0 if back button clicked or any number ordered by the store items starting from 1 or -1 if nothing is clicked.
+ * @return It returns 0 if back button is clicked or any number ordered by the store items starting from 1 or -1 if nothing is clicked.
  */
 int storeClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
   //each new store item added you should add a new condition that returns a number.
@@ -287,7 +287,28 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
   int counter, items[10];
   int buffer;
   FILE *f = NULL;
-  if(itemSelected == 1){
+  //This if-switch-like structure is just to verify if a theme is already applied to not reapply it again.
+  f = fopen("backup/general.toe", "rb");
+  char name[256];
+  int x;
+  fread(&name, sizeof(char)*256,1, f);
+  if(strcmp(name, "Resources/") == 0){
+      x = 1;
+  }else{
+    if(strcmp(name, "Resources/themes/black-metal/") == 0){
+      x = 2;
+    }else{
+      if(strcmp(name, "Resources/themes/sea/") == 0){
+        x = 3;
+      }else{
+        if(strcmp(name, "Resources/themes/woody/") == 0){
+          x = 4;
+        }
+      }
+    }
+  }
+  fclose(f);
+  if((itemSelected == 1) && (itemSelected != x)){
     f = fopen("backup/general.toe", "rb");
     char themeName[256];
     fread(&themeName, sizeof(char)*256,1, f);
@@ -310,7 +331,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
       items[counter] = buffer;
     }
     fclose(f);
-    if(itemSelected == 2){
+    if((itemSelected == 2) && (itemSelected != x)){ // the x varaible is for checking that theme is not already applied
       if(items[1] == 0){
           f = fopen("backup/tics.toe", "rb");
           fread(&buffer, sizeof(int), 1, f);
@@ -364,7 +385,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
     }
     return 1;
   }else{
-    if(itemSelected == 3){
+    if((itemSelected == 3) && (itemSelected != x)){
       if(items[2] == 0){
           f = fopen("backup/tics.toe", "rb");
           fread(&buffer, sizeof(int), 1, f);
@@ -420,7 +441,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
       }
       return 1;
   }else{
-    if(itemSelected == 4){
+    if((itemSelected == 4) && (itemSelected != x)){
       if(items[3] == 0){
           f = fopen("backup/tics.toe", "rb");
           fread(&buffer, sizeof(int), 1, f);
