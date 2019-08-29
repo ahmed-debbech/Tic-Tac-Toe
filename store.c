@@ -89,12 +89,7 @@ node_of_list_items * retriveItems(){
  */
 store initStore(){
   store s;
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "storeback.png");
-  s.storeBack = IMG_Load(themePath);
+  s.storeBack = IMG_Load("Resources/storeback.png");
   if(s.storeBack == NULL){
     printf("an error occured while oppening store, image may not be in right system path\n");
   }else{
@@ -114,6 +109,17 @@ store initStore(){
  * @return Nothing.
  */
 void showStore(store s, SDL_Surface * screen, buttons bu){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE * f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   SDL_Surface * unlocked = IMG_Load("Resources/unlocked.png");
   SDL_BlitSurface(s.storeBack, NULL, screen, &s.storeBackPos);
   SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
@@ -132,7 +138,6 @@ void showStore(store s, SDL_Surface * screen, buttons bu){
   SDL_Rect valuePos;
   TTF_Font *police = NULL;
   SDL_Color color = {255, 0, 0};
-  FILE * f = NULL;
     int text;
   if (TTF_Init() < 0) {
     printf("error\n");
@@ -292,30 +297,37 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
   char name[256];
   int x;
   fread(&name, sizeof(char)*256,1, f);
-  if(strcmp(name, "Resources/") == 0){
+  if(strcmp(name, "Resources/themes/greeness.jpg") == 0){
       x = 1;
   }else{
-    if(strcmp(name, "Resources/themes/black-metal/") == 0){
+    if(strcmp(name, "Resources/themes/black-metal.jpg") == 0){
       x = 2;
     }else{
-      if(strcmp(name, "Resources/themes/sea/") == 0){
+      if(strcmp(name, "Resources/themes/sea.jpg") == 0){
         x = 3;
       }else{
-        if(strcmp(name, "Resources/themes/woody/") == 0){
+        if(strcmp(name, "Resources/themes/woody.jpg") == 0){
           x = 4;
         }
       }
     }
   }
   fclose(f);
+  SDL_Surface * not_enough = IMG_Load("Resources/notenoughmoney.png");
+  SDL_Rect rest;
+  rest.x = 100;
+  rest.y = 150;
+  rest.h = not_enough->h;
+  rest.w = not_enough->w;
+
   if((itemSelected == 1) && (itemSelected != x)){
     f = fopen("backup/general.toe", "rb");
     char themeName[256];
     fread(&themeName, sizeof(char)*256,1, f);
-    if(strcmp(themeName, "Resources/") != 0){
+    if(strcmp(themeName, "Resources/themes/greeness.jpg") != 0){
       fclose(f);
       f = fopen("backup/general.toe", "wb");
-      strcpy(themeName, "Resources/");
+      strcpy(themeName, "Resources/themes/greeness.jpg");
       fwrite(&themeName, 1, sizeof(char)*256, f);
       fclose(f);
     }else{
@@ -357,12 +369,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           }
           fclose(f);
         }else{
-          SDL_Surface * not_enough = IMG_Load("Resources/notenoughmoney.png");
-  				SDL_Rect rest;
-  				rest.x = 100;
-  				rest.y = 150;
-  				rest.h = not_enough->h;
-  				rest.w = not_enough->w;
+
   				SDL_BlitSurface(not_enough, NULL, screen, &rest);
   				SDL_Flip(screen);
   				SDL_FreeSurface(not_enough);
@@ -372,14 +379,14 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
         }
         f = fopen("backup/general.toe", "wb");
         char themeName[256];
-        strcpy(themeName, "Resources/themes/black-metal/");
+        strcpy(themeName, "Resources/themes/black-metal.jpg");
         fwrite(&themeName, 1, sizeof(char)*256, f);
         fclose(f);
     }else{
       //if item already bought then choose it
       f = fopen("backup/general.toe", "wb");
       char themeName[256];
-      strcpy(themeName, "Resources/themes/black-metal/");
+      strcpy(themeName, "Resources/themes/black-metal.jpg");
       fwrite(&themeName, 1, sizeof(char)*256, f);
       fclose(f);
     }
@@ -413,12 +420,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           }
           fclose(f);
         }else{
-          SDL_Surface * not_enough = IMG_Load("Resources/notenoughmoney.png");
-  				SDL_Rect rest;
-  				rest.x = 100;
-  				rest.y = 150;
-  				rest.h = not_enough->h;
-  				rest.w = not_enough->w;
+
   				SDL_BlitSurface(not_enough, NULL, screen, &rest);
   				SDL_Flip(screen);
   				SDL_FreeSurface(not_enough);
@@ -428,14 +430,14 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
         }
         f = fopen("backup/general.toe", "wb");
         char themeName[256];
-        strcpy(themeName, "Resources/themes/sea/");
+        strcpy(themeName, "Resources/themes/sea.jpg");
         fwrite(&themeName, 1, sizeof(char)*256, f);
         fclose(f);
       }else{
         //if item already bought then choose it
         f = fopen("backup/general.toe", "wb");
         char themeName[256];
-        strcpy(themeName, "Resources/themes/sea/");
+        strcpy(themeName, "Resources/themes/sea.jpg");
         fwrite(&themeName, 1, sizeof(char)*256, f);
         fclose(f);
       }
@@ -468,12 +470,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           }
           fclose(f);
         }else{
-          SDL_Surface * not_enough = IMG_Load("Resources/notenoughmoney.png");
-  				SDL_Rect rest;
-  				rest.x = 100;
-  				rest.y = 150;
-  				rest.h = not_enough->h;
-  				rest.w = not_enough->w;
+
   				SDL_BlitSurface(not_enough, NULL, screen, &rest);
   				SDL_Flip(screen);
   				SDL_FreeSurface(not_enough);
@@ -483,14 +480,14 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
         }
         f = fopen("backup/general.toe", "wb");
         char themeName[256];
-        strcpy(themeName, "Resources/themes/woody/");
+        strcpy(themeName, "Resources/themes/woody.jpg");
         fwrite(&themeName, 1, sizeof(char)*256, f);
         fclose(f);
     }else{
       //if item already bought then choose it
       f = fopen("backup/general.toe", "wb");
       char themeName[256];
-      strcpy(themeName, "Resources/themes/woody/");
+      strcpy(themeName, "Resources/themes/woody.jpg");
       fwrite(&themeName, 1, sizeof(char)*256, f);
       fclose(f);
     }
@@ -498,5 +495,17 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
   }
 }
   }
+  }
+  if(itemSelected == x){
+    SDL_Surface * already_chosen = IMG_Load("Resources/alreadychosen.png");
+    SDL_Rect Pos;
+    Pos.x = 100;
+    Pos.y = 150;
+    Pos.h = already_chosen->h;
+    Pos.w = already_chosen->w;
+    SDL_BlitSurface(already_chosen, NULL, screen, &Pos);
+    SDL_Flip(screen);
+    SDL_FreeSurface(already_chosen);
+    SDL_Delay(1500);
   }
 }

@@ -46,12 +46,7 @@ soundFX initSounds(){
 menu initOffMenu(){
   menu m;
   m.splash = IMG_Load("Resources/init.jpg");
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "menuback.png");
-  m.menuBack = IMG_Load(themePath);
+  m.menuBack = IMG_Load("Resources/menuback.png");
   m.playbut = IMG_Load("Resources/playbut.png");
   m.playbut2 = IMG_Load("Resources/playbut2.png");
   m.storebut = IMG_Load("Resources/store.png");
@@ -63,6 +58,7 @@ menu initOffMenu(){
   m.soundbut = IMG_Load("Resources/sound.png");
   m.soundbut2 = IMG_Load("Resources/sound2.png");
   m.powerbut = IMG_Load("Resources/power.png");
+
   //splash
   m.splashPos.x = 0; m.splashPos.y = 0;
   m.splashPos.h = m.splash->h;  m.splashPos.w = m.splash->w;
@@ -87,6 +83,7 @@ menu initOffMenu(){
   //quit
   m.powerbutPos.x = 450; m.powerbutPos.y = 450;
   m.powerbutPos.h = m.powerbut->h; m.powerbutPos.w = m.powerbut->w;
+
   return m;
 }
 /**
@@ -97,6 +94,17 @@ menu initOffMenu(){
  * @return nothing
  */
 void showOffMenu(menu mc, SDL_Surface * screen, control c){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   SDL_BlitSurface (mc.menuBack, NULL, screen, &mc.menuBackPos);
  SDL_BlitSurface (mc.playbut, NULL, screen, &mc.playbutPos);
   SDL_BlitSurface (mc.storebut, NULL, screen, &mc.storebutPos);
@@ -263,12 +271,7 @@ return y;
  */
 help initHelp(){
   help h;
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "helpback.jpg");
-  h.backhelp = IMG_Load(themePath);
+  h.backhelp = IMG_Load("Resources/helpback.png");
   h.backPos.x = 0; h.backPos.y = 0;
   h.backPos.h = h.backhelp->h ; h.backPos.w = h.backhelp->w;
   return h;
@@ -281,6 +284,17 @@ help initHelp(){
  * @return nothing.
  */
 void showHelp(help h, SDL_Surface* screen, buttons bu){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   SDL_BlitSurface(h.backhelp, NULL, screen, &h.backPos);
   SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
 }
@@ -328,12 +342,7 @@ int helpMotion(buttons bu,help h, SDL_Surface * screen, SDL_Event event){
  */
 about initAbout(){
   about ab;
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "aboutback.png");
-  ab.backabout = IMG_Load(themePath);
+  ab.backabout = IMG_Load("Resources/aboutback.png");
   ab.backPos.x = 0; ab.backPos.y = 0;
   ab.backPos.h = ab.backabout->h ; ab.backPos.w = ab.backabout->w;
   return ab;
@@ -346,6 +355,17 @@ about initAbout(){
  * @return nothing.
  */
 void showAbout(about a, SDL_Surface* screen, buttons bu){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   SDL_BlitSurface(a.backabout, NULL, screen, &a.backPos);
   SDL_BlitSurface(bu.backbut, NULL, screen, &bu.backbutPos);
 }
@@ -355,8 +375,7 @@ void showAbout(about a, SDL_Surface* screen, buttons bu){
   * @param[in] about a the struct that contains the elements of screen to test on.
  * @return It returns 1 if back button is hovered by the mouse else 0.
  */
-int aboutMotion(buttons bu,about a,
-  SDL_Surface * screen, SDL_Event event){
+int aboutMotion(buttons bu,about a,SDL_Surface * screen, SDL_Event event){
     int y =0;
       if(((event.motion.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.motion.x >= bu.backbutPos.x)) && ((event.motion.y >= bu.backbutPos.y) && (event.motion.y <= (bu.backbutPos.y + bu.backbut->h)))) {
 
@@ -392,12 +411,8 @@ int aboutClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
  */
 menuPlayGame initMenuPlay(){
   menuPlayGame mpg;
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "backplaymenu.jpg");
-  mpg.back = IMG_Load(themePath);
+
+  mpg.back = IMG_Load("Resources/backplaymenu.png");
   mpg.computer = IMG_Load("Resources/computer.png");
   mpg.computer2 = IMG_Load("Resources/computer2.png");
   mpg.friend = IMG_Load("Resources/friend.png");
@@ -423,6 +438,17 @@ menuPlayGame initMenuPlay(){
  * @return nothing.
  */
 void showMenuPlay(menuPlayGame mpg, SDL_Surface *screen, buttons bu){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   SDL_BlitSurface(mpg.back, NULL, screen, &mpg.backPos);
     SDL_BlitSurface(mpg.computer, NULL, screen, &mpg.computerPos);
     SDL_BlitSurface(mpg.friend, NULL, screen, &mpg.friendPos);

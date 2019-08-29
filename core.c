@@ -19,13 +19,7 @@
  * @return integer that says it the initialization done correctly (1 for done 0 for not done).
  */
 int initPickScreen(picker *p){
-  //init
-  FILE* f = fopen("backup/general.toe", "rb");
-  char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "picker.png");
-  p->backPicker = IMG_Load(themePath);
+  p->backPicker = IMG_Load("Resources/picker.png");
   p->backbut = IMG_Load("Resources/back.png");
   p->backbut2 = IMG_Load("Resources/back2.png");
   if((p->backPicker == NULL) || (p->backbut == NULL) || (p->backbut2 == NULL)){
@@ -36,7 +30,7 @@ int initPickScreen(picker *p){
     p->backPos.h = p->backPicker->h; p->backPos.w = p->backPicker->w;
     p->backbutPos.x = 10; p->backbutPos.y = 455;
     p->backbutPos.h = p->backbut->h ; p->backbutPos.w = p->backbut->w;
-}
+ }
 return 1;
 }
 /**
@@ -50,9 +44,21 @@ return 1;
  * @detail This function will return a character 'x' if user clicked on X on the screen or 'o' if clicked on O or 'n' character if user clicked back button or 'f' by default.
  */
 picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, control c){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
   static int blitCheck = 0; // this variable for checking when to blit
   //show
   if(blitCheck == 0){
+    SDL_BlitSurface(back, NULL, screen, &backPos);
   SDL_BlitSurface(p.backPicker, NULL, screen, &p.backPos);
   SDL_BlitSurface(p.backbut, NULL, screen, &p.backbutPos);
   SDL_Flip(screen);
@@ -61,6 +67,7 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, co
     if(((event.motion.x <= (p.backbutPos.x + p.backbut->w)) && (event.motion.x >= p.backbutPos.x)) && ((event.motion.y >= p.backbutPos.y) && (event.motion.y <= (p.backbutPos.y + p.backbut->h)))) {
     p.backbutPos.h = p.backbut2->h;
     p.backbutPos.w = p.backbut2->w;
+    SDL_BlitSurface(back, NULL, screen, &backPos);
     SDL_BlitSurface(p.backPicker, NULL, screen, &p.backPos);
     SDL_BlitSurface(p.backbut2 ,NULL,screen,&p.backbutPos);
     if(c.soundMuted == 0){
@@ -1946,32 +1953,20 @@ playgameScreen initGamePlay(){
   playgameScreen pgs;
   int i;
   char name[50];
-  FILE* f = fopen("backup/general.toe", "rb");
+  FILE * f = NULL;
   char themePath[256];
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "playback.png");
-  pgs.back = IMG_Load(themePath);
+  pgs.back = IMG_Load("Resources/playback.png");
   pgs.x = IMG_Load("Resources/x.png");
   pgs.o = IMG_Load("Resources/o.png");
-  //initialize splash screen of x and o by general file
-  f = fopen("backup/general.toe", "rb");
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "youplaywitho.jpg");
-  pgs.splashCharIndicatorO = IMG_Load(themePath);
-  f = fopen("backup/general.toe", "rb");
-  fread(&themePath, sizeof(char)*256,1, f);
-  fclose(f);
-  strcat(themePath, "youplaywithx.jpg");
-  pgs.splashCharIndicatorX = IMG_Load(themePath);
-  //=====
+  pgs.splashCharIndicatorO = IMG_Load("Resources/youplaywitho.png");
+  pgs.splashCharIndicatorX = IMG_Load("Resources/youplaywithx.png");
   pgs.backbut = IMG_Load("Resources/back.png");
   pgs.backScore = IMG_Load("Resources/backscore.png");
   if((pgs.back == NULL) || (pgs.x == NULL) || (pgs.o == NULL)
    || (pgs.backbut == NULL) || (pgs.backScore == NULL)){
     printf("cant load images\n");
   }
+
   //initializing all the win-lines
   for (i = 0; i < 8; i++) {
     sprintf(name, "Resources/lines/line%d.png", i+1);
@@ -2038,10 +2033,11 @@ playgameScreen initGamePlay(){
   pgs.backScorePos.x = 90; pgs.backScorePos.y = 428;
   pgs.backScorePos.h = pgs.backScore->h; pgs.backScorePos.w = pgs.backScore->w;
   pgs.scorePos.x = 127; pgs.scorePos.y = 433;
-  pgs.splashIndicatorPos.x=0;
-  pgs.splashIndicatorPos.y=0;
+  pgs.splashIndicatorPos.x=100;
+  pgs.splashIndicatorPos.y=150;
     pgs.splashIndicatorPos.h=pgs.splashCharIndicatorO->h;
   pgs.splashIndicatorPos.w=pgs.splashCharIndicatorO->w;
+
 return pgs;
 }
 /**
@@ -2051,6 +2047,17 @@ return pgs;
  * @return nothing
  */
 void showGamePlay(playgameScreen pgs, SDL_Surface *screen){
+  //deciding what background (theme) should be applied when openning this section.
+  FILE* f = fopen("backup/general.toe", "rb");
+  char themePath[256];
+  fread(&themePath, sizeof(char)*256,1, f);
+  fclose(f);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+  SDL_BlitSurface(back, NULL, screen, &backPos);
+
    SDL_BlitSurface(pgs.back, NULL, screen, &pgs.backPos);
    SDL_BlitSurface(pgs.backbut, NULL, screen, &pgs.backbutPos);
 }
@@ -3040,12 +3047,17 @@ void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface
   int reciver;
   SDL_Surface * newHSwindow = NULL;
   SDL_Rect newHSwindowPos;
-  FILE* f = fopen("backup/general.toe", "rb");
+  //deciding what background (theme) should be applied when openning this section.
+  FILE * f = fopen("backup/general.toe", "rb");
   char themePath[256];
   fread(&themePath, sizeof(char)*256,1, f);
   fclose(f);
-  strcat(themePath, "newscoresplash.png");
-  newHSwindow = IMG_Load(themePath);
+  SDL_Surface * back = IMG_Load(themePath);
+  SDL_Rect backPos;
+  backPos.x = 0; backPos.y = 0;
+  backPos.h = back->h; backPos.w = back->w;
+
+  newHSwindow = IMG_Load("Resources/newscoresplash.png");
   newHSwindowPos.x = 0; newHSwindowPos.y = 0;
   newHSwindowPos.h = newHSwindow->h; newHSwindowPos.w = newHSwindow->w;
   reciver = fileManipulation(0, p->highest_points);
@@ -3061,6 +3073,7 @@ void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface
     two_times_in_row = 0;
     if(reciver < p->user_points){
       fileManipulation(1, p->user_points);
+      SDL_BlitSurface(back, NULL, screen, &backPos);
       SDL_BlitSurface(newHSwindow, NULL, screen, &newHSwindowPos);
       SDL_Flip(screen);
       SDL_Delay(500);
@@ -3093,7 +3106,7 @@ void creating_files(){
     system("mkdir backup");
     system("cd backup");
     f=fopen("backup/tics.toe", "wb");
-    buffer = 1000;
+    buffer = 0;
     fwrite(&buffer, 1, sizeof(int), f);
     fclose(f);
     //file that stores highest points value
@@ -3103,7 +3116,7 @@ void creating_files(){
     //file that stores actual theme.
     f=fopen("backup/general.toe", "wb");
     char themeName[256];
-    strcpy(themeName, "Resources/");
+    strcpy(themeName, "Resources/themes/greeness.jpg");
     fwrite(&themeName, 1, sizeof(char)*265, f); fclose(f);
     //file that store which items bought from store
     f=fopen("backup/items.toe", "wb");
