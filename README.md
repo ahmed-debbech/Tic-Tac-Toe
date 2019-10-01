@@ -19,5 +19,5 @@ Read the documentation folder to know more about the API.\
 Contact at: debbech.ahmed@gmail.com
 ## License
 This game is under [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) License.\
-Copyright © 2019 Ahmed Debbech. 
+Copyright © 2019 Ahmed Debbech.\
 Copyright © 1997 - 2019 SDL Community. 
