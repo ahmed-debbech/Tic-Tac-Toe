@@ -37,6 +37,6 @@ store initStore();
 void showStore(store s, SDL_Surface * screen, buttons bu);
 tics manageTics(int winner);
 void printTics(tics t, SDL_Surface * screen);
-int storeClicks(SDL_Event event, buttons bu, soundFX sfx, control c);
+int storeClicks(SDL_Event event, buttons bu, soundFX sfx);
 int buyingManger(int itemSelected, SDL_Surface * screen);
 #endif

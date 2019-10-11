@@ -49,6 +49,7 @@ typedef struct{
   SDL_Surface * o; /**< the O image. */
   SDL_Rect input;  /**< position of X and O (this position varies depending on the input). */
   SDL_Surface * backbut;  /**< image of back button */
+  SDL_Surface * levelsText; /**< the text that contains number of current levels on screen */
   SDL_Rect backbutPos;  /**< position of back button. */
   SDL_Rect scorePos;  /**< score postion on screen */
   SDL_Surface * backScore;  /**< background of the score */
@@ -59,13 +60,13 @@ typedef struct{
   struct lines l[8];
 }playgameScreen;
 int initPickScreen(picker *p);
-picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, control c);
+picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx);
 void init (char (*m)[3]);
 void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], char whatComputerChose);
 void initDeffTable(int (*t)[3]);
 void initAttTable(int (*ta)[3]);
 playgameScreen initGamePlay();
-int player(char (*m)[3],SDL_Surface *screen, playgameScreen pgs, char c, SDL_Event event, soundFX sfx , control con);
+int player(char (*m)[3],SDL_Surface *screen, playgameScreen pgs, char c, SDL_Event event, soundFX sfx);
 void showGamePlay(playgameScreen pgs,SDL_Surface *screen);
 void printOnTable(computerEnteries ce, char (*m)[3], SDL_Surface * screen, playgameScreen pgs, char c);
 int checkfin(char (*m)[3]);
@@ -76,4 +77,6 @@ void printPoints (points p, SDL_Surface * screen);
 void managePoints(points *p, int winner, int scomputer, int splayer, SDL_Surface *screen);
 int fileManipulation(int flag, int points);
 void creating_files();
+void addTicsToBalance(int tics);
+int manageLevels(int * levels, int num, int winChecker);
 #endif

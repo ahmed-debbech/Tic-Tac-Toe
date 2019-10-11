@@ -176,11 +176,11 @@ tics manageTics(int winner){
       f = fopen("backup/tics.toe", "wb");
       if(winner == 2){
       if(won_five_time_row < 5){
-       t.text += 5;
+       t.text += 10;
        fwrite(&t.text, 1, sizeof(int), f);
        won_five_time_row++;
     }else{
-       t.text += 35;
+       t.text += 20;
        fwrite(&t.text, 1, sizeof(int), f);
        won_five_time_row = 0;
     }
@@ -240,41 +240,54 @@ SDL_BlitSurface(value, NULL, screen, &valuePos);
  * @param[in] SDL_Event event the action made by the user.
   * @param[in] SDL_Surface* screen the screen to print.
   * @param[in] soundFX sfx the sounds that will be generated.
-  * @param[in] control c control flag of sounds
   * @param[in] SDL_Surface* screen the screen to print.
  * @return It returns 0 if back button is clicked or any number ordered by the store items starting from 1 or -1 if nothing is clicked.
  */
-int storeClicks(SDL_Event event, buttons bu, soundFX sfx, control c){
+int storeClicks(SDL_Event event, buttons bu, soundFX sfx){
   //each new store item added you should add a new condition that returns a number.
   if(((event.button.x <= (bu.backbutPos.x + bu.backbut->w)) && (event.button.x >= bu.backbutPos.x)) && ((event.button.y >= bu.backbutPos.y) && (event.button.y <= (bu.backbutPos.y + bu.backbut->h)))) {
-    if(c.soundMuted == 0){
+    if(sfx.soundMuted == 0){
    Mix_PlayChannel(-1, sfx.butClick, 0);
    }
      return 0;
  }else{
    if(((event.button.x <= 165) && (event.button.x >= 18)) && ((event.button.y >= 141) && (event.button.y <= 192))) {
-     if(c.soundMuted == 0){
+     if(sfx.soundMuted == 0){
     Mix_PlayChannel(-1, sfx.butClick, 0);
     }
       return 1;
   }else{
     if(((event.button.x <= 324) && (event.button.x >= 183)) && ((event.button.y >= 141) && (event.button.y <= 192))) {
-      if(c.soundMuted == 0){
+      if(sfx.soundMuted == 0){
      Mix_PlayChannel(-1, sfx.butClick, 0);
      }
        return 2;
    }else{
      if(((event.button.x <= 488) && (event.button.x >= 348)) && ((event.button.y >= 141) && (event.button.y <= 192))) {
-       if(c.soundMuted == 0){
+       if(sfx.soundMuted == 0){
       Mix_PlayChannel(-1, sfx.butClick, 0);
       }
         return 3;
     }else{
       if(((event.button.x <= 165) && (event.button.x >= 18)) && ((event.button.y >= 201) && (event.button.y <= 240))) {
-        if(c.soundMuted == 0){
+        if(sfx.soundMuted == 0){
        Mix_PlayChannel(-1, sfx.butClick, 0);
        }
          return 4;
+     }else{
+       if(((event.button.x <= 324) && (event.button.x >= 183)) && ((event.button.y >= 201) && (event.button.y <= 240))) {
+         if(sfx.soundMuted == 0){
+        Mix_PlayChannel(-1, sfx.butClick, 0);
+        }
+          return 5;
+      }else{
+        if(((event.button.x <= 488) && (event.button.x >= 348)) && ((event.button.y >= 201) && (event.button.y <= 240))) {
+          if(sfx.soundMuted == 0){
+         Mix_PlayChannel(-1, sfx.butClick, 0);
+         }
+           return 6;
+       }
+      }
      }
     }
    }
@@ -308,6 +321,14 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
       }else{
         if(strcmp(name, "Resources/themes/woody.jpg") == 0){
           x = 4;
+        }else{
+          if(strcmp(name, "Resources/themes/cubic.jpg") == 0){
+            x = 5;
+          }else{
+            if(strcmp(name, "Resources/themes/ciramic.jpg") == 0){
+              x = 6;
+            }
+          }
         }
       }
     }
@@ -338,7 +359,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
   }else{
     f = fopen("backup/items.toe", "rb");
     //the stop condition in the loop bellow should increment as the number of items increase.
-    for(counter = 0; counter < 4; counter++){
+    for(counter = 0; counter < 6; counter++){
       fread(&buffer, sizeof(int), 1, f);
       items[counter] = buffer;
     }
@@ -355,7 +376,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           fclose(f);
           //reading from items.toe
           f = fopen("backup/items.toe", "rb");
-          for(counter = 0; counter < 2; counter++){
+          for(counter = 0; counter < 6; counter++){
             fread(&buffer, sizeof(int), 1, f);
             items[counter] = buffer;
           }
@@ -363,7 +384,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           fclose(f);
           //writing to items.toe
           f = fopen("backup/items.toe", "wb");
-          for(counter = 0; counter < 4; counter++){
+          for(counter = 0; counter < 6; counter++){
             buffer = items[counter];
             fwrite(&buffer, 1, sizeof(int), f);
           }
@@ -405,7 +426,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           //reading from items.toe
           f = fopen("backup/items.toe", "rb");
           //the stop condition in the loop bellow should increment as the number of items increase.
-          for(counter = 0; counter < 4; counter++){
+          for(counter = 0; counter < 6; counter++){
             fread(&buffer, sizeof(int), 1, f);
             items[counter] = buffer;
           }
@@ -414,7 +435,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           //writing to items.toe
           f = fopen("backup/items.toe", "wb");
           //the stop condition in the loop bellow should increment as the number of items increase.
-          for(counter = 0; counter < 4; counter++){
+          for(counter = 0; counter < 6; counter++){
             buffer = items[counter];
             fwrite(&buffer, 1, sizeof(int), f);
           }
@@ -456,7 +477,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           //reading from items.toe
           f = fopen("backup/items.toe", "rb");
           //the stop condition in the loop bellow should increment as the number of items increase.
-          for(counter = 0; counter < 4; counter++){
+          for(counter = 0; counter < 6; counter++){
             fread(&buffer, sizeof(int), 1, f);
             items[counter] = buffer;
           }
@@ -464,7 +485,7 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
           fclose(f);
           //writing to items.toe
           f = fopen("backup/items.toe", "wb");
-          for(counter = 0; counter < 4; counter++){
+          for(counter = 0; counter < 6; counter++){
             buffer = items[counter];
             fwrite(&buffer, 1, sizeof(int), f);
           }
@@ -492,6 +513,108 @@ int buyingManger(int itemSelected, SDL_Surface * screen){
       fclose(f);
     }
     return 1;
+  }else{
+    if((itemSelected == 5) && (itemSelected != x)){
+      if(items[4] == 0){
+          f = fopen("backup/tics.toe", "rb");
+          fread(&buffer, sizeof(int), 1, f);
+        if((buffer >= 250) && (buffer > 0)){
+          buffer -= 250;
+          fclose(f);
+          f = fopen("backup/tics.toe", "wb");
+          fwrite(&buffer, 1,sizeof(int), f);
+          fclose(f);
+          //reading from items.toe
+          f = fopen("backup/items.toe", "rb");
+          //the stop condition in the loop bellow should increment as the number of items increase.
+          for(counter = 0; counter < 6; counter++){
+            fread(&buffer, sizeof(int), 1, f);
+            items[counter] = buffer;
+          }
+          items[itemSelected-1] = 1;
+          fclose(f);
+          //writing to items.toe
+          f = fopen("backup/items.toe", "wb");
+          for(counter = 0; counter < 6; counter++){
+            buffer = items[counter];
+            fwrite(&buffer, 1, sizeof(int), f);
+          }
+          fclose(f);
+        }else{
+
+  				SDL_BlitSurface(not_enough, NULL, screen, &rest);
+  				SDL_Flip(screen);
+  				SDL_FreeSurface(not_enough);
+          SDL_Delay(2000);
+          fclose(f);
+          return 0;
+        }
+        f = fopen("backup/general.toe", "wb");
+        char themeName[256];
+        strcpy(themeName, "Resources/themes/cubic.jpg");
+        fwrite(&themeName, 1, sizeof(char)*256, f);
+        fclose(f);
+    }else{
+      //if item already bought then choose it
+      f = fopen("backup/general.toe", "wb");
+      char themeName[256];
+      strcpy(themeName, "Resources/themes/cubic.jpg");
+      fwrite(&themeName, 1, sizeof(char)*256, f);
+      fclose(f);
+    }
+    return 1;
+  }else{
+    if((itemSelected == 6) && (itemSelected != x)){
+      if(items[5] == 0){
+          f = fopen("backup/tics.toe", "rb");
+          fread(&buffer, sizeof(int), 1, f);
+        if((buffer >= 290) && (buffer > 0)){
+          buffer -= 290;
+          fclose(f);
+          f = fopen("backup/tics.toe", "wb");
+          fwrite(&buffer, 1,sizeof(int), f);
+          fclose(f);
+          //reading from items.toe
+          f = fopen("backup/items.toe", "rb");
+          //the stop condition in the loop bellow should increment as the number of items increase.
+          for(counter = 0; counter < 6; counter++){
+            fread(&buffer, sizeof(int), 1, f);
+            items[counter] = buffer;
+          }
+          items[itemSelected-1] = 1;
+          fclose(f);
+          //writing to items.toe
+          f = fopen("backup/items.toe", "wb");
+          for(counter = 0; counter < 6; counter++){
+            buffer = items[counter];
+            fwrite(&buffer, 1, sizeof(int), f);
+          }
+          fclose(f);
+        }else{
+
+  				SDL_BlitSurface(not_enough, NULL, screen, &rest);
+  				SDL_Flip(screen);
+  				SDL_FreeSurface(not_enough);
+          SDL_Delay(2000);
+          fclose(f);
+          return 0;
+        }
+        f = fopen("backup/general.toe", "wb");
+        char themeName[256];
+        strcpy(themeName, "Resources/themes/ceramic.jpg");
+        fwrite(&themeName, 1, sizeof(char)*256, f);
+        fclose(f);
+    }else{
+      //if item already bought then choose it
+      f = fopen("backup/general.toe", "wb");
+      char themeName[256];
+      strcpy(themeName, "Resources/themes/ceramic.jpg");
+      fwrite(&themeName, 1, sizeof(char)*256, f);
+      fclose(f);
+    }
+    return 1;
+  }
+  }
   }
 }
   }

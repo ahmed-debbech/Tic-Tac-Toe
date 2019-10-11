@@ -1,7 +1,7 @@
 /**
  * @file core.c
  * @author Ahmed Debbech
- * @brief Core algorithms that make the game executable.
+ * @brief Core algorithms that make the game works.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,11 +39,10 @@ return 1;
  * @param[in] SDL_event event the event that will put in the picker structure what did the user choose.
  * @param[in] SDL_Surface *screen the screen to blit on and show.
  * @param[in] soundFX sfx the sounds that will be generated.
- * @param[in] control c control flag of sounds
  * @return it will return a picker structure that contains a field filled with what did the user choose.
  * @detail This function will return a character 'x' if user clicked on X on the screen or 'o' if clicked on O or 'n' character if user clicked back button or 'f' by default.
  */
-picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, control c){
+picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx){
   //deciding what background (theme) should be applied when openning this section.
   FILE* f = fopen("backup/general.toe", "rb");
   char themePath[256];
@@ -70,7 +69,7 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, co
     SDL_BlitSurface(back, NULL, screen, &backPos);
     SDL_BlitSurface(p.backPicker, NULL, screen, &p.backPos);
     SDL_BlitSurface(p.backbut2 ,NULL,screen,&p.backbutPos);
-    if(c.soundMuted == 0){
+    if(sfx.soundMuted == 0){
    Mix_PlayChannel(-1, sfx.butHover, 0);
    }
     SDL_Flip(screen);
@@ -82,21 +81,21 @@ picker getPick (SDL_Surface * screen, SDL_Event event, picker p, soundFX sfx, co
     if(event.type == SDL_MOUSEBUTTONDOWN){
       if(((event.button.x <= (p.backbutPos.x + p.backbut->w)) && (event.button.x >= p.backbutPos.x)) && ((event.button.y >= p.backbutPos.y) && (event.button.y <= (p.backbutPos.y + p.backbut->h)))) {
       p.pick = 'n';
-      if(c.soundMuted == 0){
+      if(sfx.soundMuted == 0){
      Mix_PlayChannel(-1, sfx.butClick, 0);
      }
       return p;
     }else{
       if(((event.button.x <= (64 + 147)) && (event.button.x >= 64)) && ((event.button.y >= 144) && (event.button.y <= ( 144+ 134)))) {
         p.pick = 'x';
-        if(c.soundMuted == 0){
+        if(sfx.soundMuted == 0){
        Mix_PlayChannel(-1, sfx.butClick, 0);
        }
         return p;
       }else{
         if(((event.button.x <= (295 + 147)) && (event.button.x >= 295)) && ((event.button.y >= 144) && (event.button.y <= (144 + 134)))) {
            p.pick = 'o';
-           if(c.soundMuted == 0){
+           if(sfx.soundMuted == 0){
           Mix_PlayChannel(-1, sfx.butClick, 0);
           }
            return p;
@@ -2066,14 +2065,11 @@ void showGamePlay(playgameScreen pgs, SDL_Surface *screen){
  * @param[in] char m[3][3] the main m matrix.
  * @param[in] SDL_Surface * screen the screen ti blit on.
  * @param[in] playgameScreen pgs the structure that contains all the needed entities to test the event.
- * @param[in] SDL_event event the event to control.
  * @param[in] soundFX sfx the sounds that will be generated.
- * @param[in] control c control flag of sounds
- * @return nothing
- * @detail It returns -1 if the player clicked on exit button or 1 if the user played correctly or 0 if no input.
- It is safe to put that function inside a do while loop and set stop case equal to zero.
+ * @return It returns -1 if the player clicked on exit button or 1 if the user played correctly or 0 if no input or 3 if back button was pressed.
+ * @detail It is safe to put that function inside a do while loop and set stop case equal to zero.
  */
-int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_Event event,soundFX sfx, control con){
+int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_Event event,soundFX sfx){
   switch(event.type){
     case SDL_QUIT:
      return -1;
@@ -2100,7 +2096,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
            SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
            SDL_Flip(screen);
          }
-         if(con.soundMuted == 0){
+         if(sfx.soundMuted == 0){
         Mix_PlayChannel(-1, sfx.tap, 0);
         }
          return 1;
@@ -2127,7 +2123,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
            SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
            SDL_Flip(screen);
          }
-         if(con.soundMuted == 0){
+         if(sfx.soundMuted == 0){
         Mix_PlayChannel(-1, sfx.tap, 0);
         }
            return 1;
@@ -2154,7 +2150,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
              SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
              SDL_Flip(screen);
            }
-           if(con.soundMuted == 0){
+           if(sfx.soundMuted == 0){
           Mix_PlayChannel(-1, sfx.tap, 0);
           }
              return 1;
@@ -2181,7 +2177,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                SDL_Flip(screen);
              }
-             if(con.soundMuted == 0){
+             if(sfx.soundMuted == 0){
             Mix_PlayChannel(-1, sfx.tap, 0);
             }
                return 1;
@@ -2208,7 +2204,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                  SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                  SDL_Flip(screen);
                 }
-                if(con.soundMuted == 0){
+                if(sfx.soundMuted == 0){
                 Mix_PlayChannel(-1, sfx.tap, 0);
                 }
                  return 1;
@@ -2235,7 +2231,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                    SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                    SDL_Flip(screen);
                   }
-                  if(con.soundMuted == 0){
+                  if(sfx.soundMuted == 0){
                  Mix_PlayChannel(-1, sfx.tap, 0);
                  }
                    return 1;
@@ -2262,7 +2258,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                      SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                      SDL_Flip(screen);
                     }
-                    if(con.soundMuted == 0){
+                    if(sfx.soundMuted == 0){
                    Mix_PlayChannel(-1, sfx.tap, 0);
                    }
                      return 1;
@@ -2289,7 +2285,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                        SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                        SDL_Flip(screen);
                       }
-                      if(con.soundMuted == 0){
+                      if(sfx.soundMuted == 0){
                      Mix_PlayChannel(-1, sfx.tap, 0);
                      }
                        return 1;
@@ -2316,7 +2312,7 @@ int player ( char (*m)[3], SDL_Surface *screen, playgameScreen pgs, char c, SDL_
                          SDL_BlitSurface(pgs.o, NULL, screen, &pgs.input);
                          SDL_Flip(screen);
                         }
-                        if(con.soundMuted == 0){
+                        if(sfx.soundMuted == 0){
                        Mix_PlayChannel(-1, sfx.tap, 0);
                        }
                          return 1;
@@ -3106,7 +3102,7 @@ void creating_files(){
     system("mkdir backup");
     system("cd backup");
     f=fopen("backup/tics.toe", "wb");
-    buffer = 0;
+    buffer = 100;
     fwrite(&buffer, 1, sizeof(int), f);
     fclose(f);
     //file that stores highest points value
@@ -3148,3 +3144,68 @@ void creating_files(){
     fclose(f);
   }
 }
+/**
+ * @brief Adds the new amount of tics to the user's balance after reaching the desired levels in the pack.
+ * @param int tics the amount of tics to add.
+ * @detail It is safe to call this function inside manageLevels().
+ * @return nothing.
+ */
+void addTicsToBalance(int tics){
+  FILE * f = NULL;
+  f = fopen("backup/tics.toe", "rb");
+  int x;
+  fread(&x, sizeof(int), 1, f);
+  x = x + tics;
+  fclose(f);
+  f = fopen("backup/tics.toe", "wb");
+  int buffer = x;
+  fwrite(&buffer, 1, sizeof(int), f);
+  fclose(f);
+}
+
+/**
+ * @brief It creates all files necessary to run the app if they are not found and initialize them.
+ * @param[in][out] int * levels number of current levels; it can increment or decrement the value and send it back.
+ * @param[in] int num the number of package.
+ * @paran[in] int winChecker it says 1 if the user wins or 0 if loses.
+ * @return integer that says if the user reached the desired number of levels so it returns 1 and adds tics to balance or if he loses and get to zero so it returns 0 by default it returns -1 which means nothing.
+ * @detail This function calls addTicsToBalance() implicitly so it adds the new amount to the balance of the user if he reached the pack levels or reduces it if he loses.
+ */
+ int manageLevels(int * levels, int num, int winChecker){
+   int numPkg, amount;
+   switch(num){
+     case 1: numPkg = 6; amount = 95;
+     break;
+     case 2: numPkg = 11; amount = 145;
+     break;
+     case 3: numPkg = 15; amount = 190;
+     break;
+   }
+   if(winChecker == 1){
+     if(numPkg == (*levels)+1){
+      addTicsToBalance(amount);
+       return 1;
+     }else{
+       (*levels)++;
+     }
+   }else{
+     (*levels)--;
+     if(*levels == 0){
+       FILE * f = NULL;
+       int buffer;
+       f = fopen("backup/tics.toe", "rb");
+       fread(&buffer, sizeof(int), 1, f);
+       fclose(f);
+       f = fopen("backup/tics.toe", "wb");
+       if(buffer >= 40){
+         buffer = buffer - 40;
+       }else{
+           buffer  = 0;
+       }
+       fwrite(&buffer, 1, sizeof(int), f);
+       fclose(f);
+       return 0;
+     }
+   }
+   return -1;
+ }
