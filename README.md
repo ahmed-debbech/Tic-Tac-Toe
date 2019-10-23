@@ -6,7 +6,7 @@ Tic Tac toe is a small, simple, well-known game that was made with fun.\
 Clone this repo and a `make` command will compile the project from source and excute it.\
  IMPORTANT: YOU HAVE TO INSTALL [SDLv1.2](https://www.libsdl.org/). LIBRARIES IN ORDER TO RUN THE CODE PROPERLY!\ 
 * From Binary: 
- 1) Download the executable for Windows from the releases section. 
+ 1) Download the executable for Windows from the releases section or from [here](http://bit.ly/2VyYirF). 
  2) Unzip the file and double click the "Tic Tac Toe.exe".\
  IMPORTANT: DO NOT REPLACE, COPY OR DELETE ANYTHING FROM THE FOLDER.
 ## Contributing
