@@ -136,7 +136,7 @@ void initAttTable(int (*ta)[3]){
     }
 }
 struct Node{
-    int turnPos;
+    computerEnteries turnPos;
     int numOfPlaces;
     struct Node * childs[9];
 };
@@ -145,23 +145,105 @@ int checkFreePlaces(char (*m)[3]){
   int count = 0,i,j;
   for(i = 0; i<=2; i++){
     for(j = 0; j<=2; j++){
-      if(m[i][j] != ' '){
+      if(m[i][j] == ' '){
         count++;
       }
     }
   }
   return count;
 }
-node * buildTree(char (*m)[3], node * root, int i){
-  int available = checkFreePlaces(m);
-  if(checkfin(m) == 1){
+int isWin(char (*m)[3], char player){
+  int i,j;
+  //rows
+  if((m[0][0]==player && m[0][1]==player && m[0][2]==player )||
+   (m[1][0]==player && m[1][1]==player && m[1][2]==player) ||
+    (m[2][0]==player && m[2][1]==player && m[2][2]==player) ||
+  //columns
+    (m[0][0]==player && m[1][0]==player && m[2][0]==player )||
+   (m[0][1]==player && m[1][1]==player && m[2][1]==player) ||
+    (m[0][2]==player && m[1][2]==player && m[2][2]==player) ||
+    //diagonals
+    (m[0][0]==player && m[1][1]==player && m[2][2]==player) ||
+    (m[2][0]==player && m[1][1]==player && m[0][2]==player) ){
+
+      return 1;
+  }else{
+    return 0;
+  }
+}
+void availPlaces(computerEnteries ce[9], char (*m)[3]){
+  int count = 0,i,j,r=0;
+  for(i = 0; i<=2; i++){
+    for(j = 0; j<=2; j++){
+      if(m[i][j] != ' '){
+        ce[r].xc = i;
+        ce[r].yc = j;
+        r++;
+      }
+    }
+  }
+}
+void print2DUtil(node *root, int space, int k) { 
+    // Base case 
+    if (root == NULL) 
+        return; 
+  
+    // Increase distance between levels 
+    space += 10; 
+  
+    // Process right child first 
+    print2DUtil(root->childs[0], space, 0); 
+  
+    // Print current node after space 
+    // count 
+    printf("\n"); 
+    for (int i = 10; i < space; i++) 
+        printf(" "); 
+    printf("%d\n", root->numOfPlaces); 
+  
+    // Process left child 
+    //for(){
+      print2DUtil(root->childs[k], space, k++); 
+    //}
+} 
+void graphics(char (*m)[3]){
+    printf("      1     2     3\n");
+    printf("   ---------------------\n");
+    printf("   y  1     2     3\n");
+    printf(" x --------------------\n");
+    printf(" 1 |  %c  |   %c  |  %c  |\n", m[0][0],m[0][1],m[0][2]);
+    printf("   ---------------------\n");
+    printf("   --------------------\n");
+    printf(" 2 |  %c  |   %c  |  %c  |\n", m[1][0],m[1][1],m[1][2]);
+    printf("   ---------------------\n");
+    printf("   --------------------\n");
+    printf(" 3 |  %c  |   %c  |  %c  |\n", m[2][0],m[2][1],m[2][2]);
+    printf("   ---------------------\n");
+    printf("   --------------------\n");
+    printf("\n");
+}
+node * buildTree(char (*m)[3], node * root, int i, char player, int available){
+  computerEnteries ce[9];
+  availPlaces(ce, m);
+  if((checkfin(m) == 1) || (isWin(m,player) == 1)){
     return NULL;
-    i++;
   }else{
     if(root == NULL){
+      i=0;
       root = malloc(sizeof(node));
+      root->turnPos.xc = ce[i].xc;
+      root->turnPos.yc = ce[i].yc;
       root->numOfPlaces = available;
-      root->childs[i] = buildTree(m,root->childs[i]);
+      int r;
+      for(r=0; r<=8; r++){
+        root->childs[r] =NULL;
+      }
+      m[root->turnPos.xc][root->turnPos.yc] = player;
+      root->childs[i] = buildTree(m,root->childs[i],i,player,available--);
+    }
+    for(i=1; i < root->numOfPlaces; i++){
+      printf("%d ", i);
+      root->childs[i] = buildTree(m,root->childs[i],i, player, available--);
     }
     return root;
   }
@@ -190,7 +272,17 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
         m_holder[i][j] = m[i][j];
       }
     }
-    root = buildTree(m_holder, root, 0);
+
+    root = malloc(sizeof(node));
+    root->turnPos.xc = -1;
+    root->turnPos.yc = -1;
+    int available = checkFreePlaces(m);
+    root->numOfPlaces = checkFreePlaces(m);
+    for(i=0; i<=8; i++){
+      root->childs[i] =NULL;
+    }
+    root = buildTree(m_holder, root->childs[0], 0, whatComputerChose, available--);
+    printf("man");
 }
 /**
  * @brief initializes the main m matrix to spaces.
