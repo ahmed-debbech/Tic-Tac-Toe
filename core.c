@@ -138,6 +138,7 @@ void initAttTable(int (*ta)[3]){
 struct Node{
     computerEnteries turnPos;
     int numOfPlaces;
+    char turn;
     struct Node * childs[9];
 };
 typedef struct Node node;
@@ -171,14 +172,15 @@ int isWin(char (*m)[3], char player){
     return 0;
   }
 }
-void availPlaces(computerEnteries ce[9], char (*m)[3]){
-  int count = 0,i,j,r=0;
+ computerEnteries availPlacesCoord(char (*m)[3]){
+   computerEnteries ce;
+  int i,j;
   for(i = 0; i<=2; i++){
     for(j = 0; j<=2; j++){
-      if(m[i][j] != ' '){
-        ce[r].xc = i;
-        ce[r].yc = j;
-        r++;
+      if(m[i][j] == ' '){
+        ce.xc = i;
+        ce.yc = j;
+        return ce;
       }
     }
   }
@@ -222,30 +224,50 @@ void graphics(char (*m)[3]){
     printf("   --------------------\n");
     printf("\n");
 }
-node * buildTree(char (*m)[3], node * root, int i, char player, int available){
-  computerEnteries ce[9];
-  availPlaces(ce, m);
-  if((checkfin(m) == 1) || (isWin(m,player) == 1)){
+node * buildTree(char (*m)[3], int i, char player, int available){
+  node * root = NULL;
+  printf("====NEW FUNCTION CALL=====\n");
+  if((checkfin(m) == 1) || (isWin(m, player) == 1)){
+    printf("end of a path.\n");
     return NULL;
   }else{
     if(root == NULL){
       i=0;
       root = malloc(sizeof(node));
-      root->turnPos.xc = ce[i].xc;
-      root->turnPos.yc = ce[i].yc;
-      root->numOfPlaces = available;
+      printf("new node is allocated\n\n");
+      root->turnPos = availPlacesCoord(m);
+      root->numOfPlaces = checkFreePlaces(m);
+      computerEnteries c;
+      c = availPlacesCoord(m);
+      m[c.xc][c.yc] = player;
+      graphics(m);
+      root->turn = player;
+      printf("player: %c\n **", root->turn );
+      if(player == 'x'){
+        player = 'o';
+      }else{
+        player = 'x';
+      }
       int r;
       for(r=0; r<=8; r++){
         root->childs[r] =NULL;
       }
-      m[root->turnPos.xc][root->turnPos.yc] = player;
-      root->childs[i] = buildTree(m,root->childs[i],i,player,available--);
+      root->childs[0] = buildTree(m,i,player,checkFreePlaces(m));
+      printf("the available places are: %d\n\n", checkFreePlaces(m));
+      for(i=1; i<=available-1; i++){
+        printf("other child node %d \n", i);
+        root->childs[i] = buildTree(m,i,player,checkFreePlaces(m));
+      }
     }
-    for(i=1; i < root->numOfPlaces; i++){
-      printf("%d ", i);
-      root->childs[i] = buildTree(m,root->childs[i],i, player, available--);
-    }
-    return root;
+  }
+  return root;
+}
+void showTree(node * root){
+  if(root == NULL){
+    return;
+  }else{
+    printf("node: %d\n", root->numOfPlaces);
+    showTree(root->childs[0]);
   }
 }
 /**
@@ -272,17 +294,18 @@ void computerBrain(char (*m)[3], int *xc, int *yc, int (*t)[3], int (*ta)[3], ch
         m_holder[i][j] = m[i][j];
       }
     }
-
     root = malloc(sizeof(node));
     root->turnPos.xc = -1;
-    root->turnPos.yc = -1;
-    int available = checkFreePlaces(m);
     root->numOfPlaces = checkFreePlaces(m);
-    for(i=0; i<=8; i++){
-      root->childs[i] =NULL;
-    }
-    root = buildTree(m_holder, root->childs[0], 0, whatComputerChose, available--);
-    printf("man");
+    int r;
+      for(r=0; r<=8; r++){
+        root->childs[r] =NULL;
+      }
+      root->turn = whatComputerChose;
+    root->childs[0]= buildTree(m_holder, 0, whatComputerChose, checkFreePlaces(m_holder));
+    printf("root node: %d, %c\n", root->numOfPlaces, root->turn);
+    showTree(root->childs[0]);
+    printf("man\n");
 }
 /**
  * @brief initializes the main m matrix to spaces.
